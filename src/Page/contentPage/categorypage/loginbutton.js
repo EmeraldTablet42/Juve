@@ -1,7 +1,8 @@
 import React from 'react'
+import { Login } from '../login/login'
 const Loginbutton = () => {
   return (
-      <h1>로그인 페이지</h1>
+      <Login />
   )
 }
 

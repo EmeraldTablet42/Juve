@@ -32,13 +32,13 @@ const Index = () => {
       <table id="pageContentArea">
         <tr>
           <td align="center">
-            <HomePage/>
           <Routes>
-          <Route path='/salad' element={<Salad />} />
-          <Route path='/sand' element={<Sand />} />
-          <Route path='/juice' element={<Juice />} />
-          <Route path='/join' element={<Join />} />
-          <Route path='/loginbutton' element={<Loginbutton />} />
+            <Route path='/' element={<HomePage />} />
+            <Route path='/salad' element={<Salad />} />
+            <Route path='/sand' element={<Sand />} />
+            <Route path='/juice' element={<Juice />} />
+            <Route path='/join' element={<Join />} />
+            <Route path='/loginbutton' element={<Loginbutton />} />
         </Routes>
           </td>
         </tr>

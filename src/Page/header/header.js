@@ -1,6 +1,7 @@
 import React from "react";
 import juveLogo from "../../img/header/juve_logo.png";
 import "./header.css"
+import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <>
@@ -14,7 +15,7 @@ const Header = () => {
           </td>
           <td id="right" align="right" >
             <button>회원가입</button>
-            <button>로그인</button>
+            <Link to='/loginbutton'>로그인</Link>
             <select>
                 <option>공지사항</option>
                 <option>문의게시판</option>
