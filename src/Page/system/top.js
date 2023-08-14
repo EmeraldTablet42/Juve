@@ -1,8 +1,6 @@
-import React, { useState, useEffect} from 'react'
-import "../css/topscroll.css"
+import React from 'react'
 
 const Top = () => {
-    const [showButton, setShowbutton] = useState(false);
 
     const scrollToTop = () => {
         window.scrollTo({
@@ -10,25 +8,10 @@ const Top = () => {
             behavior: 'smooth'
         })
 }
-    useEffect(() => {
-        const showButtonClick = () => {
-            if (window.scrollY > 200) {
-                setShowbutton(true)
-            } else {
-                setShowbutton(false)
-            }
-        }
-        window.addEventListener("scroll", showButtonClick)
-        return () => {
-            window.removeEventListener("scroll", showButtonClick)
-        }
-    }, [])
     return(
-        showButton &&(
-            <div className='scroll'>
-                <button id="top" onClick={scrollToTop} type='button'>Top</button>
-            </div>
-        )
+        <div className='scroll'>
+            <button id="top" onClick={scrollToTop} type='button'>Top</button>
+        </div>
     )
 }
 

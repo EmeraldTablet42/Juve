@@ -43,9 +43,6 @@ const Index = () => {
           </td>
         </tr>
       </table>
-      <table>
-        <Top />
-      </table>
       <table id="pageFooterArea">
         <Footer />
       </table>

@@ -1,4 +1,5 @@
 import React from 'react'
+import Top from '../system/top'
 
 const SideMenu = () => {
   return (
@@ -19,7 +20,7 @@ const SideMenu = () => {
             <td>최근2</td>
         </tr>
         <tr>
-            <td>맨위로</td>
+            <td><Top /></td>
         </tr>
 
     </table>
