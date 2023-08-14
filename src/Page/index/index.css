@@ -1,0 +1,34 @@
+#pageHeaderArea {
+  margin-left: auto;
+  margin-right: auto;
+}
+/* #pageHeaderArea td{
+    width: 1200px;
+} */
+
+#pageMenuNaviArea {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+#pageContentArea {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #pageContentArea {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    border: 1px solid black;
+  }
+  #pageFooterArea {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    border: 1px solid black;
+  }
+  #sideMenu{
+    position: fixed;
+    top: 120px;
+    right: 0px;
+  }

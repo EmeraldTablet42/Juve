@@ -1,0 +1,15 @@
+#header{
+    border-spacing: 0;
+}
+#left{
+    width: 500px;
+}
+#right{
+    width: 500px;
+}
+#middle {
+    width: 200px;
+  }
+#middle img {
+    width: 200px;
+  }

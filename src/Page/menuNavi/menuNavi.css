@@ -1,0 +1,15 @@
+#menuNavi {
+  border-spacing: 0;
+}
+#menuNavi {
+  width: 100%;
+  border-bottom: 3px solid rgb(175, 174, 174);
+}
+#menuNavi #middle {
+  width: 1200px;
+}
+
+#menuNavi span {
+    font-size: 20px;
+    margin-right: 50px;
+}
