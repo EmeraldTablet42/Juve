@@ -1,18 +1,15 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
 import SideMenu from "../SideMenu/sideMenu";
-import { Login } from "../contentPage/login/login";
-import { LoginUnsigned } from "../contentPage/login/loginUnsigned";
+import Join from "../contentPage/categorypage/join";
+import Juice from "../contentPage/categorypage/juice";
+import Loginbutton from "../contentPage/categorypage/loginbutton";
+import Salad from "../contentPage/categorypage/salad";
+import Sand from "../contentPage/categorypage/sand";
 import Footer from "../footer/footer";
 import Header from "../header/header";
 import MenuNavi from "../menuNavi/menuNavi";
 import "./index.css";
-import Top from "../system/top";
-import { Routes, Route } from "react-router-dom";
-import Salad from "../contentPage/categorypage/salad";
-import Sand from "../contentPage/categorypage/sand";
-import Juice from "../contentPage/categorypage/juice";
-import Join from "../contentPage/categorypage/join";
-import Loginbutton from "../contentPage/categorypage/loginbutton";
 
 const Index = () => {
   return (
@@ -29,17 +26,18 @@ const Index = () => {
       </table>
       <table id="pageMenuNaviArea">
         <MenuNavi/>
-        <Routes>
+        
+      </table>
+      <table id="pageContentArea">
+        <tr>
+          <td align="center">
+          <Routes>
           <Route path='/salad' element={<Salad />} />
           <Route path='/sand' element={<Sand />} />
           <Route path='/juice' element={<Juice />} />
           <Route path='/join' element={<Join />} />
           <Route path='/loginbutton' element={<Loginbutton />} />
         </Routes>
-      </table>
-      <table id="pageContentArea">
-        <tr>
-          <td align="center">
           </td>
         </tr>
       </table>
