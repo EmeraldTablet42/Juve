@@ -10,6 +10,7 @@ import Footer from "../footer/footer";
 import Header from "../header/header";
 import MenuNavi from "../menuNavi/menuNavi";
 import "./index.css";
+import HomePage from "../contentPage/homePage/homePage";
 
 const Index = () => {
   return (
@@ -31,6 +32,7 @@ const Index = () => {
       <table id="pageContentArea">
         <tr>
           <td align="center">
+            <HomePage/>
           <Routes>
           <Route path='/salad' element={<Salad />} />
           <Route path='/sand' element={<Sand />} />
