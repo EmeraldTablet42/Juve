@@ -9,28 +9,28 @@ import PageContentAreaRoutes from "./pageContentAreaRoutes";
 const Index = () => {
   return (
     <>
-      <div className="sideMenu">
+      <div id="sideMenu">
         <SideMenu />
       </div>
-      <table className="pageHeaderArea">
+      <table id="pageHeaderArea">
         <tr>
           <td>
             <Header />
           </td>
         </tr>
       </table>
-      <table className="pageMenuNaviArea">
+      <table id="pageMenuNaviArea">
         <MenuNavi/>
         
       </table>
-      <table className="pageContentArea">
+      <table id="pageContentArea">
         <tr>
           <td align="center">
           <PageContentAreaRoutes/>
           </td>
         </tr>
       </table>
-      <table className="pageFooterArea">
+      <table id="pageFooterArea">
         <Footer />
       </table>
     </>
