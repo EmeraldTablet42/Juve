@@ -1,10 +1,10 @@
 import React from "react";
 import "./login.css"
 
-export const Login = () => {
+const Login = () => {
   return (
     <>
-      <table id="loginTbl" border={1}>
+      <table className="loginTbl" border={1}>
         <tr>
           <td>회원 로그인</td>
           <td>비회원 주문조회</td>
@@ -62,3 +62,4 @@ export const Login = () => {
     </>
   );
 };
+export default Login;

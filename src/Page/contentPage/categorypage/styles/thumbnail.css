@@ -1,0 +1,27 @@
+.product-thumbnail-wrapper {
+    border: 1px solid black;
+    width: 300px;
+    height: 300px;
+    padding: 10px;
+}
+
+.product-thumbnail-wrapper .product-thumbnail-detail {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    gap: 10px;
+}
+
+.cart-popup-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}

@@ -1,6 +1,6 @@
 import React from "react";
-import juveLogo from "../../img/header/juve_logo.png";
-import "./header.css"
+import juveLogo from "../img/header/juve_logo.png";
+import "../Page/css/header.css"
 import { Link } from "react-router-dom";
 const Header = () => {
   return (
@@ -11,7 +11,7 @@ const Header = () => {
             <input />
           </td>
           <td id="middle" align="center" >
-            <img src={juveLogo} alt="juve Logo"></img>
+          <Link to='/'><img src={juveLogo} alt="juve Logo"></img></Link>
           </td>
           <td id="right" align="right" >
             <button>회원가입</button>

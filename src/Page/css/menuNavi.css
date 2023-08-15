@@ -1,25 +1,35 @@
-#menuNavi {
+.menuNavi {
   border-spacing: 0;
+  text-align: center;
 }
-#menuNavi {
+.menuNavi {
   width: 100%;
   border-bottom: 3px solid rgb(175, 174, 174);
 }
-#menuNavi #middle {
+.menuNavi .middle {
   width: 1200px;
 }
 
-#menuNavi span {
+.menuNavi span {
   font-size: 20px;
   margin-right: 50px;
 }
 
-#menuNavi a {
+.menuNavi a {
   color: black;
   text-decoration: none;
 }
 
-#menuNavi #wholeCategory {
+.menuNavi .wholeCategory {
   font-weight: bold;
   text-decoration: none;
 }
+.menuNavi .middle .fixed {
+  position: fixed;
+  background-color: aqua;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+

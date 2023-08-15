@@ -1,7 +1,8 @@
 import React from 'react'
+import Menupage from './menupage'
 const Salad = () => {
   return (
-      <h1>샐러드 카테고리</h1>
+    <Menupage />
   )
 }
 
