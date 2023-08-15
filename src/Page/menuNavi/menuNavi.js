@@ -9,6 +9,7 @@ const MenuNavi = () => {
           <td></td>
           <td id="middle">
             <span><Link id="wholeCategory"  to='/category'>전체카테고리</Link></span>
+            <span><Link  to='/salad'>주문방법</Link></span>
             <span><Link  to='/salad'>샐러드</Link></span>
             <span><Link  to='/fruit'>컵과일</Link></span>
             <span><Link  to='/sand'>샌드위치</Link></span>
