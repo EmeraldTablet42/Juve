@@ -1,35 +1,35 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import SideMenu from "../SideMenu/sideMenu";
 import Join from "../contentPage/categorypage/join";
 import Juice from "../contentPage/categorypage/juice";
 import Loginbutton from "../contentPage/categorypage/loginbutton";
 import Salad from "../contentPage/categorypage/salad";
 import Sand from "../contentPage/categorypage/sand";
-import Footer from "../footer/footer";
-import Header from "../header/header";
-import MenuNavi from "../menuNavi/menuNavi";
+import MenuNavi from "../../basepage/menuNavi";
+import Header from "../../basepage/header";
+import Sidemeue from "../../basepage/sideMenu"
+import Footer from "../../basepage/footer"
 import "./index.css";
 import HomePage from "../contentPage/homePage/homePage";
 
 const Index = () => {
   return (
     <>
-      <div id="sideMenu">
-        <SideMenu />
+      <div className="sideMenu">
+        <Sidemeue />
       </div>
-      <table id="pageHeaderArea">
+      <table className="pageHeaderArea">
         <tr>
           <td>
             <Header />
           </td>
         </tr>
       </table>
-      <table id="pageMenuNaviArea">
+      <table className="pageMenuNaviArea">
         <MenuNavi/>
         
       </table>
-      <table id="pageContentArea">
+      <table className="pageContentArea">
         <tr>
           <td align="center">
           <Routes>
@@ -43,7 +43,7 @@ const Index = () => {
           </td>
         </tr>
       </table>
-      <table id="pageFooterArea">
+      <table className="pageFooterArea">
         <Footer />
       </table>
     </>
