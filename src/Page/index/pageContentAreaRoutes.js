@@ -5,8 +5,7 @@ import Juice from "../contentPage/categorypage/juice";
 import Loginbutton from "../contentPage/categorypage/loginbutton";
 import Salad from "../contentPage/categorypage/salad";
 import Sand from "../contentPage/categorypage/sand";
-import HomePage from "../contentPage/homePage/homePage";
-
+import HomePage from "../contentPage/homePage/homePage"
 const PageContentAreaRoutes = () => {
   return (
     <div>
