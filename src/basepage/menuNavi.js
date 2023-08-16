@@ -6,7 +6,7 @@ const MenuNavi = () => {
   const [isnavFIxed, setnavFixed] = useState(false)
   useEffect(() => {
     const handleScroll = () => {
-      if  (window.scrollY > 0) {
+      if  (window.scrollY > 80) {
         setnavFixed(true);
       }else {
         setnavFixed(false);
@@ -23,7 +23,7 @@ const MenuNavi = () => {
       <table className="menuNavi" border={0}>
           <td className="middle">
             <nav className={isnavFIxed ? 'fixed' : ''}>
-              <span><Link id="wholeCategory"  to='/category'>전체카테고리</Link></span>
+              <span><Link className="wholeCategory"  to='/category'>전체카테고리</Link></span>
               <span><Link  to='/salad'>샐러드</Link></span>
               <span><Link  to='/fruit'>컵과일</Link></span>
               <span><Link  to='/sand'>샌드위치</Link></span>

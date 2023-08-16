@@ -3,8 +3,10 @@
   text-align: center;
 }
 .menuNavi {
+  height: 50px;
   width: 100%;
-  border-bottom: 3px solid rgb(175, 174, 174);
+  vertical-align: middle;
+  border-bottom: 1px solid rgb(175, 174, 174);
 }
 .menuNavi .middle {
   width: 1200px;
@@ -26,7 +28,11 @@
 }
 .menuNavi .middle .fixed {
   position: fixed;
-  background-color: aqua;
+  background-color: white;
+  height: 40px;
+  width: 100%;
+  padding-top: 10px;
+  border-bottom: 1px solid rgb(175, 174, 174);
   top: 0;
   left: 0;
   width: 100%;
