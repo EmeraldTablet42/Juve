@@ -1,37 +1,32 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import Join from "../contentPage/categorypage/join";
-import Juice from "../contentPage/categorypage/juice";
-import Loginbutton from "../contentPage/categorypage/loginbutton";
-import Salad from "../contentPage/categorypage/salad";
-import Sand from "../contentPage/categorypage/sand";
-import MenuNavi from "../../basepage/menuNavi";
-import Header from "../../basepage/header";
-import Sidemeue from "../../basepage/sideMenu"
-import Footer from "../../basepage/footer"
+import SideMenu from "../SideMenu/sideMenu";
+import Footer from "../footer/footer";
+import Header from "../header/header";
+import MenuNavi from "../menuNavi/menuNavi";
 import "./index.css";
-import HomePage from "../contentPage/homePage/homePage";
+import PageContentAreaRoutes from "./pageContentAreaRoutes";
 
 const Index = () => {
   return (
     <>
-      <div className="sideMenu">
-        <Sidemeue />
+      <div id="sideMenu">
+        <SideMenu />
       </div>
-      <table className="pageHeaderArea">
+      <table id="pageHeaderArea">
         <tr>
           <td>
             <Header />
           </td>
         </tr>
       </table>
-      <table className="pageMenuNaviArea">
+      <table id="pageMenuNaviArea">
         <MenuNavi/>
         
       </table>
-      <table className="pageContentArea">
+      <table id="pageContentArea">
         <tr>
           <td align="center">
+<<<<<<< HEAD
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/salad' element={<Salad />} />
@@ -40,10 +35,13 @@ const Index = () => {
             <Route path='/join' element={<Join />} />
             <Route path='/loginbutton' element={<Loginbutton />} />
           </Routes>
+=======
+          <PageContentAreaRoutes/>
+>>>>>>> 5548d5cd9219bc786cf028fb4bf35cb8e34fc8c5
           </td>
         </tr>
       </table>
-      <table className="pageFooterArea">
+      <table id="pageFooterArea">
         <Footer />
       </table>
     </>
