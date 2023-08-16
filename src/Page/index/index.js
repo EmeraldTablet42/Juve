@@ -1,11 +1,10 @@
 import React from "react";
 import MenuNavi from "../../basepage/menuNavi";
 import Header from "../../basepage/header";
-import Sidemeue from "../../basepage/sideMenu"
-import Footer from "../../basepage/footer"
+import Sidemeue from "../../basepage/sideMenu";
+import Footer from "../../basepage/footer";
 import "./index.css";
 import PageContentAreaRoutes from "./pageContentAreaRoutes";
-
 
 const Index = () => {
   return (
@@ -21,13 +20,12 @@ const Index = () => {
         </tr>
       </table>
       <table className="pageMenuNaviArea">
-        <MenuNavi/>
-        
+        <MenuNavi />
       </table>
       <table className="pageContentArea">
         <tr>
           <td align="center">
-          <PageContentAreaRoutes/>
+            <PageContentAreaRoutes />
           </td>
         </tr>
       </table>

@@ -15,7 +15,7 @@ const PageContentAreaRoutes = () => {
         <Route path="/salad" element={<Salad />} />
         <Route path="/sand" element={<Sand />} />
         <Route path="/juice" element={<Juice />} />
-        <Route path="/signin" element={<Join />} />
+        <Route path="/member/join" element={<Join />} />
         <Route path="/member/login" element={<Login />} />
         <Route path="/loginUnsigned" element={<LoginUnsigned />} />
       </Routes>
