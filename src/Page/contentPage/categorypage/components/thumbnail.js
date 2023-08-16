@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import sampleImage from '../static/orange.png'
 import '../styles/thumbnail.css';
-import Popupcart from './popupcart';
+import Popupcart from "./popupcart"
 
 const Thumbnail = ({imgSrc ,name, price, isLike, isCartSelect, productId}) => {
 

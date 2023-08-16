@@ -1,32 +1,37 @@
 import React from "react";
-import SideMenu from "../SideMenu/sideMenu";
-import Footer from "../footer/footer";
-import Header from "../header/header";
-import MenuNavi from "../menuNavi/menuNavi";
+import { Route, Routes } from "react-router-dom";
+import Join from "../contentPage/categorypage/join";
+import Juice from "../contentPage/categorypage/juice";
+import Loginbutton from "../contentPage/categorypage/loginbutton";
+import Salad from "../contentPage/categorypage/salad";
+import Sand from "../contentPage/categorypage/sand";
+import MenuNavi from "../../basepage/menuNavi";
+import Header from "../../basepage/header";
+import Sidemeue from "../../basepage/sideMenu"
+import Footer from "../../basepage/footer"
 import "./index.css";
-import PageContentAreaRoutes from "./pageContentAreaRoutes";
+import HomePage from "../contentPage/homePage/homePage";
 
 const Index = () => {
   return (
     <>
-      <div id="sideMenu">
-        <SideMenu />
+      <div className="sideMenu">
+        <Sidemeue />
       </div>
-      <table id="pageHeaderArea">
+      <table className="pageHeaderArea">
         <tr>
           <td>
             <Header />
           </td>
         </tr>
       </table>
-      <table id="pageMenuNaviArea">
+      <table className="pageMenuNaviArea">
         <MenuNavi/>
         
       </table>
-      <table id="pageContentArea">
+      <table className="pageContentArea">
         <tr>
           <td align="center">
-<<<<<<< HEAD
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/salad' element={<Salad />} />
@@ -34,14 +39,11 @@ const Index = () => {
             <Route path='/juice' element={<Juice />} />
             <Route path='/join' element={<Join />} />
             <Route path='/loginbutton' element={<Loginbutton />} />
-          </Routes>
-=======
-          <PageContentAreaRoutes/>
->>>>>>> 5548d5cd9219bc786cf028fb4bf35cb8e34fc8c5
+        </Routes>
           </td>
         </tr>
       </table>
-      <table id="pageFooterArea">
+      <table className="pageFooterArea">
         <Footer />
       </table>
     </>
