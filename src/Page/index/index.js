@@ -24,7 +24,7 @@ const Index = () => {
       </table>
       <table className="pageContentArea">
         <tr>
-          <td align="center">
+          <td align="left">
             <PageContentAreaRoutes />
           </td>
         </tr>
