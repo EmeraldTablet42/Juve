@@ -39,7 +39,7 @@ const Index = () => {
             <Route path='/juice' element={<Juice />} />
             <Route path='/join' element={<Join />} />
             <Route path='/loginbutton' element={<Loginbutton />} />
-        </Routes>
+          </Routes>
           </td>
         </tr>
       </table>
