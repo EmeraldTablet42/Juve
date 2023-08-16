@@ -1,5 +1,6 @@
 import React from "react";
 import "./login.css"
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -7,7 +8,7 @@ const Login = () => {
       <table className="loginTbl" border={1}>
         <tr>
           <td>회원 로그인</td>
-          <td>비회원 주문조회</td>
+          <td><Link to='/loginUnsigned'>비회원 주문조회</Link></td>
         </tr>
         <tr>
           <td colSpan={2}>
@@ -32,7 +33,7 @@ const Login = () => {
         </tr>
         <tr>
           <td align="center" colSpan={2}>
-            <button>회원가입</button>
+            <Link to='/signin'>회원가입</Link>
           </td>
         </tr>
         <tr>

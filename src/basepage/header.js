@@ -14,8 +14,8 @@ const Header = () => {
           <Link to='/'><img src={juveLogo} alt="juve Logo"></img></Link>
           </td>
           <td id="right" align="right" >
-            <button>회원가입</button>
-            <Link to='/loginbutton'>로그인</Link>
+            <Link to='/member/signin'>회원가입</Link>
+            <Link to='/member/login'>로그인</Link>
             <select>
                 <option>공지사항</option>
                 <option>문의게시판</option>
