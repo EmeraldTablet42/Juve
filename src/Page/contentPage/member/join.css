@@ -1,4 +1,69 @@
-#signinTbl {
+#joinTitle {
+  margin-top: 3%;
+  text-align: left;
+}
+
+.required {
+  margin-top: -40px;
+  text-align: right;
+  font-size: 12px;
+}
+
+.joinTbl {
   border-spacing: 0px;
-  width: 1200px;
+  width: 100%;
+  margin-top: 2%;
+  /* margin-left: 2%; */
+  border-top: 3px solid #ffa928;
+  border-bottom: 3px solid #ffa928;
+}
+
+.joinTbl td,
+th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  border-bottom: 1px solid #f2ab4182;
+  font-size: 12px;
+}
+
+.joinTbl th {
+  width: 150px;
+  /* background-color: antiquewhite; */
+  background-color: antiquewhite;
+  border-right: 1px solid #f2ab4182;
+  text-align: left;
+  font-size: 12px;
+}
+
+.joinTbl input {
+  height: 20px;
+}
+
+.joinTbl #birthYear {
+  text-align: right;
+  width: 50px;
+}
+.joinTbl #birthMonth,
+#birthDay {
+  text-align: right;
+  width: 20px;
+}
+
+.terms {
+  background-color: antiquewhite;
+}
+.terms textarea {
+  width: 95%;
+}
+
+.terms label {
+  font-weight: bold;
+}
+
+#joinBtn {
+  height: 50px;
+  width: 100px;
+  margin: 30px;
+  text-align: center;
 }
