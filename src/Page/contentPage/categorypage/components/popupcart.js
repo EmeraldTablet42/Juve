@@ -67,6 +67,17 @@ const PopupCart = (props) => {
                 ))
               }
             </div>
+            <div className='popupcart-count'>
+              {Object.entries(selectedOptions).map(([groupName, option]) => (
+              <div key={groupName} className='popupcart-option-count'>
+                {option.optionName && (
+                  <>
+                    <span>{option.optionName}</span>
+                    <span>수량: {option.quantity}</span>
+                    <button onClick={() => handleQuantityIncrease(groupName)}>수량 증가</button>
+                  </>
+                )}
+            </div>
           </div>
         </div>
   );
