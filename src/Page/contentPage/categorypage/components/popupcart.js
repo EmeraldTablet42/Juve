@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import '../styles/popupcart.css';
 import sampleImage from '../static/orange.png'
+import { setSelectionRange } from '@testing-library/user-event/dist/utils';
+import Count from './count';
 
 const mockData= {
   imgSrc: sampleImage,
@@ -33,6 +35,7 @@ const PopupCart = (props) => {
     console.log(cartData);
   },[cartData])
   
+  
   return (
         <div className='popupcart-wrapper'>
           <button className='popupcart-close' onClick={() => setPopupState(false)}>x</button>
@@ -43,11 +46,11 @@ const PopupCart = (props) => {
             </div>
             <div className='popupcart-option'>
               {cartData.required.length !== 0 &&
-                cartData.required.map(({name, items}) => (
+                cartData.required.map(({name, items}, groupIndex) => (
                   <select>
                     <option value='' hidden>[필수]{name} 선택</option>
                     {
-                      items.map(({item, price}) => (
+                      items.map(({item, price}, itemIndex) => (
                         <option value={price}>{item}</option>
                       ))
                     }
@@ -67,8 +70,12 @@ const PopupCart = (props) => {
                 ))
               }
             </div>
-          </div>
         </div>
+        <div className='popupcart-count'>
+              <h4>{cartData.productName}</h4>
+              <Count />
+            </div>
+      </div>
   );
 };
  

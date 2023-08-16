@@ -1,0 +1,14 @@
+.sidemenu{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.sidemenu-object{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.sidemenu-object button{
+    width: 80px;
+}
+

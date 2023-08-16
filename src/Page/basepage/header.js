@@ -1,6 +1,6 @@
 import React from "react";
-import juveLogo from "../img/header/juve_logo.png";
-import "../Page/css/header.css";
+import juveLogo from "../../img/header/juve_logo.png";
+import "../css/header.css";
 import { Link } from "react-router-dom";
 const Header = () => {
   return (

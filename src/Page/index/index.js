@@ -1,8 +1,8 @@
 import React from "react";
-import MenuNavi from "../../basepage/menuNavi";
-import Header from "../../basepage/header";
-import Sidemeue from "../../basepage/sideMenu";
-import Footer from "../../basepage/footer";
+import MenuNavi from "../basepage/menuNavi";
+import Header from "../basepage/header";
+import Sidemeue from "../basepage/sideMenu";
+import Footer from "../basepage/footer";
 import "./index.css";
 import PageContentAreaRoutes from "./pageContentAreaRoutes";
 

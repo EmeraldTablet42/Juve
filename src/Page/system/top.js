@@ -10,7 +10,7 @@ const Top = () => {
 }
     return(
         <div className='scroll'>
-            <button id="top" onClick={scrollToTop} type='button'>Top</button>
+            <button id="top" onClick={scrollToTop} type='button'  style={{width:"80px"}}>Top</button>
         </div>
     )
 }

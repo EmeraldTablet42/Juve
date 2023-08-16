@@ -11,8 +11,10 @@
     right: 10px; 
 }
 .popupcart-productname {
-    font-weight: 700;
+    height: 20px;
+    font-weight: 600;
     text-align: left;
+    align-items: center;
 }
 
 .popupcart-info {
@@ -42,4 +44,11 @@
 
 .popupcart-info .popupcart-option select {
     width: 50%;
+}
+.popupcart-count{
+    width: 100%;
+    height: 150px;
+    display:flex;
+    align-items: center;
+    margin-right: 400%;
 }

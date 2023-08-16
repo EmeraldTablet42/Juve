@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../Page/css/menuNavi.css";
+import "../css/menuNavi.css";
 import { Link } from "react-router-dom";
 
 const MenuNavi = () => {
