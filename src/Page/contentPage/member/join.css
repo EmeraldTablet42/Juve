@@ -52,9 +52,23 @@ th {
 
 .terms {
   background-color: antiquewhite;
+  border: 1px solid #f2ab4182;
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 12px;
+}
+
+#agreeAll {
+  font-size: 14px;
 }
 .terms textarea {
+  font-size: 12px;
+  resize: none;
+  padding: 15px;
+  height: 200px;
   width: 95%;
+  outline: none;
 }
 
 .terms label {
@@ -62,8 +76,19 @@ th {
 }
 
 #joinBtn {
-  height: 50px;
-  width: 100px;
-  margin: 30px;
+  width: 150px;
+  margin-top: 2%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#joinBtn button {
+  height: 40px;
+  width: 150px;
   text-align: center;
+}
+
+.verifyMsg{
+  color: red;
+  font-weight: bold;
 }

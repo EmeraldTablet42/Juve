@@ -1,9 +1,11 @@
-import React from "react";
-import "./join.css";
+import React, { useState } from "react";
 import redAsteriks from "../../../img/join/redAsteriks3.png";
+import "./join.css";
+import { TermsJuve } from "./termsJuve";
+import ContractJuve from "./contractJuve";
+import { validateId } from "./validation";
 
 const Join = () => {
-  // const tel = []
   const RedAs = () => (
     <img
       src={redAsteriks}
@@ -13,9 +15,57 @@ const Join = () => {
     ></img>
   );
 
+  // 폼에 저장될 input값을 state에 저장
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [name, setName] = useState("");
+  const [addr, setAddr] = useState("");
+  const [phone, setPhone] = useState("");
+  const [tel, setTel] = useState("");
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
+  const [birth, setBirth] = useState("");
+
+  const [verifyIdMsg, setVerifyIdMsg] = useState("");
+
+  const handleId = (e) => {
+    const idInput = e.target.value;
+    setId(idInput);
+    const validationMsg = validateId(idInput);
+    setVerifyIdMsg(validationMsg);
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+  const handlePasswordConfirm = (e) => {
+    setPasswordConfirm(e.target.value);
+  };
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
+  const handleAddr = (e) => {
+    setAddr(e.target.value);
+  };
+  const handlePhone = (e) => {
+    setPhone(e.target.value);
+  };
+  const handleTel = (e) => {
+    setTel(e.target.value);
+  };
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const handleGender = (e) => {
+    setGender(e.target.value);
+  };
+  const handleBirth = (e) => {
+    setBirth(e.target.value);
+  };
+
   return (
     <>
-      <form>
+      <form name="joinForm" action="/" method="post">
         <h2 id="joinTitle">회원가입</h2>
         <h3>기본정보</h3>
         <p className="required">
@@ -28,9 +78,9 @@ const Join = () => {
               <RedAs />
             </th>
             <td>
-              <input name="id" />
-              <span id="idDetail">(영문소문자/숫자,4~16자)</span>{" "}
-              <button>아이디 중복 확인</button>
+              <input name="id" maxLength={16} value={id} onChange={handleId} />
+              <span id="idDetail"> (영문소문자/숫자,4~16자)</span>{" "}
+              <span className="verifyMsg">{verifyIdMsg}</span>
             </td>
           </tr>
           <tr>
@@ -39,7 +89,14 @@ const Join = () => {
               <RedAs />
             </th>
             <td>
-              <input name="password" type="password" />
+              <input
+                name="password"
+                type="password"
+                maxLength={16}
+                value={password}
+                onChange={handlePassword}
+              />
+              <span id="pwDetail"> (영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)</span>
             </td>
           </tr>
           <tr>
@@ -48,7 +105,13 @@ const Join = () => {
               <RedAs />
             </th>
             <td>
-              <input name="passwodConfirm" type="password" />
+              <input
+                name="passwodConfirm"
+                type="password"
+                maxLength={16}
+                value={passwordConfirm}
+                onChange={handlePasswordConfirm}
+              />
             </td>
           </tr>
           <tr>
@@ -57,7 +120,7 @@ const Join = () => {
               <RedAs />
             </th>
             <td>
-              <input name="name" />
+              <input name="name" value={name} onChange={handleName} />
             </td>
           </tr>
           <tr>
@@ -66,7 +129,12 @@ const Join = () => {
               <RedAs />
             </th>
             <td>
-              <input name="addr1" placeholder="우편번호" />
+              <input
+                name="addr1"
+                placeholder="우편번호"
+                value={addr}
+                onChange={handleAddr}
+              />
             </td>
           </tr>
           <tr>
@@ -85,13 +153,13 @@ const Join = () => {
               <RedAs />
             </th>
             <td>
-              <input />
+              <input name="phone" value={phone} onChange={handlePhone} />
             </td>
           </tr>
           <tr>
             <th className="col1">일반전화</th>
             <td>
-              <input />
+              <input name="tel" value={tel} onChange={handleTel} />
             </td>
           </tr>
           <tr>
@@ -100,7 +168,7 @@ const Join = () => {
               <RedAs />
             </th>
             <td>
-              <input />
+              <input name="email" value={email} onChange={handleEmail} />
             </td>
           </tr>
         </table>
@@ -110,11 +178,21 @@ const Join = () => {
             <th>성별</th>
             <td>
               <label>
-                <input name="gender" type="radio" value={1} />
+                <input
+                  name="gender"
+                  type="radio"
+                  value={1}
+                  onChange={handleGender}
+                />
                 남성
               </label>
               <label>
-                <input name="gender" type="radio" value={2} />
+                <input
+                  name="gender"
+                  type="radio"
+                  value={2}
+                  onChange={handleGender}
+                />
                 여성
               </label>
             </td>
@@ -122,8 +200,8 @@ const Join = () => {
           <tr>
             <th>생년월일</th>
             <td>
-              <input id="birthYear" /> 년 <input id="birthMonth" /> 월{" "}
-              <input id="birthDay" /> 일{" "}
+              <input id="birthYear" value={birth} onChange={handleBirth} /> 년{" "}
+              <input id="birthMonth" /> 월 <input id="birthDay" /> 일{" "}
             </td>
           </tr>
         </table>
@@ -137,7 +215,7 @@ const Join = () => {
         <div id="requireInfo" className="terms">
           [필수] 이용약관 동의
           <p />
-          <textarea>이용 약관</textarea>
+          <TermsJuve />
           <p />
           <label>
             이용약관에 동의하십니까? <input type="checkbox" /> 동의함
@@ -146,17 +224,16 @@ const Join = () => {
         <div id="personalInfo" className="terms">
           [필수] 이용약관 동의
           <p />
-          <textarea>약관</textarea>
+          <ContractJuve />
           <p />
           <label>
             개인정보 수집 및 이용에 동의하십니까? <input type="checkbox" />{" "}
             동의함
           </label>
-          
         </div>
         <div id="joinBtn">
-            <button>회원가입</button>
-          </div>
+          <button>회원가입</button>
+        </div>
       </form>
     </>
   );
