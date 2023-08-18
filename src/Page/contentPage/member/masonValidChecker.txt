@@ -1,0 +1,97 @@
+// 웹 유효성 검사 라이브러리
+//		최대한 다양한 상황에서 쓸 수 있게
+//		긍정적 체크로할건지	(잘했으면 true)
+//		부정적 체크로 할껀지	(잘못했으면 true)
+
+// input을 넣었을 때
+// 안썼으면 true, 썼으면 false
+function isEmpty(input) {
+	/*alert("emptyok");*/
+	return !input.value;
+}
+
+// input 글자수를 넣었을 때
+// 짧으면 true, 아니면 false
+
+function lessThan(input, len) {
+	/*	if(input.value.length < len){
+			alert("ID를"+len+"글자이상 입력해주세요")
+		}*/
+	/*alert(!(input.value.length < len))*/
+	/*alert("lessok");*/
+	return input.value.length < len;
+}
+
+// input 넣었을때
+// 한글/특수문자가 있으면 true, 없으면 false
+//		-_@.는 괜찮고
+// abc12ㅋ
+function isKoreanSign(input) {
+	var ok = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_@.0123456789";
+	for (i = 0; i < input.value.length; i++) {
+		if (ok.indexOf(input.value[i]) == -1){
+			alert("Wrong Char  \'" + input.value[i] + "\'");
+			return true;
+		}/*id안에 저 문자가 없으면 true*/
+	}
+	/*alert("signok");*/
+	return false;
+}
+
+// input을 두번 넣었을때
+// 입력한게 다르면 true, 같으면 false
+
+function doubleCheck(input1, input2) {
+	return input1.value != input2.value
+}
+
+// 비번조합
+// input, 문자열 세트 넣었을때
+// 그거 안들어 있으면 true, 들어있으면 false
+// aaaaa
+// 1234567890
+// @$
+function contains(input, set) {
+	for (i = 0; i < set.length; i++) {
+		if (input.value.indexOf(set[i]) != -1) {
+			/*alert("please includ " + set);*/
+			return false;
+		}
+	}
+	return true;
+	
+}
+
+// input 넣었을때
+// 숫자가 아니면 true, 숫자면 false
+function isNotNum(input){
+	/*alert(input.value.indexOf(" ") != -1);
+	alert(isNaN(input.value));*/
+	return input.value.indexOf(" ") != -1 || isNaN(input.value);
+}
+
+//input, 확장자
+// 서은수.png.zip
+
+// 1) 확장자 : 애초에 허상
+// 2) 
+function isFileType (input, type){
+	type ="."+type;
+	/*alert(input.value.slice(-(type.length)));
+	alert(input.value.slice(-(type.length)).indexOf(type));*/
+	return input.value.slice(-(type.length)).indexOf(type)==-1;
+	/*return input.value.toLowerCase().indexOf(type)==-1;*/
+}
+
+function isDuplicate(input) {
+	for (i = 0; i < input.value.length; i++) {
+		for (j = 0; j < input.value.length; j++) {
+			if (i != j) {
+				if (input.value[i] == input.value[j]) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
