@@ -26,6 +26,10 @@ const DaumPostcodeAPI = (props) => {
       addr2: fulladdress,
     });
     props.setAddrPopup(false);
+    props.setIsAllValidate({
+      ...props.isAllValidate,
+      address: Boolean(data.zonecode),
+    });
   };
 
   return (
