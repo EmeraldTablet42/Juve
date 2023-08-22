@@ -7,6 +7,7 @@ import HomePage from "../contentPage/homePage/homePage";
 import Join from "../contentPage/member/join";
 import Login from "../contentPage/member/login";
 import { LoginUnsigned } from "../contentPage/member/loginUnsigned";
+import Detailmenu from "../contentPage/categorypage/detailmenu";
 const PageContentAreaRoutes = () => {
   return (
     <div>
@@ -18,6 +19,7 @@ const PageContentAreaRoutes = () => {
         <Route path="/member/join" element={<Join />} />
         <Route path="/member/login" element={<Login />} />
         <Route path="/loginUnsigned" element={<LoginUnsigned />} />
+        <Route path="detail" element={<Detailmenu />} />
       </Routes>
     </div>
   );
