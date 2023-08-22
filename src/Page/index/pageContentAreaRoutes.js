@@ -9,6 +9,9 @@ import Login from "../contentPage/member/login";
 import { LoginUnsigned } from "../contentPage/member/loginUnsigned";
 import Detailmenu from "../contentPage/categorypage/detailmenu";
 import MyPage from "../contentPage/myPage/myPage";
+import ProductReg from "../contentPage/product/productReg";
+import ProductGet from "../contentPage/product/productGet";
+import ProductUpdate from "../contentPage/product/productUpdate";
 const PageContentAreaRoutes = () => {
   return (
     <div>
@@ -21,7 +24,10 @@ const PageContentAreaRoutes = () => {
         <Route path="/member/login" element={<Login />} />
         <Route path="/loginUnsigned" element={<LoginUnsigned />} />
         <Route path="detail" element={<Detailmenu />} />
-        <Route path="/member/mypage/*" element={<MyPage/>}/>
+        <Route path="/member/mypage/*" element={<MyPage />} />
+        <Route path="/product/reg" element={<ProductReg />} />
+        <Route path="/product/get" element={<ProductGet />} />
+        <Route path="/product/update" element={<ProductUpdate />} />
       </Routes>
     </div>
   );
