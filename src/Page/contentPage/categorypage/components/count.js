@@ -1,23 +1,14 @@
 import React, {useState} from 'react'
 import "../styles/count.css"
-const Count = () => {
-    const [count, setCount] = useState(0)
 
-    const plusCount = () => {
-        setCount(count + 1);
-    };
-    const minusCount = () => {
-        if (count > 0){
-            setCount(count - 1);
-    };
-};
+const Count = ({ count, setCount }) => {
   return (
-    <div className='count-button'>
-        <button onClick={minusCount}>-</button>
-        <span>{count}</span>
-        <button onClick={plusCount}>+</button>
+    <div>
+      <button onClick={() => setCount(count - 1)}>-</button>
+      <span>{count}</span>
+      <button onClick={() => setCount(count + 1)}>+</button>
     </div>
-  )
-}
+  );
+};
 
-export default Count
+export default Count;

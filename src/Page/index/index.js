@@ -13,7 +13,7 @@ const Index = () => {
         <Sidemeue />
       </div>
       <table className="pageHeaderArea">
-        <tr>
+        <tr> 
           <td>
             <Header />
           </td>
