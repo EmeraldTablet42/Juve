@@ -81,7 +81,7 @@ const ProductUpdate = () => {
     axios
       .get(`http://localhost:8080/product.getById?id=${searchParam.get("id")}`)
       .then((res) => {
-        alert(JSON.stringify(res.data));
+        // alert(JSON.stringify(res.data));
         if (res.data.productPhoto !== null) {
           setProductData({
             ...res.data,
