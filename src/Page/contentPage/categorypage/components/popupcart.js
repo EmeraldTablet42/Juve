@@ -12,7 +12,7 @@ const mockData= {
     {name: '샐러드 드레싱 선택', items: [{item: '드레싱1', price:500}, {item: '드레싱2', price:1500}, {item: '드레싱3', price:1000}]}
   ],
   additional: [
-    {name: '샐러드 메인토핑', items: [{item: '메인토핑1', price: 1000}, {item: '메인토핑2', price: 2000}, {item: '메인토핑3', price: 3000}]}, 
+    {name: '샐러드 메인토핑', items: [{item: '메인토핑1', price: 1000}, {item: '메인토핑2', price: 1500}, {item: '메인토핑3', price: 2000}, {item: '메인토핑4', price: 2500}, {item: '메인토핑5', price: 3000}, {item: '메인토핑6', price: 3500}, {item: '메인토핑7', price: 4500}, {item: '메인토핑8', price: 3000}]}, 
     {name: '샐러드 서브토핑', items: [{item:'서브토핑1', price: 1000}, {item:'서브토핑2', price: 1500}, {item:'서브토핑3', price: 2000}]}, 
     {name: '샐러드 보조메뉴', items: [{item: '보조메뉴1', price: 200}, {item: '보조메뉴2', price: 200}, {item: '보조메뉴3', price: 300}]}
   ]
@@ -31,10 +31,17 @@ const PopupCart = (props) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleOptionChange = (groupName, optionName, price) => {
-    const updatedOptions = selectedOptions.filter((option) => option.groupName !== groupName);
-    const updatedOption = { groupName, optionName, price};
-    setSelectedOptions([...updatedOptions, updatedOption]);
+    const updatedOptions = selectedOptions.filter(
+      (option) => option.groupName !== groupName || option.optionName !== optionName
+    );
+    if (price > 0) {
+      const updatedOption = { groupName, optionName, price };
+      setSelectedOptions([...updatedOptions, updatedOption]);
+    } else {
+      setSelectedOptions(updatedOptions);
+    }
   };
+
   const handleCountChange = (newCount) => {
     setCount(newCount);
   };
@@ -82,21 +89,20 @@ const PopupCart = (props) => {
           ))}
         {cartData.additional.length !== 0 &&
           cartData.additional.map(({ name, items }, groupIndex) => (
-            <select
-              key={`additional-${groupIndex}`}
-              onChange={(e) =>
-                handleOptionChange(name, e.target.value, e.target.selectedOptions[0].getAttribute('data-price'))
-              }
-            >
-              <option value="" hidden>
-                [선택]{name} 추가 선택
-              </option>
+            <div key={`additional-${groupIndex}`}>
+              <p>{name} 추가 선택</p>
               {items.map(({ item, price }, itemIndex) => (
-                <option key={`required-${groupIndex}-${itemIndex}`} value={item} data-price={price}>
+                <label key={`required-${groupIndex}-${itemIndex}`}>
+                  <input
+                    type="checkbox"
+                    value={item}
+                    data-price={price}
+                    onChange={(e) => handleOptionChange(name, e.target.value, e.target.checked ? e.target.getAttribute('data-price') : 0)}
+                  />
                   {item}
-                </option>
+                </label>
               ))}
-            </select>
+            </div>
           ))}
       </div>
         </div>
