@@ -74,7 +74,7 @@ const ProductReg = () => {
   const upload = () => {
     // alert(JSON.stringify(productData));
     axios
-      .post("http://localhost:8080/product.upload", fd, {
+      .post("http://localhost:8090/product.upload", fd, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       })
@@ -96,7 +96,7 @@ const ProductReg = () => {
   const [productDB, setProductDB] = useState("");
 
   const get = () => {
-    axios.get("http://localhost:8080/product.get").then((res) => {
+    axios.get("http://localhost:8090/product.get").then((res) => {
     //   alert(JSON.stringify(res.data));
       setProductDB(res.data);
     });

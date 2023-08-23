@@ -56,7 +56,7 @@ const ProductUpdate = () => {
   const upload = () => {
     // alert(JSON.stringify(productData));
     axios
-      .post("http://localhost:8080/product.upload", fd, {
+      .post("http://localhost:8090/product.upload", fd, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       })
@@ -79,13 +79,13 @@ const ProductUpdate = () => {
 
   const get = () => {
     axios
-      .get(`http://localhost:8080/product.getById?id=${searchParam.get("id")}`)
+      .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
       .then((res) => {
         // alert(JSON.stringify(res.data));
         if (res.data.productPhoto !== null) {
           setProductData({
             ...res.data,
-            photoUrl: `http://localhost:8080/product/photo/${res.data.productPhoto}`,
+            photoUrl: `http://localhost:8090/product/photo/${res.data.productPhoto}`,
           });
         } else {
           setProductData(res.data);

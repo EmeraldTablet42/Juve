@@ -19,7 +19,7 @@ const ProductGet = () => {
   const [productDB, setProductDB] = useState([]);
 
   const get = () => {
-    axios.get("http://localhost:8080/product.get").then((res) => {
+    axios.get("http://localhost:8090/product.get").then((res) => {
     //   alert(JSON.stringify(res.data.products));
       setProductDB(res.data.products);
     });
