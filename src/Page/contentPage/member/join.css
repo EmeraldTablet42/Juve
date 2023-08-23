@@ -18,8 +18,7 @@
   border-bottom: 3px solid #ffa928;
 }
 
-.joinTbl td,
-th {
+.joinTbl td, .joinTbl th {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 15px;

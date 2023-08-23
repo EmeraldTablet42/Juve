@@ -23,7 +23,7 @@ const Header = () => {
               <option>문의게시판</option>
               <option>1:1문의</option>
             </select>
-            <span>마이페이지</span>
+            <span><Link to="/member/mypage/order">마이페이지</Link></span>
             <span>장바구니</span>
           </td>
         </tr>
