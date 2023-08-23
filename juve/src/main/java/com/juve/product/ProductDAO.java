@@ -79,7 +79,7 @@ public class ProductDAO {
 		try {
 			Sort s = Sort.by(Sort.Order.asc("category"), Sort.Order.asc("productNum"));
 			Pageable p = PageRequest.of(page-1, 10, s);
-			List<Product> products = pr.findByProductNameContaining("수제", p);
+			List<Product> products = pr.findByProductNameContaining("", p);
 			return new Products(products);
 		} catch (Exception e) {
 			e.printStackTrace();
