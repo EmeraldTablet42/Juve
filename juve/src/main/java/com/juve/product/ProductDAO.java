@@ -1,12 +1,17 @@
 package com.juve.product;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +25,7 @@ public class ProductDAO {
 	private String folder;
 
 	private String makeFileName(MultipartFile mf) {
-		if(mf==null) {
+		if (mf == null) {
 			return null;
 		}
 		String file = mf.getOriginalFilename(); // a.png
@@ -32,10 +37,10 @@ public class ProductDAO {
 
 	public Product upload(MultipartFile mf, Product p) {
 		try {
-			if(mf!=null) {
-			String file = makeFileName(mf);
-			mf.transferTo(new File(folder + "/" + file));
-			p.setProductPhoto(file);
+			if (mf != null) {
+				String file = makeFileName(mf);
+				mf.transferTo(new File(folder + "/" + file));
+				p.setProductPhoto(file);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -53,6 +58,14 @@ public class ProductDAO {
 		}
 	}
 
+	public void delete(Product p) {
+		try {
+			pr.deleteById(p.getProductCode());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Products get() {
 		try {
 			return new Products(pr.findAll());
@@ -61,10 +74,31 @@ public class ProductDAO {
 			return null;
 		}
 	}
-	
+
+	public Products getByPage(Integer page) {
+		try {
+			Sort s = Sort.by(Sort.Order.asc("category"), Sort.Order.asc("productNum"));
+			Pageable p = PageRequest.of(page-1, 10, s);
+			List<Product> products = pr.findByProductNameContaining("수제", p);
+			return new Products(products);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public Product getByID(String id) {
 		try {
 			return pr.findById(id).get();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Products getByCategory(String category) {
+		try {
+			return new Products(pr.findByCategory(category));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

@@ -31,16 +31,37 @@ public class ProductController {
 		return pDAO.upload(mf, p);
 	}
 
+	@RequestMapping(value = "/product.delete", produces = "application/json;charset=utf-8")
+	public @ResponseBody String productDelete(Product p, HttpServletResponse response) {
+		response.addHeader("Access-Control-Allow-Origin", "http://localhost");
+		pDAO.delete(p);
+		return "deleteComplite";
+	}
+
 	@RequestMapping(value = "/product.get", produces = "application/json;charset=utf-8")
 	public @ResponseBody Products productGet(MultipartFile mf, Products p, HttpServletResponse response) {
 		response.addHeader("Access-Control-Allow-Origin", "http://localhost");
 		return pDAO.get();
 	}
 
-	@RequestMapping(value ="/product.getById")
+	@RequestMapping(value = "/product.getByPage", produces = "application/json;charset=utf-8")
+	public @ResponseBody Products productGetByPage(@RequestParam(name = "page") Integer page,
+			HttpServletResponse response) {
+		response.addHeader("Access-Control-Allow-Origin", "http://localhost");
+		return pDAO.getByPage(page);
+	}
+
+	@RequestMapping(value = "/product.getById")
 	public @ResponseBody Product productGetByID(@RequestParam(name = "id") String id, HttpServletResponse response) {
 		response.addHeader("Access-Control-Allow-Origin", "http://localhost");
 		return pDAO.getByID(id);
+	}
+
+	@RequestMapping(value = "/product.getByCategory")
+	public @ResponseBody Products productGetByCategory(@RequestParam(name = "category") String category,
+			HttpServletResponse response) {
+		response.addHeader("Access-Control-Allow-Origin", "http://localhost");
+		return pDAO.getByCategory(category);
 	}
 
 	@RequestMapping(value = "/product/photo/{name}")
