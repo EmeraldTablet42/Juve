@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const ProductGet = () => {
   const category = {
@@ -17,10 +17,11 @@ const ProductGet = () => {
   };
   //DB 객체를 state에 지정함
   const [productDB, setProductDB] = useState([]);
+  const [searchParam] = useSearchParams();
 
   const get = () => {
-    axios.get("http://localhost:8090/product.get").then((res) => {
-    //   alert(JSON.stringify(res.data.products));
+    axios.get(`http://localhost:8090/product.getByPage?page=${searchParam.get("page")}&search=${searchParam.get("search")}`).then((res) => {
+      //   alert(JSON.stringify(res.data.products));
       setProductDB(res.data.products);
     });
   };
@@ -33,10 +34,11 @@ const ProductGet = () => {
       <td>{v.productPrice}</td>
       <td>
         <Link to={`/product/update?id=${v.productCode}`}>수정</Link>/
-        <Link to="">삭제</Link>
+        <Link to={`http://localhost:8090/product.delete?productCode=${v.productCode}`}>삭제</Link>
       </td>
     </tr>
   ));
+
 
   useEffect(() => {
     get();
@@ -47,7 +49,7 @@ const ProductGet = () => {
       <h1>상품 관리</h1>
       <h3>상품목록</h3>
       <hr />
-      <table>
+      <table border={1}>
         <tr>
           <th>품목</th>
           <th>상품코드</th>
@@ -57,6 +59,10 @@ const ProductGet = () => {
         </tr>
         {productTr}
       </table>
+      <div>페이지표시
+        {parseInt(searchParam.get("page"))-1}
+        {parseInt(searchParam.get("page"))+1}
+      </div>
     </>
   );
 };
