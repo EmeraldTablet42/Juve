@@ -1,37 +1,48 @@
-import React, {useState} from 'react'
-import sampleImage from '../static/orange.png'
+import React, {useEffect, useState} from 'react' 
 import '../styles/thumbnail.css';
 import Popupcart from "./popupcart"
-
-const Thumbnail = ({imgSrc ,name, price, isLike, isCartSelect, productId}) => {
-
+import { Link } from 'react-router-dom';
+import Detailmenu from '../detailmenu';
+const Thumbnail = ({productData}) => {
   const [popupState, setPopupState] = useState(false);
-  const [detailstate, setDetailState] = useState(false);
+  
+  
   const goToCart = () => {
-    const userInfo = {username: '고건영', userPk: 1};
     setPopupState(true);
   }
-  const goTodetail = () => {
-    const userInfo = {username: '고건영', userPk: 1};
-    setPopupState();
+  if (!productData || productData.length === 0) {
+    return null;
   }
-  
   return (
     <div className='product-thumbnail-wrapper'>
-      {/*{imgSrc ?? sampleImage} <- ??는 imgSrc가 없을 때 sampleImage를 반환한다  */}
-        <img  src={imgSrc ?? sampleImage} width={"200px"} height={"200px"} alt='상품 이미지' />
-        <h3>{name}</h3>
-        <div className='product-thumbnail-detail'>
-          <p>{price}원</p>
-          <button>찜</button>
-          <button onClick={() => goToCart()}>장바구니</button>
+       <div className='product-thumbnail-grid'>
+        {productData.map((product) => (
+          <div className='product-thumbnail' key={product.productPrice}>
+            <Link to='/detail' style={{ display: 'inline-block' }}>
+              <div
+                className='product-thumbnail-image'
+                style={{
+                  backgroundImage: `http://localhost:8090/product/photo/${product.productPhoto} ?? "상품이미지"})`,
+                  width: '200px',
+                  height: '200px',
+                }}
+              ></div>
+            </Link>
+            <h3 style={{textAlign:"center"}}>{product.productName}</h3>
+            <div className='product-thumbnail-detail'>
+              <p>{product.productPrice}원</p>
+              <button>찜</button>
+              <button onClick={() => goToCart()}>장바구니</button>
+            </div>
+            {popupState && (
+              <div className='cart-popup-wrapper'>
+                <Popupcart productId={product.productCode} setPopupState={setPopupState} userInfo = {{username: '고건영', userPk: 1}} />
+              </div>
+          )}
         </div>
-        {popupState &&
-          <div className='cart-popup-wrapper'>
-            <Popupcart productId={productId} userInfo={{username: '고건영', userPk: 1}} setPopupState = {setPopupState} />
-          </div>
-        }
+      ))}
       </div>
+    </div>
   )
 }
 
