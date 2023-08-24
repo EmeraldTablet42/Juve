@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import Paging from "./paging";
+import Pagination from "react-js-pagination";
 
 const ProductGet = () => {
   const category = {
@@ -17,13 +19,33 @@ const ProductGet = () => {
   };
   //DB 객체를 state에 지정함
   const [productDB, setProductDB] = useState([]);
-  const [searchParam] = useSearchParams();
+  const [searchParam, setSearchParam] = useSearchParams();
+  const [page, setPage] = useState(parseInt(searchParam.get("page")));
+  const [totalPage, setTotalPage] = useState();
+  const navi = useNavigate();
+
+  const handlePageChange = (pagee) => {
+    const newSearchParams = new URLSearchParams(searchParam);
+    newSearchParams.set("page", pagee);
+    navi(newSearchParams);
+    // setSearchParam(newSearchParams);
+    // get();
+    // setPage(pagee);
+  };
 
   const get = () => {
-    axios.get(`http://localhost:8090/product.getByPage?page=${searchParam.get("page")}&search=${searchParam.get("search")}`).then((res) => {
-      //   alert(JSON.stringify(res.data.products));
-      setProductDB(res.data.products);
-    });
+    // alert(page);
+    // alert(searchParam);
+    axios
+      .get(
+        // `http://localhost:8090/product.getByPage?page=${searchParam.get("page")}&search=${searchParam.get("search")}&category=${searchParam.get("category")}&price=${searchParam.get("price")}`
+        `http://localhost:8090/product.getByPage?${searchParam}`
+      )
+      .then((res) => {
+        //   alert(JSON.stringify(res.data.products));
+        setProductDB(res.data.products);
+        setTotalPage(res.data.totalPage);
+      });
   };
 
   const productTr = productDB.map((v, i) => (
@@ -34,11 +56,28 @@ const ProductGet = () => {
       <td>{v.productPrice}</td>
       <td>
         <Link to={`/product/update?id=${v.productCode}`}>수정</Link>/
-        <Link to={`http://localhost:8090/product.delete?productCode=${v.productCode}`}>삭제</Link>
+        <Link
+          to={`http://localhost:8090/product.delete?productCode=${v.productCode}`}
+        >
+          삭제
+        </Link>
       </td>
     </tr>
   ));
 
+  const pageNation = () => (
+    <div>
+      페이지네이션
+      <span>1</span>
+      <span
+        onClick={() => {
+          setSearchParam({ ...searchParam, page: 2 });
+        }}
+      >
+        3
+      </span>
+    </div>
+  );
 
   useEffect(() => {
     get();
@@ -59,9 +98,18 @@ const ProductGet = () => {
         </tr>
         {productTr}
       </table>
-      <div>페이지표시
-        {parseInt(searchParam.get("page"))-1}
-        {parseInt(searchParam.get("page"))+1}
+      <div>
+        {parseInt(searchParam.get("page")) - 1}
+        {parseInt(searchParam.get("page")) + 1}
+        <Pagination
+          activePage={page}
+          itemsCountPerPage={1}
+          totalItemsCount={totalPage}
+          pageRangeDisplayed={5}
+          prevPageText={"‹"}
+          nextPageText={"›"}
+          onChange={handlePageChange}
+        />
       </div>
     </>
   );

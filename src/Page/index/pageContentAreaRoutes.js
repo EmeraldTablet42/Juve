@@ -13,6 +13,7 @@ import ProductReg from "../contentPage/product/productReg";
 import ProductGet from "../contentPage/product/productGet";
 import ProductUpdate from "../contentPage/product/productUpdate";
 import Fruit from "../contentPage/categorypage/fruit";
+import Test from "../contentPage/categorypage/components/test";
 const PageContentAreaRoutes = () => {
   return (
     <div>
@@ -30,6 +31,7 @@ const PageContentAreaRoutes = () => {
         <Route path="/product/reg" element={<ProductReg />} />
         <Route path="/product/get" element={<ProductGet />} />
         <Route path="/product/update" element={<ProductUpdate />} />
+        <Route path="/test" element={<Test/>}/>
       </Routes>
     </div>
   );

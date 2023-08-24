@@ -19,14 +19,7 @@ const Thumbnail = ({productData}) => {
         {productData.map((product) => (
           <div className='product-thumbnail' key={product.productPrice}>
             <Link to='/detail' style={{ display: 'inline-block' }}>
-              <div
-                className='product-thumbnail-image'
-                style={{
-                  backgroundImage: `http://localhost:8090/product/photo/${product.productPhoto} ?? "상품이미지"})`,
-                  width: '200px',
-                  height: '200px',
-                }}
-              ></div>
+            <img src={`http://localhost:8090/product/photo/${product.productPhoto}`} width={"300px"} alt='이미지'></img>
             </Link>
             <h3 style={{textAlign:"center"}}>{product.productName}</h3>
             <div className='product-thumbnail-detail'>
