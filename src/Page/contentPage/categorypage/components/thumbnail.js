@@ -15,14 +15,13 @@ const Thumbnail = ({productData}) => {
 
   const handleImageClick = (product) => {
     setSelectedData(product);
-    alert(JSON.stringify(selectedData));
   };
   return (
     <div className='product-thumbnail-wrapper'>
        <div className='product-thumbnail-grid'>
         {productData.map((product) => (
           <div className='product-thumbnail' key={product.productCode}>
-            <Link to='/detail' style={{ display: 'inline-block' }}>
+            <Link to={`/detail?id=${product.productCode}`} style={{ display: 'inline-block' }}>
                 <img
                  src={`http://localhost:8090/product/photo/${product.productPhoto}`}
                  alt='상품 이미지' 
@@ -43,7 +42,8 @@ const Thumbnail = ({productData}) => {
           )}
         </div>
       ))}
-        {false && selectedData && <Detailmenu productData={[selectedData]}/> }
+        {/* {false && selectedData && <Detailmenu productData={[selectedData]}/> } */}
+        {false && selectedData && <Detailmenu productDataa="프덱"/> }
       </div>
     </div>
   )
