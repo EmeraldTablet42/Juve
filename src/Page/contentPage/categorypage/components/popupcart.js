@@ -42,9 +42,6 @@ const PopupCart = (props) => {
     }
   };
 
-  const handleCountChange = (newCount) => {
-    setCount(newCount);
-  };
 
   const handlePurchaseConfirm = () => {
     if (selectedOptions.length > 0) {
