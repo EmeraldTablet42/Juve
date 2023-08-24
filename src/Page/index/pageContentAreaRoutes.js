@@ -12,6 +12,7 @@ import MyPage from "../contentPage/myPage/myPage";
 import ProductReg from "../contentPage/product/productReg";
 import ProductGet from "../contentPage/product/productGet";
 import ProductUpdate from "../contentPage/product/productUpdate";
+import Fruit from "../contentPage/categorypage/fruit";
 const PageContentAreaRoutes = () => {
   return (
     <div>
@@ -20,6 +21,7 @@ const PageContentAreaRoutes = () => {
         <Route path="/salad" element={<Salad />} />
         <Route path="/sand" element={<Sand />} />
         <Route path="/juice" element={<Juice />} />
+        <Route path="/fruit" element={<Fruit />} />
         <Route path="/member/join" element={<Join />} />
         <Route path="/member/login" element={<Login />} />
         <Route path="/loginUnsigned" element={<LoginUnsigned />} />
