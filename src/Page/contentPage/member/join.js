@@ -7,10 +7,61 @@ import { validateId } from "./validation";
 import { validatePw } from "./validation";
 import { validateAll } from "./validation";
 import { validateEmail } from "./validation";
+import { validateBirth } from "./validation";
 import DaumPostcodeAPI from "./daumPostcodeAPI";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Join = () => {
+  // 무언가 에러발생시 홈페이지로 리다이렉트//
+  const navi = useNavigate();
+  //// IdList, EmailList State 설정///
+  const [dbList, setDdList] = useState({ idList: [], emailList: [] });
+  //// IdList, EmailList 불러오기/////////////
+
+  // const getDbList = () => {
+  //   axios
+  //     .get("http://localhost:8090/member/getIds")
+  //     .then((res) => {
+  //       setDdList((prevList) => ({ ...prevList, idList: res.data }));
+  //     })
+  //     .catch(() => {
+  //       alert("DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요");
+  //       navi("/");
+  //     });
+  //   axios
+  //     .get("http://localhost:8090/member/getEmails")
+  //     .then((res2) => {
+  //       setDdList((prevList) => ({ ...prevList, emailList: res2.data }));
+  //     })
+  //     .catch(() => {
+  //       alert("DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요");
+  //       navi("/");
+  //     });
+  // };
+
+  const getDbList = () => {
+    // 첫 번째 axios 요청
+    const getIdsPromise = axios
+      .get("http://localhost:8090/member/getIds")
+      .then((res) => {
+        setDdList((prevList) => ({ ...prevList, idList: res.data }));
+      });
+
+    // 두 번째 axios 요청
+    const getEmailsPromise = axios
+      .get("http://localhost:8090/member/getEmails")
+      .then((res2) => {
+        setDdList((prevList) => ({ ...prevList, emailList: res2.data }));
+      });
+
+    // 두 개의 axios 요청을 병렬로 실행하고 에러 처리
+    Promise.all([getIdsPromise, getEmailsPromise]).catch(() => {
+      alert("DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요");
+      navi("/");
+    });
+  };
+
   // 필수사항 이미지 컨테이너///////////////////////////////////
   const RedAs = () => (
     <img
@@ -88,6 +139,7 @@ const Join = () => {
   const [verifyIdMsg, setVerifyIdMsg] = useState("");
   const [verifyPwMsg, setVerifyPwMsg] = useState("");
   const [verifyEmailMsg, setVerifyEmailMsg] = useState("");
+  const [verifyBirthMsg, setVerifyBirthMsg] = useState("");
   /////////////////////////////////////////////////////////////////////////////
 
   // 테이블 전체에 대한 키보드 이벤트 핸들러(숫자/한글 입력 구분용)//////////////////////
@@ -101,7 +153,7 @@ const Join = () => {
   const handleId = (e) => {
     const newId = e.target.value;
     setId(newId);
-    const validationId = validateId(newId);
+    const validationId = validateId(newId, dbList.idList);
     setVerifyIdMsg(validationId.msg);
     setIsAllValidate({ ...isAllValidate, id: validationId.validation });
   };
@@ -156,7 +208,7 @@ const Join = () => {
   const handleEmail = (e) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
-    const validationEmail = validateEmail(newEmail);
+    const validationEmail = validateEmail(newEmail, dbList.emailList);
     setVerifyEmailMsg(validationEmail.msg);
     setIsAllValidate({ ...isAllValidate, email: validationEmail.validation });
   };
@@ -164,7 +216,18 @@ const Join = () => {
     setGender(e.target.value);
   };
   const handleBirth = (e) => {
-    setBirth({ ...birth, [e.target.name]: e.target.value });
+    if (
+      /^[0-9]$/.test(keyEvent) ||
+      keyEvent === "Backspace" ||
+      keyEvent === "Delete"
+    ) {
+      const name = e.target.name;
+      const value = e.target.value;
+      setBirth((prevBirth) => ({ ...prevBirth, [name]: value }));
+      const validationBirth = validateBirth({ ...birth, [name]: value });
+      setVerifyBirthMsg(validationBirth.msg);
+      setIsAllValidate({ ...isAllValidate, birth: validationBirth.validation });
+    }
   };
 
   // 이용약관 check상태를 담는 state///////////////////////////////////////////
@@ -174,6 +237,7 @@ const Join = () => {
 
   // 개별 동의항목이 변경될때마다 전체 동의 항목의 상태를 바꿔야함
   useEffect(() => {
+    getDbList();
     const isChecked = requireInfoAgreed && personalInfoAgreed;
     setAllTermsAgreed(isChecked);
     setIsAllValidate({ ...isAllValidate, terms: isChecked });
@@ -210,13 +274,13 @@ const Join = () => {
     address: false,
     phone: false,
     email: false,
+    birth: true,
     terms: false,
   });
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //폼전송////////////////////////////////////////////////////////////////////////////////////////////
-
 
   // 폼데이터 객체 만들고 input값 폼데이터에 추가
   const fd = new FormData();
@@ -225,24 +289,28 @@ const Join = () => {
   fd.append("name", name);
   fd.append("address", addr.addr1 + "^" + addr.addr2 + "^" + addr.addr3);
   fd.append("phone", phone.phone1 + "-" + phone.phone2 + "-" + phone.phone3);
-  fd.append("tel", tel.tel1 + "-" + tel.tel2 + "-" + tel.tel3);
+  if (tel.tel2 && tel.tel3) {
+    fd.append("tel", tel.tel1 + "-" + tel.tel2 + "-" + tel.tel3);
+  }
   fd.append("email", email);
   fd.append("gender", gender);
-  fd.append(
-    "birth",
-    birth.birthYear +
-      "-" +
-      birth.birthMonth.padStart(2, "0") +
-      "-" +
-      birth.birthDay.padStart(2, 0)
-  );
+  if (birth.birthYear.length === 4) {
+    fd.append(
+      "birth",
+      birth.birthYear +
+        "-" +
+        birth.birthMonth.padStart(2, "0") +
+        "-" +
+        birth.birthDay.padStart(2, 0)
+    );
+  }
   fd.append("mileage", 0);
 
   // axios를 통한 폼데이터 백엔드에 전송
   const reg = () => {
     const validAll = validateAll(isAllValidate);
     if (validAll.validation) {
-      axios.post("http://localhost:8080/member/reg", fd).then((res) => {
+      axios.post("http://localhost:8090/member/reg", fd).then((res) => {
         console.log(isAllValidate.terms);
         alert("성공");
       });
@@ -269,7 +337,7 @@ const Join = () => {
           <td>
             <input name="id" maxLength={16} value={id} onChange={handleId} />
             <span id="idDetail"> (영문소문자/숫자,4~16자)</span>{" "}
-            <span className="verifyMsg">{verifyIdMsg}</span>
+            <span className={`verifyMsg ${isAllValidate.id ? "verifyMsg_valid" : ""}`}>{verifyIdMsg}</span>
           </td>
         </tr>
         <tr>
@@ -304,7 +372,7 @@ const Join = () => {
               value={passwordConfirm}
               onChange={handlePasswordConfirm}
             />
-            <span className="verifyMsg"> {verifyPwMsg}</span>
+            <span className={`verifyMsg ${isAllValidate.password ? "verifyMsg_valid" : ""}`}> {verifyPwMsg}</span>
           </td>
         </tr>
         <tr>
@@ -391,9 +459,9 @@ const Join = () => {
               value={phone.phone3}
               onChange={handlePhone}
             />
-            <div>
+            {/* <div>
               {phone.phone1}-{phone.phone2}-{phone.phone3}
-            </div>
+            </div> */}
           </td>
         </tr>
         <tr>
@@ -430,12 +498,19 @@ const Join = () => {
           </th>
           <td>
             <input name="email" value={email} onChange={handleEmail} />
-            <span className="verifyMsg"> {verifyEmailMsg}</span>
+            <span className={`verifyMsg ${isAllValidate.email ? "verifyMsg_valid" : ""}`}> {verifyEmailMsg}</span>
+            {/* <button
+              onClick={() => {
+                alert(JSON.stringify(dbList));
+              }}
+            >
+              조회
+            </button> */}
           </td>
         </tr>
       </table>
       <h3>추가정보</h3>
-      <table id="addInfo" className="joinTbl">
+      <table id="addInfo" className="joinTbl" onKeyDown={handleKeyEvent}>
         <tr>
           <th>성별</th>
           <td>
@@ -482,7 +557,7 @@ const Join = () => {
               id="birthDay"
               onChange={handleBirth}
             />{" "}
-            일{" "}
+            일 <span className={`verifyMsg ${isAllValidate.birth ? "verifyMsg_valid" : ""}`}>{verifyBirthMsg}</span>
           </td>
         </tr>
       </table>

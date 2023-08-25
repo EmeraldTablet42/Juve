@@ -1,4 +1,3 @@
-import axios from "axios";
 import IdValidation from "./idValidation";
 
 function contains(input, set) {
@@ -11,20 +10,10 @@ function contains(input, set) {
   return true;
 }
 
-// const getIdList = async () => {
-//   try {
-//     const response = await axios.get("http://localhost:8090/member/getIds");
-//     alert(JSON.stringify(response.data));
-//     return response.data;
-//   } catch (error) {
-//     console.error("idList를 가져오는 중에 오류 발생:", error);
-//     return [];
-//   }
-// };
+export const validateId = (id) => {
 
-export const validateId = (id, IdListInput) => {
   // DB에서 받아올 id list - 이 list에 있는 id와 가입 id가 같으면 중복체크
-  const idList = IdListInput;
+  const idList = IdValidation();
   // const idList = ["test1111","test2222"];
 
   // id로 쓸 수 있는 문자만 변수에 지정
@@ -110,17 +99,14 @@ export const validateAll = (isAllValidate) => {
   if (!isAllValidate.email) {
     return { msg: "올바르지 않은 이메일 입니다.", validation: false };
   }
-  if (!isAllValidate.birth) {
-    return { msg: "생년월일을 입력하지 않거나, 또는 올바른 생년월일을 입력하세요.", validation: false };
-  }
   if (!isAllValidate.terms) {
     return { msg: "모든 약관을 동의해 주세요", validation: false };
   }
   return { msg: "가입 성공", validation: true };
 };
 
-export const validateEmail = (email, emailListInput) => {
-  const emailList = emailListInput;
+export const validateEmail = (email) => {
+  const emailList = ["test1111@naver.com", "test2222@gmail.com"];
   const regex =
     /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 
@@ -139,34 +125,4 @@ export const validateEmail = (email, emailListInput) => {
   }
 
   return { msg: "사용가능한 이메일 입니다.", validation: true };
-};
-
-export const validateBirth = (birth) => {
-  const year = parseInt(birth.birthYear);
-  const month = parseInt(birth.birthMonth);
-  const day = parseInt(birth.birthDay);
-
-  // alert(`${year}-${month}-${day}`);
-
-  // 유효한 날짜인지 확인하는 로직
-  const isValidDate =
-    !isNaN(year) &&
-    !isNaN(month) &&
-    !isNaN(day) &&
-    month >= 1 &&
-    month <= 12 &&
-    day >= 1 &&
-    day <= new Date(year, month, 0).getDate();
-
-  if(isNaN(year)&&isNaN(month)&&isNaN(day)){
-    return { msg: "", validation: true };
-  }
-
-  if (!isValidDate) {
-    return { msg: "올바르지 않은 날짜입니다.", validation: false };
-  }
-
-  // 유효한 날짜인 경우 추가 처리 가능
-
-  return { msg: "올바른 날짜입니다.", validation: true };
 };

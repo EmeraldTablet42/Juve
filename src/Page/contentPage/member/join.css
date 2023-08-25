@@ -91,6 +91,10 @@
   color: red;
   font-weight: bold;
 }
+.verifyMsg_valid{
+  color: rgba(0, 128, 0, 0.823);
+  font-weight: bold;
+}
 
 .postmodal1 {
   position: fixed;
