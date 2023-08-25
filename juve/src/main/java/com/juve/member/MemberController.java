@@ -1,5 +1,7 @@
 package com.juve.member;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +15,7 @@ public class MemberController {
 	@Autowired
 	private MemberDAO mDAO;
 
-	@RequestMapping(value = "/member/reg")
+	@RequestMapping(value = "/member/reg", produces = "application/json;charset=utf-8")
 	public @ResponseBody Member memberReg(Member m, HttpServletResponse response) {
 		response.addHeader("Access-Control-Allow-Origin", "http://localhost");
 		response.addHeader("Access-Control-Allow-Credentials", "true");
@@ -28,6 +30,12 @@ public class MemberController {
 		System.out.println("생일 : " + m.getBirth());
 		System.out.println("마일리지 : " + m.getMileage());
 		return mDAO.reg(m);
+	}
+
+	@RequestMapping(value = "/member/getIds", produces = "application/json;charset=utf-8")
+	public @ResponseBody List<String> getMemberIds(HttpServletResponse response) {
+		response.addHeader("Access-Control-Allow-Origin", "http://localhost");
+		return mDAO.getIds();
 	}
 
 }

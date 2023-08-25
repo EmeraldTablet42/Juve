@@ -5,6 +5,7 @@ import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,7 @@ public class Member {
 	private String email;
 	@Column(name = "JM_GENDER")
 	private String gender;
+	@Transient
 	private String birth;
 	@Column(name = "JM_BIRTH")
 	private Date birthDate;
