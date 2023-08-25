@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class Products {
 
 	private List<Product> products;
+	private int totalPage;
 }

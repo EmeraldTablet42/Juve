@@ -45,10 +45,14 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/product.getByPage", produces = "application/json;charset=utf-8")
-	public @ResponseBody Products productGetByPage(@RequestParam(name = "page") Integer page,
+	public @ResponseBody Products productGetByPage(
+			@RequestParam(name = "page") Integer page,
+			@RequestParam(name = "category") Integer category,
+			@RequestParam(name = "price") String price,
+			@RequestParam(name = "search") String search,
 			HttpServletResponse response) {
 		response.addHeader("Access-Control-Allow-Origin", "http://localhost");
-		return pDAO.getByPage(page);
+		return pDAO.getByPage(category, price, search, page);
 	}
 
 	@RequestMapping(value = "/product.getById")
