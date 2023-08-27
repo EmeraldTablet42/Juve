@@ -12,4 +12,7 @@ public interface MemberRepo extends CrudRepository<Member, String> {
 	
 	@Query("SELECT jm.id FROM JUVE_MEMBER jm")
 	public abstract List<String> findAllIds(); 
+
+	@Query("SELECT jm.email FROM JUVE_MEMBER jm")
+	public abstract List<String> findAllEmails(); 
 }
