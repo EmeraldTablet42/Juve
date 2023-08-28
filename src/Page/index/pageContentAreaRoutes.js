@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Juice from "../contentPage/categorypage/juice";
 import Salad from "../contentPage/categorypage/salad";
 import Sand from "../contentPage/categorypage/sand";
@@ -18,7 +18,10 @@ import Bevdetail from "../contentPage/categorypage/detail/bevdetail";
 import Cupdetail from "../contentPage/categorypage/detail/cupdetail";
 import Wihdetail from "../contentPage/categorypage/detail/wihdetail";
 import TokenRefresher from "./tokenRefresher";
+import { useSelector } from "react-redux";
+import Resign from "../contentPage/myPage/resign";
 const PageContentAreaRoutes = () => {
+  const auth = useSelector((state) => state.authindex);
   return (
     <div>
       <TokenRefresher />
@@ -36,6 +39,12 @@ const PageContentAreaRoutes = () => {
         <Route path="/wihdetail" element={<Wihdetail />} />
         <Route path="/cupdetail" element={<Cupdetail />} />
         <Route path="/member/mypage/*" element={<MyPage />} />
+        <Route
+          path="/member/resign"
+          element={
+            auth.isLogined ? <Resign /> : <Navigate to={"/member/login"} />
+          }
+        />
         <Route path="/product/reg" element={<ProductReg />} />
         <Route path="/product/get" element={<ProductGet />} />
         <Route path="/product/update" element={<ProductUpdate />} />

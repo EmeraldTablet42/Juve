@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import redAsteriks from "../../../img/join/redAsteriks3.png";
 import { useNavigate } from "react-router-dom";
-import { validatePw } from "../member/validation";
-import { validateAll } from "../member/validation";
+import { isIdpresent, validatePw } from "../member/validation";
+import { validateAllModify } from "../member/validation";
 import { validateEmail } from "../member/validation";
 import { validateBirth } from "../member/validation";
 import DaumPostcodeAPI from "../member/daumPostcodeAPI";
@@ -19,10 +19,11 @@ const MyInfo = () => {
       name: "",
       addr: { addr1: "", addr2: "", addr3: "" },
       phone: { phone1: "", phone2: "", phone3: "" },
-      tel: { tel1: "", tel2: "", tel3: "" },
+      tel: { tel1: "02", tel2: "", tel3: "" },
       email: "",
       gender: "",
       birth: { birthYear: "", birthMonth: "", birthDay: "" },
+      mileage: 0,
     },
     emailList: [],
   });
@@ -72,14 +73,14 @@ const MyInfo = () => {
                   : "",
             },
             phone: {
-              phone1: res.data.phone.split("^")[0],
-              phone2: res.data.phone.split("^")[1],
-              phone3: res.data.phone.split("^")[2],
+              phone1: res.data.phone.split("-")[0],
+              phone2: res.data.phone.split("-")[1],
+              phone3: res.data.phone.split("-")[2],
             },
             tel: {
-              tel1: res.data.tel !== null ? res.data.tel.split("^")[0] : "",
-              tel2: res.data.tel !== null ? res.data.tel.split("^")[1] : "",
-              tel3: res.data.tel !== null ? res.data.tel.split("^")[2] : "",
+              tel1: res.data.tel !== null ? res.data.tel.split("-")[0] : "02",
+              tel2: res.data.tel !== null ? res.data.tel.split("-")[1] : "",
+              tel3: res.data.tel !== null ? res.data.tel.split("-")[2] : "",
             },
             email: res.data.email,
             gender: res.data.gender,
@@ -88,6 +89,7 @@ const MyInfo = () => {
               birthMonth: birthDate.getMonth() + 1,
               birthDay: birthDate.getDate(),
             },
+            mileage: res.data.mileage,
           },
         }));
         setMemberInfo({
@@ -109,18 +111,19 @@ const MyInfo = () => {
             phone3: res.data.phone.split("-")[2],
           },
           tel: {
-            tel1: res.data.tel !== null ? res.data.tel.split("-")[0] : "",
+            tel1: res.data.tel !== null ? res.data.tel.split("-")[0] : "02",
             tel2: res.data.tel !== null ? res.data.tel.split("-")[1] : "",
             tel3: res.data.tel !== null ? res.data.tel.split("-")[2] : "",
           },
           email: res.data.email,
           gender: res.data.gender,
         });
-        setBirth({...birth,
+        setBirth({
+          ...birth,
           birthYear: birthDate.getFullYear(),
           birthMonth: birthDate.getMonth() + 1,
           birthDay: birthDate.getDate(),
-        })
+        });
       });
 
     // 두 번째 axios 요청(이메일)
@@ -156,7 +159,7 @@ const MyInfo = () => {
     name: "",
     addr: { addr1: "", addr2: "", addr3: "" },
     phone: { phone1: "", phone2: "", phone3: "" },
-    tel: { tel1: "", tel2: "", tel3: "" },
+    tel: { tel1: "02", tel2: "", tel3: "" },
     email: "",
     gender: "",
     // birth: { birthYear: "", birthMonth: "", birthDay: "" },
@@ -229,19 +232,35 @@ const MyInfo = () => {
   const handleId = (e) => {
     const newId = e.target.value.toLowerCase();
     setMemberInfo({ ...memberInfo, id: newId });
+    const validationPresentId = isIdpresent(newId, dbList.idInfo.id);
+    // alert(validationPresentId.validation);
+    setIsAllValidate({ ...isAllValidate, id: validationPresentId.validation });
   };
   const handleOldPassword = (e) => {
     setMemberInfo({ ...memberInfo, oldPassword: e.target.value });
   };
   const handleNewPassword = (e) => {
-    setMemberInfo({ ...memberInfo, newPassword: e.target.value });
+    const newPassword = e.target.value;
+    setMemberInfo({ ...memberInfo, newPassword: newPassword });
+    if (newPassword === "" && memberInfo.newPasswordConfim === "") {
+      setVerifuMsg({ ...verifuMsg, pwMsg: "" });
+      setIsAllValidate({ ...isAllValidate, newPassword: true });
+    }
   };
   const handleNewPasswordConfirm = (e) => {
     const newPasswordConfim = e.target.value;
     setMemberInfo({ ...memberInfo, newPasswordConfim: newPasswordConfim });
     const validationPw = validatePw(memberInfo.newPassword, newPasswordConfim);
-    setVerifuMsg({ ...verifuMsg, pwMsg: validationPw.msg });
-    setIsAllValidate({ ...isAllValidate, password: validationPw.validation });
+    if (memberInfo.newPassword === "" && newPasswordConfim === "") {
+      setVerifuMsg({ ...verifuMsg, pwMsg: "" });
+      setIsAllValidate({ ...isAllValidate, newPassword: true });
+    } else {
+      setVerifuMsg({ ...verifuMsg, pwMsg: validationPw.msg });
+      setIsAllValidate({
+        ...isAllValidate,
+        newPassword: validationPw.validation,
+      });
+    }
   };
   const handleName = (e) => {
     const newName = e.target.value;
@@ -249,13 +268,14 @@ const MyInfo = () => {
     setIsAllValidate({ ...isAllValidate, name: Boolean(newName) });
   };
   const handleAddr = (e) => {
+    // alert(Boolean(memberInfo.addr.addr1));
     // const newAddr = { ...addr, [e.target.name]: e.target.value };
     const newAddr = {
       ...memberInfo,
       addr: { ...memberInfo.addr, [e.target.name]: e.target.value },
     };
     // setAddr(newAddr);
-    setMemberInfo({ ...memberInfo, addr: newAddr });
+    setMemberInfo(newAddr);
     setIsAllValidate({
       ...isAllValidate,
       address: Boolean(memberInfo.addr.addr1),
@@ -268,7 +288,7 @@ const MyInfo = () => {
         ...memberInfo,
         phone: { ...memberInfo.phone, [e.target.name]: e.target.value },
       };
-      setMemberInfo({ ...memberInfo, phone: newPhone });
+      setMemberInfo(newPhone);
     } else if (
       /^[0-9]$/.test(keyEvent) ||
       keyEvent === "Backspace" ||
@@ -278,7 +298,7 @@ const MyInfo = () => {
         ...memberInfo,
         phone: { ...memberInfo.phone, [e.target.name]: e.target.value },
       };
-      setMemberInfo({ ...memberInfo, phone: newPhone });
+      setMemberInfo(newPhone);
       setIsAllValidate({
         ...isAllValidate,
         phone: Boolean(memberInfo.phone.phone2 && memberInfo.phone.phone3),
@@ -306,9 +326,14 @@ const MyInfo = () => {
   const handleEmail = (e) => {
     const newEmail = e.target.value;
     setMemberInfo({ ...memberInfo, email: newEmail });
-    const validationEmail = validateEmail(newEmail, dbList.emailList);
-    setVerifuMsg({ ...verifuMsg, emailMsg: validationEmail.msg });
-    setIsAllValidate({ ...isAllValidate, email: validationEmail.validation });
+    if (newEmail === dbList.idInfo.email) {
+      setVerifuMsg({ ...verifuMsg, emailMsg: "" });
+      setIsAllValidate({ ...isAllValidate, email: true });
+    } else {
+      const validationEmail = validateEmail(newEmail, dbList.emailList);
+      setVerifuMsg({ ...verifuMsg, emailMsg: validationEmail.msg });
+      setIsAllValidate({ ...isAllValidate, email: validationEmail.validation });
+    }
   };
   const handleGender = (e) => {
     setMemberInfo({ ...memberInfo, gender: e.target.value });
@@ -354,18 +379,21 @@ const MyInfo = () => {
   // 개별 동의항목이 변경될때마다 전체 동의 항목의 상태를 바꿔야함
   useEffect(() => {
     getDbList();
+    return () => {
+      sessionStorage.removeItem("passwordCheck");
+    };
   }, [getDbList]);
   ///////////////////////////////////////////////////////////////////////////////////////
 
   //폼 전송 전 최종 유효성 검사///////////////////////////////////////////////////////////////////////
   const [isAllValidate, setIsAllValidate] = useState({
-    id: false,
-    password: false,
-    newPassword: false,
-    name: false,
-    address: false,
-    phone: false,
-    email: false,
+    id: true,
+    oldPassword: false,
+    newPassword: true,
+    name: true,
+    address: true,
+    phone: true,
+    email: true,
     birth: true,
   });
 
@@ -376,7 +404,11 @@ const MyInfo = () => {
   // 폼데이터 객체 만들고 input값 폼데이터에 추가
   const fd = new FormData();
   fd.append("id", memberInfo.id.toLowerCase());
-  fd.append("password", memberInfo.newPassword);
+  if (memberInfo.newPassword !== "") {
+    fd.append("password", memberInfo.newPassword);
+  } else {
+    fd.append("password", memberInfo.oldPassword);
+  }
   fd.append("name", memberInfo.name);
   fd.append(
     "address",
@@ -406,28 +438,69 @@ const MyInfo = () => {
   }
   fd.append("email", memberInfo.email.toLowerCase());
   fd.append("gender", memberInfo.gender);
-  if (birth.birthYear && birth.birthYear.length === 4) {
+  if (String(birth.birthYear).length === 4) {
     fd.append(
       "birth",
-      birth.birthYear +
+      String(birth.birthYear) +
         "-" +
-        birth.birthMonth.padStart(2, "0") +
+        String(birth.birthMonth).padStart(2, "0") +
         "-" +
-        birth.birthDay.padStart(2, "0")
+        String(birth.birthDay).padStart(2, "0")
     );
   }
-  fd.append("mileage", 0);
+  fd.append("mileage", dbList.idInfo.mileage);
 
   // axios를 통한 폼데이터 백엔드에 전송
-  const reg = () => {
-    const validAll = validateAll(isAllValidate);
+  const reg = async () => {
+    const validAll = validateAllModify(isAllValidate);
     if (validAll.validation) {
-      axios.post("http://localhost:8090/member/reg", fd).then((res) => {
-        alert("성공");
+      // alert("유효성 검사 통과");
+      axios.post("http://localhost:8090/member/update", fd).then((res) => {
+        alert("회원정보 수정 성공");
+        navi("/");
       });
     } else {
       alert(validAll.msg);
     }
+  };
+
+  const fd2 = new FormData();
+
+  fd2.append("idToken", sessionStorage.getItem("loginToken"));
+  fd2.append("password", memberInfo.oldPassword);
+
+  /// 아이디 검사 //
+  const isIdCorrect = () => {
+    const validationPresentId = isIdpresent(memberInfo.id, dbList.idInfo.id);
+    alert(validationPresentId.validation);
+    setIsAllValidate({ ...isAllValidate, id: validationPresentId.validation });
+  };
+
+  /// 비밀번호 검사//
+  const isOldPasswordCorrect = async () => {
+    // alert(memberInfo.oldPassword);
+    await axios
+      .post(`http://localhost:8090/member.checkPassword`, fd2)
+      .then((res) => {
+        if (res.data === "Correct") {
+          // alert("통과");
+          setIsAllValidate((prevIsAllValidate) => ({
+            ...prevIsAllValidate,
+            oldPassword: true,
+          }));
+        } else {
+          // alert("불일치");
+          setIsAllValidate((prevIsAllValidate) => ({
+            ...prevIsAllValidate,
+            oldPassword: false,
+          }));
+        }
+      });
+  };
+
+  // 탈퇴//
+  const resign = () => {
+    navi("/member/resign");
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -467,6 +540,7 @@ const MyInfo = () => {
               maxLength={16}
               value={memberInfo.oldPassword}
               onChange={handleOldPassword}
+              onBlur={isOldPasswordCorrect}
             />
           </td>
         </tr>
@@ -677,7 +751,7 @@ const MyInfo = () => {
               <input
                 name="gender"
                 type="radio"
-                checked={memberInfo.gender==="1"}
+                checked={memberInfo.gender === "1"}
                 value={1}
                 onChange={handleGender}
               />
@@ -687,7 +761,7 @@ const MyInfo = () => {
               <input
                 name="gender"
                 type="radio"
-                checked={memberInfo.gender==="2"}
+                checked={memberInfo.gender === "2"}
                 value={2}
                 onChange={handleGender}
               />
@@ -733,8 +807,15 @@ const MyInfo = () => {
         </tr>
       </table>
       <div id="modifyButton">
-        <button onClick={reg}>회원가입</button>
-        {`${"asd^bcd^dcg".split("^")[1]}`}
+        <button onClick={reg}>회원정보수정</button>
+        <button
+          onClick={() => {
+            navi("/");
+          }}
+        >
+          취소
+        </button>
+        <button onClick={resign}>회원 탈퇴</button>
       </div>
     </>
   );

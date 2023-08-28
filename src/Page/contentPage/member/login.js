@@ -33,8 +33,8 @@ const Login = () => {
       } else {
         alert(response.data.token);
         sessionStorage.setItem("loginToken", response.data.token);
-        checkIsLogined(sessionStorage.getItem("loginToken")); // checkIsLogined 함수 호출 추가
-        navi("/");
+        await checkIsLogined(sessionStorage.getItem("loginToken")); // checkIsLogined 함수 호출 추가
+        navi(-1);
       }
     } catch (error) {
       alert(error + "(1)");
@@ -50,6 +50,7 @@ const Login = () => {
       );
       if (checkRes.data.id) {
         myDispatch(setAuth({ isLogined: true, memberId: checkRes.data.id }));
+        sessionStorage.setItem("login", true);
       } else {
         // 처리할 내용이 있는 경우
       }

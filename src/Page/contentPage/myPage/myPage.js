@@ -1,7 +1,7 @@
 import React from "react";
-import MyPageContentAreaRoutes from "./myPageContentAreaRoutes";
 import { Link } from "react-router-dom";
 import "./myPage.css";
+import MyPageContentAreaRoutes from "./myPageContentAreaRoutes";
 
 const MyPage = () => {
   return (

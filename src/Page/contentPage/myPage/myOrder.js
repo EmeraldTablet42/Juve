@@ -81,6 +81,9 @@ const MyOrder = () => {
           ~
           <input />
           <button onClick={checkParam}>조회</button>
+          <button onClick={() => { 
+            alert(sessionStorage.getItem("passwordCheck"));
+           }}>세션검사</button>
         </div>
       </div>
       <div className="selectedList">
