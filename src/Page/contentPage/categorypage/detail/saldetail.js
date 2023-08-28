@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import '../styles/saldetail.css';
 import {useSearchParams } from "react-router-dom";
+import Count from "../components/count";
 
 const Saldetail = () => {
   const [detailData] = useState({});
@@ -11,6 +12,7 @@ const Saldetail = () => {
   const [sstData, setSstData] = useState([]);
   const [ssmData, setSsmData] = useState([]);
   const [slectedData, setSelectedData] = useState([]);
+  const [count, setCount] = useState(1);
 
   const [selectedSmtOptions, setSelectedSmtOptions] = useState([]);
   const [selectedSstOptions, setSelectedSstOptions] = useState([]);
@@ -26,7 +28,7 @@ const Saldetail = () => {
     axios.get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`).then((res) => {
       setSalData(res.data)
     });
-  }, []);
+  }, [searchParam]);
 
   const ref = useRef(null);
   useEffect(()=> {
@@ -208,6 +210,10 @@ const Saldetail = () => {
               ))}
             </div>
         </div>
+        <div>
+        <Count count={count} setCount={setCount}/>
+        <button>구매예약</button>
+      </div>
       </div>
     </div>
   );

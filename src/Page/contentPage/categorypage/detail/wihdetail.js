@@ -1,57 +1,66 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import '../styles/saldetail.css';
-
+import "../styles/saldetail.css";
+import { useSearchParams } from "react-router-dom";
+import Count from "../components/count";
 
 const Wihdetail = () => {
-  const [detailData, setDetailData] = useState({});
   const [wihData, setWihData] = useState([]);
   const [wmtData, setWmtData] = useState([]);
   const [wstData, setWstData] = useState([]);
-  const [slectedData, setSelectedData] = useState([]);
 
   const [selectedWmtOptions, setSelectedWmtOptions] = useState([]);
   const [selectedWstOptions, setSelectedWstOptions] = useState([]);
 
   const [isOpenWmt, setIsOpenWmt] = useState(false);
   const [isOpenWst, setIsOpenWst] = useState(false);
+  const [optionSelections, setOptionSelections] = useState({});
+
+  const [count, setCount] = useState(1);
+
   const ref = useRef(null);
 
-  useEffect(()=> {
-    const onClick = (e) => {
-      if (ref.current !== null& !ref.current.contains(e.target)){
-        setIsOpenWmt(!isOpenWmt)
-      }
-    };
-      if (isOpenWmt) {
-        window.addEventListener("click", onClick);
-      }
-      return ()=> {
-        window.removeEventListener("click", onClick);
-      };
-  }, [isOpenWmt])
+  const [searchParam, setSearchParam] = useSearchParams();
 
-  useEffect(()=> {
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
+      .then((res) => {
+        setWihData(res.data);
+      });
+  }, [searchParam]);
+
+  useEffect(() => {
     const onClick = (e) => {
-      if (ref.current !== null& !ref.current.contains(e.target)){
-        setIsOpenWst(!isOpenWst)
+      if ((ref.current !== null) & !ref.current.contains(e.target)) {
+        setIsOpenWmt(!isOpenWmt);
       }
     };
-      if (isOpenWst) {
-        window.addEventListener("click", onClick);
+    if (isOpenWmt) {
+      window.addEventListener("click", onClick);
+    }
+    return () => {
+      window.removeEventListener("click", onClick);
+    };
+  }, [isOpenWmt]);
+
+  useEffect(() => {
+    const onClick = (e) => {
+      if ((ref.current !== null) & !ref.current.contains(e.target)) {
+        setIsOpenWst(!isOpenWst);
       }
-      return ()=> {
-        window.removeEventListener("click", onClick);
-      };
-  }, [isOpenWst])
+    };
+    if (isOpenWst) {
+      window.addEventListener("click", onClick);
+    }
+    return () => {
+      window.removeEventListener("click", onClick);
+    };
+  }, [isOpenWst]);
 
   useEffect(() => {
     axios.get("http://localhost:8090/product.get").then((res) => {
       const allProduct = res.data.products;
-      const wFilterData = allProduct.filter(
-        (product) => product.category === "WIH"
-      );
-      setWihData(wFilterData);
       const wmtFilterData = allProduct.filter(
         (product) => product.category === "WMT"
       );
@@ -73,23 +82,23 @@ const Wihdetail = () => {
   };
 
   const handleWstChange = (value) => {
-    setSelectedWstOptions(value)
+    setSelectedWstOptions(value);
   };
-  const Dropdownwmt =() =>{
+  const Dropdownwmt = () => {
     setIsOpenWmt(!isOpenWmt);
-  }
+  };
 
   return (
     <div className="saldetail-wrapper">
       <div className="saldetail-image">
         <img
-          src={`http://localhost:8090/product/photo/${detailData.productPhoto}`}
+          src={`http://localhost:8090/product/photo/${wihData.productPhoto}`}
           alt="상품 이미지"
           style={{ width: "500px" }}
         />
       </div>
-      <p>상 품 : {detailData.productName} </p>
-      <p>가 격 : {detailData.productPrice} </p>
+      <p>상 품 : {wihData.productName} </p>
+      <p>가 격 : {wihData.productPrice} </p>
       <div className="sdrOption">
         <div className="dropdown" ref={ref}>
           <div className="dropdown-header" onClick={Dropdownwmt}>
@@ -112,20 +121,29 @@ const Wihdetail = () => {
             </ul>
           )}
           <div className="submenu">
-          {wstData.map(({ productId, productName, productPrice }) => (
-                <li key={`wst-${productId}`}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      value={productId}
-                      onChange={(e) => handleWstChange(e.target.value)}
-                    />
+            <select
+            onChange={(e) =>{
+              handleWstChange(e.target.value);
+            }}>
+              <option value="" hidden>
+                옵션을 선택하세요
+              </option>
+            {wstData.map(({ productId, productName, productPrice }) => (
+                  <option
+                    key={`wst-${productId}`}
+                    value={productName}
+                    data-price={productPrice}
+                  >
                     {productName}
-                  </label>
-                </li>
-              ))}
-            </div>
+                  </option>
+            ))}
+            </select>
+          </div>
         </div>
+      </div>
+      <div>
+        <Count count={count} setCount={setCount} />
+        <button>구매예약</button>
       </div>
     </div>
   );
