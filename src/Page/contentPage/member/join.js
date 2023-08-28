@@ -301,7 +301,7 @@ const Join = () => {
         "-" +
         birth.birthMonth.padStart(2, "0") +
         "-" +
-        birth.birthDay.padStart(2, 0)
+        birth.birthDay.padStart(2, "0")
     );
   }
   fd.append("mileage", 0);
@@ -569,6 +569,7 @@ const Join = () => {
               id="birthYear"
               value={birth.birthYear}
               onChange={handleBirth}
+              maxLength={4}
             />{" "}
             년{" "}
             <input
@@ -576,6 +577,7 @@ const Join = () => {
               value={birth.birthMonth}
               id="birthMonth"
               onChange={handleBirth}
+              maxLength={2}
             />{" "}
             월{" "}
             <input
@@ -583,6 +585,7 @@ const Join = () => {
               value={birth.birthDay}
               id="birthDay"
               onChange={handleBirth}
+              maxLength={2}
             />{" "}
             일{" "}
             <span

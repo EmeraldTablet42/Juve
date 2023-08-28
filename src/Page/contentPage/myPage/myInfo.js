@@ -78,9 +78,14 @@ const MyInfo = () => {
     addr: { addr1: "", addr2: "", addr3: "" },
     phone: { phone1: "", phone2: "", phone3: "" },
     tel: { tel1: "", tel2: "", tel3: "" },
-    email:"",
+    email: "",
     gender: "",
-    birth: { birthYear: "", birthMonth: "", birthDay: "" },
+    // birth: { birthYear: "", birthMonth: "", birthDay: "" },
+  });
+  const [birth, setBirth] = useState({
+    birthYear: "",
+    birthMonth: "",
+    birthDay: "",
   });
 
   const telPhoneArr = {
@@ -197,9 +202,7 @@ const MyInfo = () => {
       setMemberInfo({ ...memberInfo, phone: newPhone });
       setIsAllValidate({
         ...isAllValidate,
-        phone: Boolean(
-          memberInfo.phone.phone2 && memberInfo.phone.phone3
-        ),
+        phone: Boolean(memberInfo.phone.phone2 && memberInfo.phone.phone3),
       });
     }
   };
@@ -231,6 +234,29 @@ const MyInfo = () => {
   const handleGender = (e) => {
     setMemberInfo({ ...memberInfo, gender: e.target.value });
   };
+  // const handleBirth = (e) => {
+  //   if (
+  //     /^[0-9]$/.test(keyEvent) ||
+  //     keyEvent === "Backspace" ||
+  //     keyEvent === "Delete"
+  //   ) {
+  //     const name = e.target.name;
+  //     const value = e.target.value;
+  //     //   setMemberInfo((prevMemberInfo) => ({ ...prevBirth, [name]: value }));
+  //     setMemberInfo((prevMemberInfo) => ({
+  //       ...prevMemberInfo,
+  //       birth: { [name]: value },
+  //     }));
+  //     //   const validationBirth = validateBirth({ ...birth, [name]: value });
+  //     const validationBirth = validateBirth({
+  //       ...memberInfo,
+  //       birth: { ...memberInfo.birth, [name]: value },
+  //     });
+  //     setVerifuMsg({ ...verifuMsg, birthMsg: validationBirth.msg });
+  //     setIsAllValidate({ ...isAllValidate, birth: validationBirth.validation });
+  //   }
+  // };
+
   const handleBirth = (e) => {
     if (
       /^[0-9]$/.test(keyEvent) ||
@@ -239,17 +265,9 @@ const MyInfo = () => {
     ) {
       const name = e.target.name;
       const value = e.target.value;
-      //   setMemberInfo((prevMemberInfo) => ({ ...prevBirth, [name]: value }));
-      setMemberInfo((prevMemberInfo) => ({
-        ...prevMemberInfo,
-        birth: { [name]: value },
-      }));
-      //   const validationBirth = validateBirth({ ...birth, [name]: value });
-      const validationBirth = validateBirth({
-        ...memberInfo,
-        birth: { ...memberInfo.birth, [name]: value },
-      });
-      setVerifuMsg({ ...verifuMsg, birthMsg: validationBirth.msg });
+      setBirth((prevBirth) => ({ ...prevBirth, [name]: value }));
+      const validationBirth = validateBirth({ ...birth, [name]: value });
+      setVerifuMsg({...verifuMsg,birthMsg:validationBirth.msg});
       setIsAllValidate({ ...isAllValidate, birth: validationBirth.validation });
     }
   };
@@ -309,16 +327,16 @@ const MyInfo = () => {
   }
   fd.append("email", memberInfo.email.toLowerCase());
   fd.append("gender", memberInfo.gender);
-  if (memberInfo.birth.birthYear.length === 4) {
-    fd.append(
-      "birth",
-      memberInfo.birth.birthYear +
-        "-" +
-        memberInfo.birth.birthMonth.padStart(2, "0") +
-        "-" +
-        memberInfo.birth.birthDay.padStart(2, 0)
-    );
-  }
+  // if (memberInfo.birth.birthYear && memberInfo.birth.birthYear.length === 4) {
+  fd.append(
+    "birth",
+    birth.birthYear +
+      "-" +
+      birth.birthMonth.padStart(2, "0") +
+      "-" +
+      birth.birthDay.padStart(2, "0")
+  );
+  // }
   fd.append("mileage", 0);
 
   // axios를 통한 폼데이터 백엔드에 전송
@@ -615,22 +633,25 @@ const MyInfo = () => {
             <input
               name="birthYear"
               className="birthYear"
-              value={memberInfo.birth.birthYear}
+              value={birth.birthYear}
               onChange={handleBirth}
+              maxLength={4}
             />{" "}
             년{" "}
             <input
               name="birthMonth"
-              value={memberInfo.birth.birthMonth}
+              value={birth.birthMonth}
               className="birthMonth"
               onChange={handleBirth}
+              maxLength={2}
             />{" "}
             월{" "}
             <input
               name="birthDay"
-              value={memberInfo.birth.birthDay}
+              value={birth.birthDay}
               className="birthDay"
               onChange={handleBirth}
+              maxLength={2}
             />{" "}
             일{" "}
             <span
