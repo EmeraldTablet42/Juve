@@ -1,0 +1,10 @@
+.saldetail-wrapper {
+    display: grid;
+}
+.submenu {
+    display: flex;
+}
+
+.dropdown {
+    align-items: end;
+}

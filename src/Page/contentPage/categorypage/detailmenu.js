@@ -54,25 +54,26 @@ const Detailmenu = () => {
           <div className="Detail-option">
             <p>상품명 : {detailData.productName}</p>
             <p>가 격 : {detailData.productPrice}</p>
+            <div className="detail-selcet"/>
             <select
-              key={detailData.category}
+              key={filteredData.category}
               onChange={(e) =>
                 handleOptionChange(
-                  detailData.productName,
+                  filteredData.productName,
                   e.target.value,
                   e.target.selectedOptions[0].getAttribute("data-price")
                 )
               }
             >
               <option value="" hidden>
-                {detailData.productName} 선택
+                {filteredData.productName} 선택
               </option>
               <option
-                key={detailData.Num}
-                value={detailData.productName}
-                data-price={detailData.productPrice}
+                key={filteredData.Num}
+                value={filteredData.productName}
+                data-price={filteredData.productPrice}
               >
-                {detailData.productName}
+                {filteredData.productName}
               </option>
             </select>
             <div>
