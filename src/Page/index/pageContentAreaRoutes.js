@@ -17,11 +17,13 @@ import Saldetail from "../contentPage/categorypage/detail/saldetail";
 import Bevdetail from "../contentPage/categorypage/detail/bevdetail";
 import Cupdetail from "../contentPage/categorypage/detail/cupdetail";
 import Wihdetail from "../contentPage/categorypage/detail/wihdetail";
+import TokenRefresher from "./tokenRefresher";
 const PageContentAreaRoutes = () => {
   return (
     <div>
+      <TokenRefresher />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage />}></Route>
         <Route path="/salad" element={<Salad />} />
         <Route path="/sand" element={<Sand />} />
         <Route path="/juice" element={<Juice />} />
@@ -37,7 +39,7 @@ const PageContentAreaRoutes = () => {
         <Route path="/product/reg" element={<ProductReg />} />
         <Route path="/product/get" element={<ProductGet />} />
         <Route path="/product/update" element={<ProductUpdate />} />
-        <Route path="/test" element={<Test/>}/>
+        <Route path="/test" element={<Test />} />
       </Routes>
     </div>
   );

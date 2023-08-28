@@ -1,5 +1,3 @@
-import axios from "axios";
-import IdValidation from "./idValidation";
 
 function contains(input, set) {
   for (let i = 0; i < set.length; i++) {
@@ -29,7 +27,7 @@ export const validateId = (id, IdListInput) => {
 
   // id로 쓸 수 있는 문자만 변수에 지정
   const ok =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_@.0123456789";
+    "abcdefghijklmnopqrstuvwxyz0123456789";
   if (id.length === 0) {
     return { msg: "아이디를 입력해주세요", validation: false };
   }
@@ -48,7 +46,7 @@ export const validateId = (id, IdListInput) => {
   for (let i = 0; i < id.length; i++) {
     if (ok.indexOf(id[i]) === -1) {
       return {
-        msg: "한글, 공백, 특수문자는 사용하실 수 없습니다. ('-','_' 제외)",
+        msg: "영문대문자, 한글, 공백, 특수문자는 사용하실 수 없습니다.",
         validation: false,
       };
     }
@@ -134,7 +132,7 @@ export const validateEmail = (email, emailListInput) => {
   if (!regex.test(email)) {
     return { msg: "올바르지 않은 이메일 형식입니다.", validation: false };
   }
-  if (emailList.includes(email)) {
+  if (emailList.includes(email.toLowerCase())) {
     return { msg: "이미 사용중인 이메일 입니다.", validation: false };
   }
 

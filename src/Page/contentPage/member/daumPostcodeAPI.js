@@ -24,6 +24,7 @@ const DaumPostcodeAPI = (props) => {
       ...props.Addr,
       addr1: data.zonecode,
       addr2: fulladdress,
+      addr3:"",
     });
     props.setAddrPopup(false);
     props.setIsAllValidate({
