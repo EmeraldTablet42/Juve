@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import '../styles/saldetail.css';
-import {useSearchParams } from "react-router-dom";
+import "../styles/saldetail.css";
+import { useSearchParams } from "react-router-dom";
 import Count from "../components/count";
 
 const Saldetail = () => {
@@ -25,51 +25,53 @@ const Saldetail = () => {
   const [searchParam, setSearchParam] = useSearchParams();
 
   useEffect(() => {
-    axios.get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`).then((res) => {
-      setSalData(res.data)
-    });
+    axios
+      .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
+      .then((res) => {
+        setSalData(res.data);
+      });
   }, [searchParam]);
 
   const ref = useRef(null);
-  useEffect(()=> {
+  useEffect(() => {
     const onClick = (e) => {
-      if (ref.current !== null& !ref.current.contains(e.target)){
-        setIsOpenSst(!isOpenSst)
+      if ((ref.current !== null) & !ref.current.contains(e.target)) {
+        setIsOpenSst(!isOpenSst);
       }
     };
-      if (isOpenSst) {
-        window.addEventListener("click", onClick);
-      }
-      return ()=> {
-        window.removeEventListener("click", onClick);
-      };
-  }, [isOpenSst])
-  useEffect(()=> {
+    if (isOpenSst) {
+      window.addEventListener("click", onClick);
+    }
+    return () => {
+      window.removeEventListener("click", onClick);
+    };
+  }, [isOpenSst]);
+  useEffect(() => {
     const onClick = (e) => {
-      if (ref.current !== null& !ref.current.contains(e.target)){
-        setIsOpenSmt(!isOpenSmt)
+      if ((ref.current !== null) & !ref.current.contains(e.target)) {
+        setIsOpenSmt(!isOpenSmt);
       }
     };
-      if (isOpenSmt) {
-        window.addEventListener("click", onClick);
-      }
-      return ()=> {
-        window.removeEventListener("click", onClick);
-      };
-  }, [isOpenSmt])
-  useEffect(()=> {
+    if (isOpenSmt) {
+      window.addEventListener("click", onClick);
+    }
+    return () => {
+      window.removeEventListener("click", onClick);
+    };
+  }, [isOpenSmt]);
+  useEffect(() => {
     const onClick = (e) => {
-      if (ref.current !== null& !ref.current.contains(e.target)){
-        setIsOpenSsm(!isOpenSsm)
+      if ((ref.current !== null) & !ref.current.contains(e.target)) {
+        setIsOpenSsm(!isOpenSsm);
       }
     };
-      if (isOpenSsm) {
-        window.addEventListener("click", onClick);
-      }
-      return ()=> {
-        window.removeEventListener("click", onClick);
-      };
-  }, [isOpenSsm])
+    if (isOpenSsm) {
+      window.addEventListener("click", onClick);
+    }
+    return () => {
+      window.removeEventListener("click", onClick);
+    };
+  }, [isOpenSsm]);
 
   useEffect(() => {
     axios.get("http://localhost:8090/product.get").then((res) => {
@@ -92,14 +94,29 @@ const Saldetail = () => {
       setSsmData(ssmFilterData);
     });
   }, []);
-  const handleSmtChange = (productId) => {
-    setSelectedSmtOptions((prevOptions) => {
-      if (prevOptions.includes(productId)) {
-        return prevOptions.filter((item) => item !== productId);
-      } else {
-        return [...prevOptions, productId];
-      }
-    });
+  // const handleSmtChange = (productId) => {
+  //   alert(productId);
+  //   setSelectedSmtOptions((prevOptions) => {
+  //     if (prevOptions.includes(productId)) {
+  //       return prevOptions.filter((item) => item !== productId);
+  //     } else {
+  //       return [...prevOptions, productId];
+  //     }
+  //   });
+  // };
+  const [smtCheck, setSmtCheck] = useState({});
+  const [smtValue, setSmtValue] = useState([]);
+
+  const handleSmtChange2 = (e) => {
+    // alert(e.target.checked);
+    setSmtCheck({ ...smtCheck, [e.target.name]: e.target.checked });
+    if (e.target.checked) {
+      setSmtValue((prevSmtValue) => [...prevSmtValue, e.target.value]);
+    } else {
+      setSmtValue((prevSmtValue) =>
+        prevSmtValue.filter((value) => value !== e.target.value)
+      );
+    }
   };
 
   const handleSstChange = (productId) => {
@@ -113,17 +130,17 @@ const Saldetail = () => {
   };
 
   const handleSsmChange = (value) => {
-    setSelectedSsmOptions(value)
+    setSelectedSsmOptions(value);
   };
   const handleSdrChange = (value) => {
     setSelectedData(value);
   };
-  const DropdownSmt =() =>{
+  const DropdownSmt = () => {
     setIsOpenSmt(!isOpenSmt);
-  }
-  const DropdownSst =() =>{
+  };
+  const DropdownSst = () => {
     setIsOpenSst(!isOpenSst);
-  }
+  };
 
   return (
     <div className="saldetail-wrapper">
@@ -161,15 +178,19 @@ const Saldetail = () => {
           </div>
           {isOpenSmt && (
             <ul className="checkbox-list">
-              {smtData.map(({ productId, productName, productPrice }) => (
-                <li key={`smt-${productId}`}>
+              {smtData.map(({ productCode, productName, productPrice }) => (
+                <li key={`smt-${productCode}`}>
                   <label>
                     <input
+                      name={productCode}
+                      checked={smtCheck[productCode]||false}
                       type="checkbox"
-                      value={productId}
-                      onChange={(e) => handleSmtChange(e.target.value)}
+                      value={productCode}
+                      // onChange={(e) => handleSmtChange(e.target.value)}
+                      onChange={handleSmtChange2}
                     />
                     {productName}
+                    {/* {productCode} */}
                   </label>
                 </li>
               ))}
@@ -195,25 +216,32 @@ const Saldetail = () => {
             </ul>
           )}
           <div className="submenu">
-          {ssmData.map(({ productId, productName, productPrice }) => (
-                <li key={`ssm-${productId}`}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      value={productId}
-                      onChange={(e) => handleSsmChange(e.target.value)}
-                      
-                    />
-                    {productName}
-                  </label>
-                </li>
-              ))}
-            </div>
+            {ssmData.map(({ productId, productName, productPrice }) => (
+              <li key={`ssm-${productId}`}>
+                <label>
+                  <input
+                    type="checkbox"
+                    value={productId}
+                    onChange={(e) => handleSsmChange(e.target.value)}
+                  />
+                  {productName}
+                </label>
+              </li>
+            ))}
+          </div>
         </div>
         <div>
-        <Count count={count} setCount={setCount}/>
-        <button>구매예약</button>
-      </div>
+          <Count count={count} setCount={setCount} />
+          <button>구매예약</button>
+          <button
+            onClick={() => {
+              alert(JSON.stringify(smtValue));
+              alert(JSON.stringify(smtCheck));
+            }}
+          >
+            조회
+          </button>
+        </div>
       </div>
     </div>
   );
