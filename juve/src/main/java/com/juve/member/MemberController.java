@@ -36,6 +36,32 @@ public class MemberController {
 	}
 
 	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80" })
+	@RequestMapping(value = "/member/update", produces = "application/json;charset=utf-8")
+	public @ResponseBody Member memberUpdate(Member m, HttpServletResponse response) {
+//		response.addHeader("Access-Control-Allow-Origin", "http://121.188.14.114");
+		response.addHeader("Access-Control-Allow-Credentials", "true");
+		System.out.println("아이디 : " + m.getId());
+		System.out.println("비번 : " + m.getPassword());
+		System.out.println("이름 : " + m.getName());
+		System.out.println("주소 : " + m.getAddress());
+		System.out.println("휴대폰 : " + m.getPhone());
+		System.out.println("전화번호 : " + m.getTel());
+		System.out.println("이메일 : " + m.getEmail());
+		System.out.println("성별 : " + m.getGender());
+		System.out.println("생일 : " + m.getBirth());
+		System.out.println("마일리지 : " + m.getMileage());
+//		return null;
+		return mDAO.update(m);
+	}
+
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80" })
+	@RequestMapping(value = "/member.resign")
+	public @ResponseBody String resignMember(@RequestParam(value = "idToken") String idToken,
+			@RequestParam(value = "password") String inputPw, HttpServletResponse response) {
+		return mDAO.resignMember(idToken, inputPw);
+	}
+
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80" })
 	@RequestMapping(value = "/member/getIds", produces = "application/json;charset=utf-8")
 	public @ResponseBody List<String> getMemberIds(HttpServletResponse response) {
 //		response.addHeader("Access-Control-Allow-Origin", "http://121.188.14.114");
@@ -78,6 +104,13 @@ public class MemberController {
 			HttpServletResponse response) {
 		System.out.println("갱신요청");
 		return mDAO.refreshMemberToken(token);
+	}
+
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80" })
+	@RequestMapping(value = "/member.checkPassword")
+	public @ResponseBody String checkPassword(@RequestParam(value = "idToken") String idToken,
+			@RequestParam(value = "password") String inputPw, HttpServletResponse response) {
+		return mDAO.isPasswordCorrect(idToken, inputPw);
 	}
 
 }

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,9 +37,9 @@ public class MemberDAO {
 
 	public MemberToken makeToken(Member m) {
 		try {
-			Member dbMember = mr.findById(m.getId()).get();
-			if (dbMember != null) {
-				if (bcpe.matches(m.getPassword(), dbMember.getPassword())) {
+			Optional<Member> dbMember = mr.findById(m.getId());
+			if (dbMember.isPresent()) {
+				if (bcpe.matches(m.getPassword(), dbMember.get().getPassword())) {
 					try {
 						Date now = new Date();
 						// 30분마다 갱신하지 않으면 만료됨
@@ -62,7 +63,7 @@ public class MemberDAO {
 	}
 
 	public Member getLoginedMember(String token) {
-		System.out.println(token);
+		System.out.println("로그인토큰" + token);
 		try {
 			JwtParser jp = Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(KEY.getBytes("utf-8"))).build();
 			Jws<Claims> cs = jp.parseClaimsJws(token);
@@ -88,7 +89,7 @@ public class MemberDAO {
 			Date expiration = new Date(now.getTime() + Duration.ofMinutes(30).toMillis());
 			String token2 = Jwts.builder().signWith(Keys.hmacShaKeyFor(KEY.getBytes("utf-8"))).setExpiration(expiration)
 					.claim("id", c.get("id")).compact();
-			System.out.println(token2);
+			System.out.println("리프레시토큰:" + token2);
 			return new MemberToken(token2);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -104,6 +105,26 @@ public class MemberDAO {
 			}
 			if (mr.findById(m.getId()).isEmpty()) {
 				m.setPassword(bcpe.encode(m.getPassword()));
+				return mr.save(m);
+			}
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Member update(Member m) {
+		try {
+			System.out.println(m.getId());
+			Optional<Member> dbMember = mr.findById(m.getId());
+			if (dbMember.isPresent()) {
+				if (m.getBirth() != null) {
+					m.setBirthDate(sdf.parse(m.getBirth()));
+					System.out.println(m.getBirthDate());
+				}
+				m.setPassword(bcpe.encode(m.getPassword()));
+				System.out.println("수정성공");
 				return mr.save(m);
 			}
 			return null;
@@ -139,6 +160,35 @@ public class MemberDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	public String isPasswordCorrect(String idToken, String inputPw) {
+		try {
+			String id = getLoginedMember(idToken).getId();
+			Member m = mr.findById(id).get();
+			if (bcpe.matches(inputPw, m.getPassword())) {
+				return "Correct";
+			}
+			return "Incorrect";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "DB통신 에러";
+		}
+	}
+
+	public String resignMember(String idToken, String inputPw) {
+		try {
+			String id = getLoginedMember(idToken).getId();
+			Member m = mr.findById(id).get();
+			if (bcpe.matches(inputPw, m.getPassword())) {
+				mr.deleteById(id);
+				return "resign";
+			}
+			return "Incorrect";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "DB통신 에러";
 		}
 	}
 }
