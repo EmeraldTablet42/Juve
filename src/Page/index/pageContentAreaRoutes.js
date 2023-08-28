@@ -34,7 +34,7 @@ const PageContentAreaRoutes = () => {
         <Route path="/saldetail" element={<Saldetail />} />
         <Route path="/bevdetail" element={<Bevdetail />} />
         <Route path="/wihdetail" element={<Wihdetail />} />
-        <Route path="/cupdetail/:productId" element={<Cupdetail />} />
+        <Route path="/cupdetail" element={<Cupdetail />} />
         <Route path="/member/mypage/*" element={<MyPage />} />
         <Route path="/product/reg" element={<ProductReg />} />
         <Route path="/product/get" element={<ProductGet />} />

@@ -56,7 +56,7 @@ const Thumbnail = ({productData}) => {
         {false && <Saldetail detailData={selectedData} />}
         {false && <Bevdetail detailData={selectedData} />}
         {false && <Wihdetail detailData={selectedData} />}
-        {selectedData && <Cupdetail detailData={selectedData} />}
+        {false && <Cupdetail detailData={selectedData} />}
       </div>
     </div>
   )
