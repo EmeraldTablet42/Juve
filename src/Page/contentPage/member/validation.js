@@ -1,4 +1,3 @@
-
 function contains(input, set) {
   for (let i = 0; i < set.length; i++) {
     if (input.indexOf(set[i]) !== -1) {
@@ -26,8 +25,7 @@ export const validateId = (id, IdListInput) => {
   // const idList = ["test1111","test2222"];
 
   // id로 쓸 수 있는 문자만 변수에 지정
-  const ok =
-    "abcdefghijklmnopqrstuvwxyz0123456789";
+  const ok = "abcdefghijklmnopqrstuvwxyz0123456789";
   if (id.length === 0) {
     return { msg: "아이디를 입력해주세요", validation: false };
   }
@@ -109,7 +107,10 @@ export const validateAll = (isAllValidate) => {
     return { msg: "올바르지 않은 이메일 입니다.", validation: false };
   }
   if (!isAllValidate.birth) {
-    return { msg: "생년월일을 입력하지 않거나, 또는 올바른 생년월일을 입력하세요.", validation: false };
+    return {
+      msg: "생년월일을 입력하지 않거나, 또는 올바른 생년월일을 입력하세요.",
+      validation: false,
+    };
   }
   if (!isAllValidate.terms) {
     return { msg: "모든 약관을 동의해 주세요", validation: false };
@@ -156,7 +157,7 @@ export const validateBirth = (birth) => {
     day >= 1 &&
     day <= new Date(year, month, 0).getDate();
 
-  if(isNaN(year)&&isNaN(month)&&isNaN(day)){
+  if (isNaN(year) && isNaN(month) && isNaN(day)) {
     return { msg: "", validation: true };
   }
 
@@ -167,4 +168,18 @@ export const validateBirth = (birth) => {
   // 유효한 날짜인 경우 추가 처리 가능
 
   return { msg: "올바른 날짜입니다.", validation: true };
+};
+
+export const isIdpresent = (idInput, dbId) => {
+  if (idInput !== dbId) {
+    return { msg: "아이디는 변경할 수 없습니다.", validation: false };
+  }
+  return { msg: "아이디 ok", validation: true };
+};
+
+export const isOldPasswordCorrect = (inputPw, dbPw) => {
+  if (inputPw !== dbPw) {
+    return { msg: "현재 비밀번호가 올바르지 않습니다.", validation: false };
+  }
+  return { msg: "", validation: true };
 };

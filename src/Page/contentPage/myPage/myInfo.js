@@ -12,7 +12,20 @@ const MyInfo = () => {
   // 무언가 에러발생시 홈페이지로 리다이렉트//
   const navi = useNavigate();
   //// IdList, EmailList State 설정///
-  const [dbList, setDdList] = useState({ idList: [], emailList: [] });
+  const [dbList, setDdList] = useState({
+    idInfo: {
+      id: "",
+      oldPassword: "",
+      name: "",
+      addr: { addr1: "", addr2: "", addr3: "" },
+      phone: { phone1: "", phone2: "", phone3: "" },
+      tel: { tel1: "", tel2: "", tel3: "" },
+      email: "",
+      gender: "",
+      birth: { birthYear: "", birthMonth: "", birthDay: "" },
+    },
+    emailList: [],
+  });
   //// IdList, EmailList 불러오기/////////////
 
   // const getDbList = () => {
@@ -37,14 +50,80 @@ const MyInfo = () => {
   // };
 
   const getDbList = useCallback(() => {
-    // 첫 번째 axios 요청
-    const getIdsPromise = axios
-      .get("http://localhost:8090/member/getIds")
+    // 첫 번째 axios 요청(아이디)
+    const getIdPromise = axios
+      .get("http://localhost:8090/member.getById?id=test1234")
       .then((res) => {
-        setDdList((prevList) => ({ ...prevList, idList: res.data }));
+        // alert(JSON.stringify(res.data));
+        const birthDateStr = res.data.birthDate;
+        const birthDate = new Date(birthDateStr);
+        setDdList((prevList) => ({
+          ...prevList,
+          idInfo: {
+            id: res.data.id,
+            oldPassword: "",
+            name: res.data.name,
+            addr: {
+              addr1: res.data.address.split("^")[0],
+              addr2: res.data.address.split("^")[1],
+              addr3:
+                res.data.address.split("^")[2] !== null
+                  ? res.data.address.split("^")[2]
+                  : "",
+            },
+            phone: {
+              phone1: res.data.phone.split("^")[0],
+              phone2: res.data.phone.split("^")[1],
+              phone3: res.data.phone.split("^")[2],
+            },
+            tel: {
+              tel1: res.data.tel !== null ? res.data.tel.split("^")[0] : "",
+              tel2: res.data.tel !== null ? res.data.tel.split("^")[1] : "",
+              tel3: res.data.tel !== null ? res.data.tel.split("^")[2] : "",
+            },
+            email: res.data.email,
+            gender: res.data.gender,
+            birth: {
+              birthYear: birthDate.getFullYear(),
+              birthMonth: birthDate.getMonth() + 1,
+              birthDay: birthDate.getDate(),
+            },
+          },
+        }));
+        setMemberInfo({
+          ...memberInfo,
+          id: res.data.id,
+          oldPassword: "",
+          name: res.data.name,
+          addr: {
+            addr1: res.data.address.split("^")[0],
+            addr2: res.data.address.split("^")[1],
+            addr3:
+              res.data.address.split("^")[2] !== null
+                ? res.data.address.split("^")[2]
+                : "",
+          },
+          phone: {
+            phone1: res.data.phone.split("-")[0],
+            phone2: res.data.phone.split("-")[1],
+            phone3: res.data.phone.split("-")[2],
+          },
+          tel: {
+            tel1: res.data.tel !== null ? res.data.tel.split("-")[0] : "",
+            tel2: res.data.tel !== null ? res.data.tel.split("-")[1] : "",
+            tel3: res.data.tel !== null ? res.data.tel.split("-")[2] : "",
+          },
+          email: res.data.email,
+          gender: res.data.gender,
+        });
+        setBirth({...birth,
+          birthYear: birthDate.getFullYear(),
+          birthMonth: birthDate.getMonth() + 1,
+          birthDay: birthDate.getDate(),
+        })
       });
 
-    // 두 번째 axios 요청
+    // 두 번째 axios 요청(이메일)
     const getEmailsPromise = axios
       .get("http://localhost:8090/member/getEmails")
       .then((res2) => {
@@ -52,7 +131,7 @@ const MyInfo = () => {
       });
 
     // 두 개의 axios 요청을 병렬로 실행하고 에러 처리
-    Promise.all([getIdsPromise, getEmailsPromise]).catch(() => {
+    Promise.all([getIdPromise, getEmailsPromise]).catch(() => {
       alert("DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요");
       navi("/");
     });
@@ -267,7 +346,7 @@ const MyInfo = () => {
       const value = e.target.value;
       setBirth((prevBirth) => ({ ...prevBirth, [name]: value }));
       const validationBirth = validateBirth({ ...birth, [name]: value });
-      setVerifuMsg({...verifuMsg,birthMsg:validationBirth.msg});
+      setVerifuMsg({ ...verifuMsg, birthMsg: validationBirth.msg });
       setIsAllValidate({ ...isAllValidate, birth: validationBirth.validation });
     }
   };
@@ -327,16 +406,16 @@ const MyInfo = () => {
   }
   fd.append("email", memberInfo.email.toLowerCase());
   fd.append("gender", memberInfo.gender);
-  // if (memberInfo.birth.birthYear && memberInfo.birth.birthYear.length === 4) {
-  fd.append(
-    "birth",
-    birth.birthYear +
-      "-" +
-      birth.birthMonth.padStart(2, "0") +
-      "-" +
-      birth.birthDay.padStart(2, "0")
-  );
-  // }
+  if (birth.birthYear && birth.birthYear.length === 4) {
+    fd.append(
+      "birth",
+      birth.birthYear +
+        "-" +
+        birth.birthMonth.padStart(2, "0") +
+        "-" +
+        birth.birthDay.padStart(2, "0")
+    );
+  }
   fd.append("mileage", 0);
 
   // axios를 통한 폼데이터 백엔드에 전송
@@ -344,12 +423,10 @@ const MyInfo = () => {
     const validAll = validateAll(isAllValidate);
     if (validAll.validation) {
       axios.post("http://localhost:8090/member/reg", fd).then((res) => {
-        console.log(isAllValidate.terms);
         alert("성공");
       });
     } else {
       alert(validAll.msg);
-      console.log(isAllValidate.terms);
     }
   };
 
@@ -376,7 +453,6 @@ const MyInfo = () => {
               onChange={handleId}
               readOnly
             />
-            <span className="idDetail"> (영문소문자/숫자,4~16자)</span>{" "}
           </td>
         </tr>
         <tr>
@@ -392,17 +468,10 @@ const MyInfo = () => {
               value={memberInfo.oldPassword}
               onChange={handleOldPassword}
             />
-            <span className="pwDetail">
-              {" "}
-              (영문 대소문자 조합 + 숫자/특수문자 중 2가지 이상 조합, 10자~16자)
-            </span>
           </td>
         </tr>
         <tr>
-          <th className="col1">
-            신규 비밀번호
-            <RedAs />
-          </th>
+          <th className="col1">신규 비밀번호</th>
           <td>
             <input
               name="newPassword"
@@ -418,10 +487,7 @@ const MyInfo = () => {
           </td>
         </tr>
         <tr>
-          <th className="col1">
-            신규 비밀번호 확인
-            <RedAs />
-          </th>
+          <th className="col1">신규 비밀번호 확인</th>
           <td>
             <input
               name="newPasswodConfirm"
@@ -611,6 +677,7 @@ const MyInfo = () => {
               <input
                 name="gender"
                 type="radio"
+                checked={memberInfo.gender==="1"}
                 value={1}
                 onChange={handleGender}
               />
@@ -620,6 +687,7 @@ const MyInfo = () => {
               <input
                 name="gender"
                 type="radio"
+                checked={memberInfo.gender==="2"}
                 value={2}
                 onChange={handleGender}
               />
@@ -666,6 +734,7 @@ const MyInfo = () => {
       </table>
       <div id="modifyButton">
         <button onClick={reg}>회원가입</button>
+        {`${"asd^bcd^dcg".split("^")[1]}`}
       </div>
     </>
   );
