@@ -7,13 +7,16 @@ import HomePage from "../contentPage/homePage/homePage";
 import Join from "../contentPage/member/join";
 import Login from "../contentPage/member/login";
 import { LoginUnsigned } from "../contentPage/member/loginUnsigned";
-import Detailmenu from "../contentPage/categorypage/detailmenu";
 import MyPage from "../contentPage/myPage/myPage";
 import ProductReg from "../contentPage/product/productReg";
 import ProductGet from "../contentPage/product/productGet";
 import ProductUpdate from "../contentPage/product/productUpdate";
 import Fruit from "../contentPage/categorypage/fruit";
 import Test from "../contentPage/categorypage/components/test";
+import Saldetail from "../contentPage/categorypage/detail/saldetail";
+import Bevdetail from "../contentPage/categorypage/detail/bevdetail";
+import Cupdetail from "../contentPage/categorypage/detail/cupdetail";
+import Wihdetail from "../contentPage/categorypage/detail/wihdetail";
 const PageContentAreaRoutes = () => {
   return (
     <div>
@@ -26,7 +29,10 @@ const PageContentAreaRoutes = () => {
         <Route path="/member/join" element={<Join />} />
         <Route path="/member/login" element={<Login />} />
         <Route path="/loginUnsigned" element={<LoginUnsigned />} />
-        <Route path="detail" element={<Detailmenu />} />
+        <Route path="/saldetail" element={<Saldetail />} />
+        <Route path="/bevdetail" element={<Bevdetail />} />
+        <Route path="/wihdetail" element={<Wihdetail />} />
+        <Route path="/cupdetail/:productId" element={<Cupdetail />} />
         <Route path="/member/mypage/*" element={<MyPage />} />
         <Route path="/product/reg" element={<ProductReg />} />
         <Route path="/product/get" element={<ProductGet />} />
