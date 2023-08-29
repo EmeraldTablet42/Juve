@@ -31,9 +31,14 @@ const PageContentAreaRoutes = () => {
         <Route path="/sand" element={<Sand />} />
         <Route path="/juice" element={<Juice />} />
         <Route path="/fruit" element={<Fruit />} />
-        <Route path="/member/join" element={<Join />} />
+        <Route
+          path="/member/join"
+          element={
+            !auth.isLogined ? <Join /> : <Navigate to={"/"} />
+          }
+        />
         <Route path="/member/login" element={<Login />} />
-        <Route path="/loginUnsigned" element={<LoginUnsigned />} />
+        <Route path="/loginunsigned" element={<LoginUnsigned />} />
         <Route path="/saldetail" element={<Saldetail />} />
         <Route path="/bevdetail" element={<Bevdetail />} />
         <Route path="/wihdetail" element={<Wihdetail />} />

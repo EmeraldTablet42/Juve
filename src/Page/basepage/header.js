@@ -12,9 +12,9 @@ const Header = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("loginToken");
-    // myDispatch(setAuth({ isLogined: false, memberId: "" })); // 로그아웃 상태로 변경
-    window.location.reload();
-    // navi("/");
+    myDispatch(setAuth({ isLogined: false, memberId: "" })); // 로그아웃 상태로 변경
+    // window.location.replace("/");
+    navi("/");
   };
 
   return (
@@ -47,7 +47,7 @@ const Header = () => {
               <option>1:1문의</option>
             </select>
             <span>
-              <Link to="/member/mypage/myOrder">마이페이지</Link>
+              <Link to="/member/mypage/myorder">마이페이지</Link>
             </span>
             <span>장바구니</span>
           </td>

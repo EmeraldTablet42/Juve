@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setAuth } from "../contentPage/member/authSlice";
 
 const TokenRefresher = () => {
   const navi = useNavigate();
-
+  const myDispatch = useDispatch();
   useEffect(() => {
     // 컴포넌트 이동 확인용
     // alert("컴포넌트 마운트됨");
@@ -25,6 +27,7 @@ const TokenRefresher = () => {
             } else {
               alert("장시간 대기로 인해 로그인 시간이 만료되었습니다.");
               sessionStorage.removeItem("loginToken");
+              myDispatch(setAuth({ isLogined: false, memberId: "" }));
               window.location.replace("/");
             }
           });

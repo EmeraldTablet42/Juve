@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
+import CheckPassword from "./checkPassword";
 import MyInfo from "./myInfo";
 import MyOrder from "./myOrder";
-import CheckPassword from "./checkPassword";
-import Resign from "./resign";
 import MyShipment from "./myShipment";
+import MyShipmentAdd from "./myShipmentAdd";
 
 const MyPageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
@@ -14,7 +14,7 @@ const MyPageContentAreaRoutes = () => {
     <div>
       <Routes>
         <Route
-          path="/myOrder"
+          path="/myorder"
           element={
             auth.isLogined ? <MyOrder /> : <Navigate to={"/member/login"} />
           }
@@ -34,7 +34,7 @@ const MyPageContentAreaRoutes = () => {
           }
         /> */}
         <Route
-          path="/myInfo"
+          path="/myinfo"
           element={
             sessionStorage.getItem("passwordCheck") ? (
               <MyInfo />
@@ -44,9 +44,15 @@ const MyPageContentAreaRoutes = () => {
           }
         />
         <Route
-          path="/myShipment"
+          path="/myshipment"
           element={
             auth.isLogined ? <MyShipment /> : <Navigate to={"/member/login"} />
+          }
+        />
+        <Route
+          path="/myshipment/add"
+          element={
+            auth.isLogined ? <MyShipmentAdd /> : <Navigate to={"/member/login"} />
           }
         />
       </Routes>
