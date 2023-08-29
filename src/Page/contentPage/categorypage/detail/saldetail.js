@@ -94,9 +94,9 @@ const Saldetail = () => {
       setSsmData(ssmFilterData);
     });
   }, []);
-  
+
   const [check, setCheck] = useState({});
-  
+
   const [smtValue, setSmtValue] = useState([]);
   const [sstValue, setSstValue] = useState([]);
   const [ssmValue, setSsmValue] = useState([]);
@@ -104,24 +104,32 @@ const Saldetail = () => {
   const [added, setAdded] = useState({});
 
   const addMenu = () => {
-    const a = Object.keys(added).length + 1;
-
-    if (added[a] === undefined) {
-      setAdded({ ...added, [a]: { smtValue, sstValue, ssmValue } });
+    if (sdrValue === "") {
+      alert("샐러드 드레싱을 선택해주세요");
     } else {
-      setAdded({ ...added, [a + 1]: { smtValue, sstValue, ssmValue} });
+      const a = Object.keys(added).length + 1;
+
+      if (added[a] === undefined) {
+        setAdded({ ...added, [a]: { sdrValue, smtValue, sstValue, ssmValue } });
+      } else {
+        setAdded({
+          ...added,
+          [a + 1]: { sdrValue, smtValue, sstValue, ssmValue },
+        });
+      }
+      setCheck({});
+      setSdrValue("");
+      setSmtValue([]);
+      setSstValue([]);
+      setSsmValue([]);
     }
-    setCheck({});
-    setSmtValue([]);
-    setSstValue([]);
-    setSsmValue([]);
   };
 
   const handleSmtChange = (e) => {
     // alert(e.target.checked);
     setCheck({ ...check, [e.target.name]: e.target.checked });
     if (e.target.checked) {
-      setSmtValue((prevSmtValue) => [...prevSmtValue, e.target.value]);
+      setSmtValue((prevSmtValue) => [...prevSmtValue, e.target.value + "^"]);
     } else {
       setSmtValue((prevSmtValue) =>
         prevSmtValue.filter((value) => value !== e.target.value)
@@ -132,7 +140,7 @@ const Saldetail = () => {
   const handleSstChange = (e) => {
     setCheck({ ...check, [e.target.name]: e.target.checked });
     if (e.target.checked) {
-      setSstValue((prevSstValue) => [...prevSstValue, e.target.value]);
+      setSstValue((prevSstValue) => [...prevSstValue, e.target.value + "^"]);
     } else {
       setSstValue((prevSstValue) =>
         prevSstValue.filter((value) => value !== e.target.value)
@@ -143,7 +151,7 @@ const Saldetail = () => {
   const handleSsmChange = (e) => {
     setCheck({ ...check, [e.target.name]: e.target.checked });
     if (e.target.checked) {
-      setSsmValue((prevSsmValue) => [...prevSsmValue, e.target.value]);
+      setSsmValue((prevSsmValue) => [...prevSsmValue, e.target.value + "^"]);
     } else {
       setSsmValue((prevSsmValue) =>
         prevSsmValue.filter((value) => value !== e.target.value)
@@ -151,9 +159,11 @@ const Saldetail = () => {
     }
   };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const handleSdrChange=(value)=>{
-    setSdrData(value)
-  }
+  const [sdrValue, setSdrValue] = useState("");
+  const handleSdrChange = (value) => {
+    // setSdrData(value)
+    setSdrValue(value);
+  };
   const DropdownSmt = () => {
     setIsOpenSmt(!isOpenSmt);
   };
@@ -177,6 +187,7 @@ const Saldetail = () => {
       <p>가 격:{salData.productPrice}</p>
       <div className="sdrOption">
         <select
+          value={sdrValue}
           onChange={(e) => {
             handleSdrChange(e.target.value);
           }}
@@ -238,7 +249,7 @@ const Saldetail = () => {
             </ul>
           )}
           <div className="dropdown-header" onClick={DropdownSsm}>
-           보조 메뉴
+            보조 메뉴
           </div>
           {isOpenSsm && (
             <ul className="checkbox-list">
@@ -263,16 +274,29 @@ const Saldetail = () => {
           <Count count={count} setCount={setCount} />
           <button>구매예약</button>
           <button onClick={addMenu}>메뉴담기</button>
-           <div>
-              {Object.keys(added).map((productName) => (
-                <div key={productName}>
-                  <p>샐러드드레싱 {productName}</p>
-                  <p>메인토핑: {added[productName].productName}</p>
-                  <p>서브토핑: {added[productName].productName}</p>
-                  <p>서브메뉴: {added[productName].productName}</p>
-                </div>
-              ))}
-            </div>
+          <button
+            onClick={() => {
+              setAdded({});
+              setCheck({});
+              setSdrValue("");
+              setSmtValue([]);
+              setSstValue([]);
+              setSsmValue([]);
+            }}
+          >
+            메뉴 초기화
+          </button>
+          <div>
+            {Object.keys(added).map((i) => (
+              <div key={i}>
+                <p>{i}</p>
+                <p>샐러드드레싱 : {added[i].sdrValue}</p>
+                <p>메인토핑: {added[i].smtValue}</p>
+                <p>서브토핑: {added[i].sstValue}</p>
+                <p>서브메뉴: {added[i].ssmValue}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
