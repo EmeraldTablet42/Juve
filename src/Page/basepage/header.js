@@ -47,7 +47,7 @@ const Header = () => {
               <option>1:1문의</option>
             </select>
             <span>
-              <Link to="/member/mypage/order">마이페이지</Link>
+              <Link to="/member/mypage/myOrder">마이페이지</Link>
             </span>
             <span>장바구니</span>
           </td>

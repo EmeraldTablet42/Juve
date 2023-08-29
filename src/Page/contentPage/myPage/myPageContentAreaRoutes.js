@@ -5,6 +5,7 @@ import MyInfo from "./myInfo";
 import MyOrder from "./myOrder";
 import CheckPassword from "./checkPassword";
 import Resign from "./resign";
+import MyShipment from "./myShipment";
 
 const MyPageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
@@ -13,7 +14,7 @@ const MyPageContentAreaRoutes = () => {
     <div>
       <Routes>
         <Route
-          path="/order"
+          path="/myOrder"
           element={
             auth.isLogined ? <MyOrder /> : <Navigate to={"/member/login"} />
           }
@@ -40,6 +41,12 @@ const MyPageContentAreaRoutes = () => {
             ) : (
               <CheckPassword />
             )
+          }
+        />
+        <Route
+          path="/myShipment"
+          element={
+            auth.isLogined ? <MyShipment /> : <Navigate to={"/member/login"} />
           }
         />
       </Routes>
