@@ -15,7 +15,8 @@ const MyPage = () => {
             <li><Link to="/member/mypage/order">찜 상품</Link></li>
             <li><Link to="/member/mypage/order">마일리지</Link></li>
             <li><Link to="/member/mypage/order">1:1 문의</Link></li>
-            <li><Link to="/member/mypage/myInfo">개인정보 변경</Link></li>
+            <li><a href="/member/mypage/myInfo">개인정보 변경</a></li>
+            {/* <li><Link to="/member/mypage/myInfo">개인정보 변경</Link></li> */}
           </ul>
         </div>
         <div className="myPageContentArea">

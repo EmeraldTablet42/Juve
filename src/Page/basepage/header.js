@@ -12,8 +12,9 @@ const Header = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("loginToken");
-    myDispatch(setAuth({ isLogined: false, memberId: "" })); // 로그아웃 상태로 변경
-    navi("/");
+    // myDispatch(setAuth({ isLogined: false, memberId: "" })); // 로그아웃 상태로 변경
+    window.location.reload();
+    // navi("/");
   };
 
   return (

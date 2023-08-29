@@ -31,7 +31,7 @@ const Login = () => {
         alert("아이디 또는 비밀번호가 일치하지 않습니다.");
         setLoginInput({ ...loginInput, password: "" });
       } else {
-        alert(response.data.token);
+        // alert(response.data.token);
         sessionStorage.setItem("loginToken", response.data.token);
         await checkIsLogined(sessionStorage.getItem("loginToken")); // checkIsLogined 함수 호출 추가
         navi(-1);
