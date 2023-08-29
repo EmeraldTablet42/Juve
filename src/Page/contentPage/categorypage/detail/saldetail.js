@@ -94,21 +94,12 @@ const Saldetail = () => {
       setSsmData(ssmFilterData);
     });
   }, []);
-  // const handleSmtChange = (productId) => {
-  //   alert(productId);
-  //   setSelectedSmtOptions((prevOptions) => {
-  //     if (prevOptions.includes(productId)) {
-  //       return prevOptions.filter((item) => item !== productId);
-  //     } else {
-  //       return [...prevOptions, productId];
-  //     }
-  //   });
-  // };
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
   const [check, setCheck] = useState({});
-  // const [smtCheck, setSmtCheck] = useState({});
+  
   const [smtValue, setSmtValue] = useState([]);
   const [sstValue, setSstValue] = useState([]);
+  const [ssmValue, setSsmValue] = useState([]);
 
   const [added, setAdded] = useState({});
 
@@ -116,16 +107,17 @@ const Saldetail = () => {
     const a = Object.keys(added).length + 1;
 
     if (added[a] === undefined) {
-      setAdded({ ...added, [a]: { smtValue, sstValue } });
+      setAdded({ ...added, [a]: { smtValue, sstValue, ssmValue } });
     } else {
-      setAdded({ ...added, [a + 1]: { smtValue, sstValue } });
+      setAdded({ ...added, [a + 1]: { smtValue, sstValue, ssmValue} });
     }
     setCheck({});
     setSmtValue([]);
     setSstValue([]);
+    setSsmValue([]);
   };
 
-  const handleSmtChange2 = (e) => {
+  const handleSmtChange = (e) => {
     // alert(e.target.checked);
     setCheck({ ...check, [e.target.name]: e.target.checked });
     if (e.target.checked) {
@@ -137,16 +129,7 @@ const Saldetail = () => {
     }
   };
 
-  // const handleSstChange = (productId) => {
-  //   setSelectedSstOptions((prevOptions) => {
-  //     if (prevOptions.includes(productId)) {
-  //       return prevOptions.filter((item) => item !== productId);
-  //     } else {
-  //       return [...prevOptions, productId];
-  //     }
-  //   });
-  // };
-  const handleSstChange2 = (e) => {
+  const handleSstChange = (e) => {
     setCheck({ ...check, [e.target.name]: e.target.checked });
     if (e.target.checked) {
       setSstValue((prevSstValue) => [...prevSstValue, e.target.value]);
@@ -156,18 +139,29 @@ const Saldetail = () => {
       );
     }
   };
+
+  const handleSsmChange = (e) => {
+    setCheck({ ...check, [e.target.name]: e.target.checked });
+    if (e.target.checked) {
+      setSsmValue((prevSsmValue) => [...prevSsmValue, e.target.value]);
+    } else {
+      setSsmValue((prevSsmValue) =>
+        prevSsmValue.filter((value) => value !== e.target.value)
+      );
+    }
+  };
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const handleSsmChange = (value) => {
-    setSelectedSsmOptions(value);
-  };
-  const handleSdrChange = (value) => {
-    setSelectedData(value);
-  };
+  const handleSdrChange=(value)=>{
+    setSdrData(value)
+  }
   const DropdownSmt = () => {
     setIsOpenSmt(!isOpenSmt);
   };
   const DropdownSst = () => {
     setIsOpenSst(!isOpenSst);
+  };
+  const DropdownSsm = () => {
+    setIsOpenSsm(!isOpenSst);
   };
 
   return (
@@ -190,9 +184,9 @@ const Saldetail = () => {
           <option value="" hidden>
             샐러드 소스를 선택하세요
           </option>
-          {sdrData.map(({ productId, productName, productPrice }) => (
+          {sdrData.map(({ productCode, productName, productPrice }) => (
             <option
-              key={`sdr-${productId}`}
+              key={`sdr-${productCode}`}
               value={productName}
               data-price={productPrice}
             >
@@ -214,11 +208,9 @@ const Saldetail = () => {
                       checked={check[productCode] || false}
                       type="checkbox"
                       value={productCode}
-                      // onChange={(e) => handleSmtChange(e.target.value)}
-                      onChange={handleSmtChange2}
+                      onChange={handleSmtChange}
                     />
                     {productName}
-                    {/* {productCode} */}
                   </label>
                 </li>
               ))}
@@ -237,7 +229,7 @@ const Saldetail = () => {
                       name={productCode}
                       checked={check[productCode] || false}
                       value={productCode}
-                      onChange={handleSstChange2}
+                      onChange={handleSstChange}
                     />
                     {productName}
                   </label>
@@ -245,26 +237,42 @@ const Saldetail = () => {
               ))}
             </ul>
           )}
-          <div className="submenu">
-            {ssmData.map(({ productId, productName, productPrice }) => (
-              <li key={`ssm-${productId}`}>
-                <label>
-                  <input
-                    type="checkbox"
-                    value={productId}
-                    onChange={(e) => handleSsmChange(e.target.value)}
-                  />
-                  {productName}
-                </label>
-              </li>
-            ))}
+          <div className="dropdown-header" onClick={DropdownSsm}>
+           보조 메뉴
           </div>
+          {isOpenSsm && (
+            <ul className="checkbox-list">
+              {ssmData.map(({ productCode, productName, productPrice }) => (
+                <li key={`ssm-${productCode}`}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name={productCode}
+                      checked={check[productCode] || false}
+                      value={productCode}
+                      onChange={handleSsmChange}
+                    />
+                    {productName}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div>
           <Count count={count} setCount={setCount} />
           <button>구매예약</button>
-          <button onClick={addMenu}>조회</button>
-          {JSON.stringify(added)}
+          <button onClick={addMenu}>메뉴담기</button>
+           <div>
+              {Object.keys(added).map((productName) => (
+                <div key={productName}>
+                  <p>샐러드드레싱 {productName}</p>
+                  <p>메인토핑: {added[productName].productName}</p>
+                  <p>서브토핑: {added[productName].productName}</p>
+                  <p>서브메뉴: {added[productName].productName}</p>
+                </div>
+              ))}
+            </div>
         </div>
       </div>
     </div>
