@@ -312,7 +312,8 @@ const Join = () => {
     if (validAll.validation) {
       axios.post("http://localhost:8090/member/reg", fd).then((res) => {
         console.log(isAllValidate.terms);
-        alert("성공");
+        alert("회원가입 완료");
+        navi("/");
       });
     } else {
       alert(validAll.msg);

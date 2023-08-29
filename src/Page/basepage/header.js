@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import juveLogo from "../../img/header/juve_logo.png";
 import "../css/header.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,10 +7,14 @@ import { setAuth } from "../contentPage/member/authSlice";
 const Header = () => {
   const auth = useSelector((state) => state.authindex);
   const myDispatch = useDispatch();
+  const navi = useNavigate();
+
 
   const handleLogout = () => {
     sessionStorage.removeItem("loginToken");
-    myDispatch(setAuth({ isLogined: false, memberId: "" })); // 로그아웃 상태로 변경
+    // myDispatch(setAuth({ isLogined: false, memberId: "" })); // 로그아웃 상태로 변경
+    window.location.reload();
+    // navi("/");
   };
 
   return (
@@ -43,7 +47,7 @@ const Header = () => {
               <option>1:1문의</option>
             </select>
             <span>
-              <Link to="/member/mypage/order">마이페이지</Link>
+              <Link to="/member/mypage/myOrder">마이페이지</Link>
             </span>
             <span>장바구니</span>
           </td>

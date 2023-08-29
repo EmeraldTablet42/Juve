@@ -117,6 +117,36 @@ export const validateAll = (isAllValidate) => {
   }
   return { msg: "가입 성공", validation: true };
 };
+export const validateAllModify = (isAllValidate) => {
+  if (!isAllValidate.id) {
+    return { msg: "아이디는 변경하실 수 없습니다.", validation: false };
+  }
+  if (!isAllValidate.oldPassword) {
+    return { msg: "현재 비밀번호가 올바르지 않습니다", validation: false };
+  }
+  if (!isAllValidate.newPassword) {
+    return { msg: "신규 비밀번호가 올바르지 않습니다", validation: false };
+  }
+  if (!isAllValidate.name) {
+    return { msg: "이름을 입력해주세요.", validation: false };
+  }
+  if (!isAllValidate.address) {
+    return { msg: "주소를 입력해주세요.", validation: false };
+  }
+  if (!isAllValidate.phone) {
+    return { msg: "휴대폰 번호를 입력해주세요", validation: false };
+  }
+  if (!isAllValidate.email) {
+    return { msg: "올바르지 않은 이메일입니다.", validation: false };
+  }
+  if (!isAllValidate.birth) {
+    return {
+      msg: "생년월일을 입력하지 않거나, 또는 올바른 생년월일을 입력하세요.",
+      validation: false,
+    };
+  }
+  return { msg: "가입 성공", validation: true };
+};
 
 export const validateEmail = (email, emailListInput) => {
   const emailList = emailListInput;
@@ -140,22 +170,56 @@ export const validateEmail = (email, emailListInput) => {
   return { msg: "사용가능한 이메일 입니다.", validation: true };
 };
 
+// export const validateBirth = (birth) => {
+//   const year = parseInt(birth.birthYear);
+//   const month = parseInt(birth.birthMonth);
+//   const day = parseInt(birth.birthDay);
+
+//   // alert(`${year}-${month}-${day}`);
+
+//   // 유효한 날짜인지 확인하는 로직
+//   const isValidDate =
+//     !isNaN(year) &&
+//     !isNaN(month) &&
+//     !isNaN(day) &&
+//     month >= 1 &&
+//     month <= 12 &&
+//     day >= 1 &&
+//     day <= new Date(year, month, 0).getDate();
+
+//   if (isNaN(year) && isNaN(month) && isNaN(day)) {
+//     return { msg: "", validation: true };
+//   }
+
+//   if (!isValidDate) {
+//     return { msg: "올바르지 않은 날짜입니다.", validation: false };
+//   }
+
+//   // 유효한 날짜인 경우 추가 처리 가능
+
+//   return { msg: "올바른 날짜입니다.", validation: true };
+// };
+
 export const validateBirth = (birth) => {
   const year = parseInt(birth.birthYear);
   const month = parseInt(birth.birthMonth);
   const day = parseInt(birth.birthDay);
 
-  // alert(`${year}-${month}-${day}`);
+  // 현재 년도 구하기
+  const currentYear = new Date().getFullYear();
+  // 최소 허용 년도 설정
+  const minYear = currentYear - 14;
+  // 최대 허용 년도 설정
+  const maxYear = 1930;
+
+  // 유효한 날짜 범위 설정
+  const isValidYear = year >= maxYear && year <= minYear;
+  const isValidMonth = month >= 1 && month <= 12;
+  const maxDayInMonth = new Date(year, month, 0).getDate();
+  const isValidDay = day >= 1 && day <= maxDayInMonth;
 
   // 유효한 날짜인지 확인하는 로직
-  const isValidDate =
-    !isNaN(year) &&
-    !isNaN(month) &&
-    !isNaN(day) &&
-    month >= 1 &&
-    month <= 12 &&
-    day >= 1 &&
-    day <= new Date(year, month, 0).getDate();
+  const isValidDate = isValidYear && isValidMonth && isValidDay;
 
   if (isNaN(year) && isNaN(month) && isNaN(day)) {
     return { msg: "", validation: true };
@@ -175,11 +239,4 @@ export const isIdpresent = (idInput, dbId) => {
     return { msg: "아이디는 변경할 수 없습니다.", validation: false };
   }
   return { msg: "아이디 ok", validation: true };
-};
-
-export const isOldPasswordCorrect = (inputPw, dbPw) => {
-  if (inputPw !== dbPw) {
-    return { msg: "현재 비밀번호가 올바르지 않습니다.", validation: false };
-  }
-  return { msg: "", validation: true };
 };
