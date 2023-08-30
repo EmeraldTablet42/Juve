@@ -20,6 +20,7 @@ import Wihdetail from "../contentPage/categorypage/detail/wihdetail";
 import TokenRefresher from "./tokenRefresher";
 import { useSelector } from "react-redux";
 import Resign from "../contentPage/myPage/resign";
+import Purchase from "../contentPage/categorypage/purchase";
 const PageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
   return (
@@ -45,6 +46,7 @@ const PageContentAreaRoutes = () => {
             auth.isLogined ? <Resign /> : <Navigate to={"/member/login"} />
           }
         />
+        <Route path="/purchase" element={<Purchase />} />
         <Route path="/product/reg" element={<ProductReg />} />
         <Route path="/product/get" element={<ProductGet />} />
         <Route path="/product/update" element={<ProductUpdate />} />
