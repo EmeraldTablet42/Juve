@@ -140,7 +140,7 @@ const Saldetail = () => {
   });
 
   const handlePopup = (e) => {
-    setPopUp({ ...popUp, [e.target.id]: !popUp[e.target.id] });
+    setPopUp({ [e.target.id]: !popUp[e.target.id] });
   };
 
   const ref = useRef();

@@ -11,6 +11,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 // import storageSession from "redux-persist/lib/storage/session"
 import { PersistGate } from "redux-persist/integration/react";
+import resentViewSlice from "./Page/basepage/resentViewSlice";
 
 const persistConfig = {
   key: "root",
@@ -19,11 +20,14 @@ const persistConfig = {
 
 const persistedAuthReducer = persistReducer(persistConfig, authSlice);
 
+const persistedResentViewReducer = persistReducer(persistConfig,resentViewSlice);
+
 // store
 // reducer(slice) 등록
 const storee = configureStore({
   reducer: {
     authindex: persistedAuthReducer,
+    rsntView:persistedResentViewReducer,
   },
 });
 // const storee = configureStore({
