@@ -13,28 +13,28 @@ const SideMenu = () => {
         <button>최근 본 상품</button>
         {resentView.resentViewCodeUp && (
           <div>
-            <Link
-              to={`/saldetail?id=${resentView.resentViewCodeUp}`}
+            <a
+              href={`/saldetail?id=${resentView.resentViewCodeUp}`}
             >
               <img
                 src={`http://localhost:8090/product/photo/${resentView.resentViewImgUp}`}
                 alt="최근본상품1"
                 style={{ maxHeight: "80px" }}
               ></img>
-            </Link>
+            </a>
           </div>
         )}
         {resentView.resentViewCodeDown && (
           <div>
-            <Link
-              to={`/saldetail?id=${resentView.resentViewCodeDown}`}
+            <a
+              href={`/saldetail?id=${resentView.resentViewCodeDown}`}
             >
               <img
                 src={`http://localhost:8090/product/photo/${resentView.resentViewImgDown}`}
                 alt="최근본상품2"
                 style={{ maxHeight: "80px" }}
               ></img>
-            </Link>
+            </a>
           </div>
         )}
       </div>
