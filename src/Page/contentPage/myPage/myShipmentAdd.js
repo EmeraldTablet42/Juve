@@ -383,37 +383,8 @@ const MyShipmentAdd = () => {
       >
         취소
       </button>
-      <button
-        onClick={() => {
-          alert(JSON.stringify(isAllValidate));
-        }}
-      >
-        유효성 검사 체크
-      </button>
-      <button onClick={regShipment}>아이디 검사 체크</button>
-      <button
-        onClick={() => {
-          alert(JSON.stringify(fd.get("phone")));
-        }}
-      >
-        fd체크
-      </button>
-      <button
-        onClick={() => {
-          alert(JSON.stringify(phone));
-        }}
-      >
-        전화번호
-      </button>
       <input name="isDefault" type="checkbox" onChange={handleIsDefault} />
       기본 배송지로 지정
-      <button
-        onClick={() => {
-          alert(isDefault);
-        }}
-      >
-        기본배송지 상태 조회
-      </button>
     </>
   );
 };
