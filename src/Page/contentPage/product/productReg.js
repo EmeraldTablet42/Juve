@@ -89,6 +89,7 @@ const ProductReg = () => {
           photoFile: "",
         });
         get();
+        window.location.replace("/get");
       });
   };
 

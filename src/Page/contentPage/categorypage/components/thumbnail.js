@@ -20,14 +20,18 @@ const Thumbnail = ({ productData }) => {
   };
 
   const handleImageClick = (product) => {
-    myDispatch(
-      setResentView({
-        resentViewImgUp: product.productPhoto,
-        resentViewCodeUp: product.productCode,
-        resentViewImgDown: resentView.resentViewImgUp,
-        resentViewCodeDown: resentView.resentViewCodeUp,
-      })
-    );
+    //// 사이드바 최근 본 메뉴 처리하는 로직부분// 병합충돌시 이부분만 handleImageClick 때 넣어주세요!//
+    if (product.productCode !== resentView.resentViewCodeUp) {
+      myDispatch(
+        setResentView({
+          resentViewImgUp: product.productPhoto,
+          resentViewCodeUp: product.productCode,
+          resentViewImgDown: resentView.resentViewImgUp,
+          resentViewCodeDown: resentView.resentViewCodeUp,
+        })
+      );
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
     setSelectedData(product);
   };
 

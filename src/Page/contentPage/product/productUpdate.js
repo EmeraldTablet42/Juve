@@ -71,6 +71,7 @@ const ProductUpdate = () => {
           photoFile: "",
         });
         get();
+        window.location.replace("/product/get");
       });
   };
 
