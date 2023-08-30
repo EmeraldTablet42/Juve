@@ -25,7 +25,7 @@ const Index = () => {
         if (checkRes.data.id) {
           myDispatch(setAuth({ isLogined: true, memberId: checkRes.data.id }));
         } else {
-          // 처리할 내용이 있는 경우
+          myDispatch(setAuth({ isLogined: false, memberId: "" }));
         }
       } catch (error) {
         alert(error + "(2)");

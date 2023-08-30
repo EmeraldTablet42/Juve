@@ -39,7 +39,7 @@ const MyOrder = () => {
 
   return (
     <>
-      <p>주문/예약 내역</p>
+      <h2>주문/예약 내역</h2>
       <h3>주문처리 현황</h3>
       <div className="orderState">
         <ul className="order" style={{ listStyle: "none" }}>

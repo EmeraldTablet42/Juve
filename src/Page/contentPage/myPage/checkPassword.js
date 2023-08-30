@@ -31,7 +31,7 @@ const CheckPassword = () => {
   return (
     <>
       <div>
-        <h3>비밀번호 확인</h3>
+        <h2>비밀번호 확인</h2>
         <div>
           <p>
             {auth.memberId}님의 회원정보를 안전하게 보호하기 위해

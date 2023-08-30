@@ -7,8 +7,10 @@ import { validateAllModify } from "../member/validation";
 import { validateEmail } from "../member/validation";
 import { validateBirth } from "../member/validation";
 import DaumPostcodeAPI from "../member/daumPostcodeAPI";
+import { useSelector } from "react-redux";
 
 const MyInfo = () => {
+  const auth = useSelector((state) => state.authindex);
   // 무언가 에러발생시 홈페이지로 리다이렉트//
   const navi = useNavigate();
   //// IdList, EmailList State 설정///
@@ -51,16 +53,50 @@ const MyInfo = () => {
   // };
 
   const getDbList = useCallback(() => {
-    // 첫 번째 axios 요청(아이디)
-    const getIdPromise = axios
-      .get("http://localhost:8090/member.getById?id=test1234")
-      .then((res) => {
-        // alert(JSON.stringify(res.data));
-        const birthDateStr = res.data.birthDate;
-        const birthDate = new Date(birthDateStr);
-        setDdList((prevList) => ({
-          ...prevList,
-          idInfo: {
+    if (auth.memberId !== "") {
+      // 첫 번째 axios 요청(아이디)
+      const getIdPromise = axios
+        .get(`http://localhost:8090/member.getById?id=${auth.memberId}`)
+        .then((res) => {
+          // alert(JSON.stringify(res.data));
+          const birthDateStr = res.data.birthDate;
+          const birthDate = new Date(birthDateStr);
+          setDdList((prevList) => ({
+            ...prevList,
+            idInfo: {
+              id: res.data.id,
+              oldPassword: "",
+              name: res.data.name,
+              addr: {
+                addr1: res.data.address.split("^")[0],
+                addr2: res.data.address.split("^")[1],
+                addr3:
+                  res.data.address.split("^")[2] !== null
+                    ? res.data.address.split("^")[2]
+                    : "",
+              },
+              phone: {
+                phone1: res.data.phone.split("-")[0],
+                phone2: res.data.phone.split("-")[1],
+                phone3: res.data.phone.split("-")[2],
+              },
+              tel: {
+                tel1: res.data.tel !== null ? res.data.tel.split("-")[0] : "02",
+                tel2: res.data.tel !== null ? res.data.tel.split("-")[1] : "",
+                tel3: res.data.tel !== null ? res.data.tel.split("-")[2] : "",
+              },
+              email: res.data.email,
+              gender: res.data.gender,
+              birth: {
+                birthYear: birthDate.getFullYear(),
+                birthMonth: birthDate.getMonth() + 1,
+                birthDay: birthDate.getDate(),
+              },
+              mileage: res.data.mileage,
+            },
+          }));
+          setMemberInfo({
+            ...memberInfo,
             id: res.data.id,
             oldPassword: "",
             name: res.data.name,
@@ -84,61 +120,29 @@ const MyInfo = () => {
             },
             email: res.data.email,
             gender: res.data.gender,
-            birth: {
-              birthYear: birthDate.getFullYear(),
-              birthMonth: birthDate.getMonth() + 1,
-              birthDay: birthDate.getDate(),
-            },
-            mileage: res.data.mileage,
-          },
-        }));
-        setMemberInfo({
-          ...memberInfo,
-          id: res.data.id,
-          oldPassword: "",
-          name: res.data.name,
-          addr: {
-            addr1: res.data.address.split("^")[0],
-            addr2: res.data.address.split("^")[1],
-            addr3:
-              res.data.address.split("^")[2] !== null
-                ? res.data.address.split("^")[2]
-                : "",
-          },
-          phone: {
-            phone1: res.data.phone.split("-")[0],
-            phone2: res.data.phone.split("-")[1],
-            phone3: res.data.phone.split("-")[2],
-          },
-          tel: {
-            tel1: res.data.tel !== null ? res.data.tel.split("-")[0] : "02",
-            tel2: res.data.tel !== null ? res.data.tel.split("-")[1] : "",
-            tel3: res.data.tel !== null ? res.data.tel.split("-")[2] : "",
-          },
-          email: res.data.email,
-          gender: res.data.gender,
+          });
+          setBirth({
+            ...birth,
+            birthYear: birthDate.getFullYear(),
+            birthMonth: birthDate.getMonth() + 1,
+            birthDay: birthDate.getDate(),
+          });
         });
-        setBirth({
-          ...birth,
-          birthYear: birthDate.getFullYear(),
-          birthMonth: birthDate.getMonth() + 1,
-          birthDay: birthDate.getDate(),
+
+      // 두 번째 axios 요청(이메일)
+      const getEmailsPromise = axios
+        .get("http://localhost:8090/member/getEmails")
+        .then((res2) => {
+          setDdList((prevList) => ({ ...prevList, emailList: res2.data }));
         });
-      });
 
-    // 두 번째 axios 요청(이메일)
-    const getEmailsPromise = axios
-      .get("http://localhost:8090/member/getEmails")
-      .then((res2) => {
-        setDdList((prevList) => ({ ...prevList, emailList: res2.data }));
+      // 두 개의 axios 요청을 병렬로 실행하고 에러 처리
+      Promise.all([getIdPromise, getEmailsPromise]).catch(() => {
+        alert("DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요");
+        navi("/");
       });
-
-    // 두 개의 axios 요청을 병렬로 실행하고 에러 처리
-    Promise.all([getIdPromise, getEmailsPromise]).catch(() => {
-      alert("DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요");
-      navi("/");
-    });
-  }, [navi]);
+    }
+  }, [navi, auth.memberId]);
 
   // 필수사항 이미지 컨테이너///////////////////////////////////
   const RedAs = () => (
@@ -378,11 +382,13 @@ const MyInfo = () => {
 
   // 개별 동의항목이 변경될때마다 전체 동의 항목의 상태를 바꿔야함
   useEffect(() => {
-    getDbList();
+    if (auth.memberId) {
+      getDbList();
+    }
     return () => {
       sessionStorage.removeItem("passwordCheck");
     };
-  }, [getDbList]);
+  }, [getDbList, auth.memberId]);
   ///////////////////////////////////////////////////////////////////////////////////////
 
   //폼 전송 전 최종 유효성 검사///////////////////////////////////////////////////////////////////////
