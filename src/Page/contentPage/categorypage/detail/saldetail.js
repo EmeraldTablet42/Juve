@@ -132,6 +132,17 @@ const Saldetail = () => {
   const [isOpenSmt, setIsOpenSmt] = useState(false);
   const [isOpenSsm, setIsOpenSsm] = useState(false);
 
+  // 팝억 여부 state
+  const [popUp, setPopUp] = useState({
+    smtPopup: false,
+    sstPopup: false,
+    ssmPopup: false,
+  });
+
+  const handlePopup = (e) => {
+    setPopUp({ ...popUp, [e.target.id]: !popUp[e.target.id] });
+  };
+
   const ref = useRef();
 
   useEffect(() => {
@@ -234,10 +245,16 @@ const Saldetail = () => {
               ))}
             </select>
             <div className="dropdown" ref={ref}>
-              <div className="dropdown-header" onClick={DropdownSmt}>
+              <div
+                id="smtPopup"
+                className="dropdown-header"
+                // onClick={DropdownSmt}
+                onClick={handlePopup}
+              >
                 메인토핑 (다중 선택 가능)
               </div>
-              {isOpenSmt && (
+              {/* {isOpenSmt && ( */}
+              {popUp.smtPopup && (
                 <ul className="checkbox-list">
                   {smtData.map(({ productCode, productName, productPrice }) => (
                     <li key={`smt-${productCode}`}>
@@ -255,10 +272,16 @@ const Saldetail = () => {
                   ))}
                 </ul>
               )}
-              <div className="dropdown-header" onClick={DropdownSst}>
+              <div
+                id="sstPopup"
+                className="dropdown-header"
+                // onClick={DropdownSst}
+                onClick={handlePopup}
+              >
                 서브 토핑 (다중 선택 가능)
               </div>
-              {isOpenSst && (
+              {/* {isOpenSst && ( */}
+              {popUp.sstPopup && (
                 <ul className="checkbox-list">
                   {sstData.map(({ productCode, productName, productPrice }) => (
                     <li key={`sst-${productCode}`}>
@@ -276,10 +299,16 @@ const Saldetail = () => {
                   ))}
                 </ul>
               )}
-              <div className="dropdown-header" onClick={DropdownSsm}>
+              <div
+                id="ssmPopup"
+                className="dropdown-header"
+                // onClick={DropdownSsm}
+                onClick={handlePopup}
+              >
                 보조 메뉴
               </div>
-              {isOpenSsm && (
+              {/* {isOpenSsm && ( */}
+              {popUp.ssmPopup && (
                 <ul className="checkbox-list">
                   {ssmData.map(({ productCode, productName, productPrice }) => (
                     <li key={`ssm-${productCode}`}>
@@ -366,7 +395,7 @@ const Saldetail = () => {
         <div ref={productTabs[1].element}>
           <h1>리뷰</h1>
         </div>
-        {false && <Purchase addData={added}/>}
+        {false && <Purchase addData={added} />}
         <div ref={productTabs[2].element}>
           <h1>상품 문의</h1>
         </div>
