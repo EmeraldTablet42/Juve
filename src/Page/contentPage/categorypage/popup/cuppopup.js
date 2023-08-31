@@ -4,199 +4,14 @@ import axios from "axios";
 import '../styles/popupcart.css';
 import { Link } from "react-router-dom";
 const Cuppopup = (props) => {
-  const { productId, setPopupState, searchParam } = props;
+  const { productId, setPopupState, cupData={} } = props;
   const [count, setCount] = useState(1);
 
   const handleCountChange = (newCount) => {
     if (newCount > 0) {
       setCount(newCount);
     }
-  };
-  //added
-  const [check, setCheck] = useState({});
-
-  const [sdrValue, setSdrValue] = useState("");
-  const [smtValue, setSmtValue] = useState([]);
-  const [sstValue, setSstValue] = useState([]);
-  const [ssmValue, setSsmValue] = useState([]);
-
-  const [added, setAdded] = useState({});
-
-  const addMenu = () => {
-    if (sdrValue === "") {
-      alert("샐러드 드레싱을 선택해주세요");
-    } else {
-      const a = Object.keys(added).length + 1;
-
-      if (added[a] === undefined) {
-        setAdded({ ...added, [a]: { sdrValue, smtValue, sstValue, ssmValue } });
-      } else {
-        setAdded({
-          ...added,
-          [a + 1]: { sdrValue, smtValue, sstValue, ssmValue },
-        });
-      }
-      setCheck({});
-      setSdrValue("");
-      setSmtValue([]);
-      setSstValue([]);
-      setSsmValue([]);
-    }
-  };
-  //데이터관련
-
-  const [salData, setSalData] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
-      .then((res) => {
-        setSalData(res.data);
-      });
-  }, [searchParam]);
-  //옵션데이터
-  const [sdrData, setSdrData] = useState([]);
-  const [smtData, setSmtData] = useState([]);
-  const [sstData, setSstData] = useState([]);
-  const [ssmData, setSsmData] = useState([]);
-  useEffect(() => {
-    axios.get("http://localhost:8090/product.get").then((res) => {
-      const allProduct = res.data.products;
-      const sdFilterData = allProduct.filter(
-        (product) => product.category === "SDR"
-      );
-      setSdrData(sdFilterData);
-      const smFilterData = allProduct.filter(
-        (product) => product.category === "SMT"
-      );
-      setSmtData(smFilterData);
-      const sstFilterData = allProduct.filter(
-        (product) => product.category === "SST"
-      );
-      setSstData(sstFilterData);
-      const ssmFilterData = allProduct.filter(
-        (product) => product.category === "SSM"
-      );
-      setSsmData(ssmFilterData);
-    });
-  }, []);
-
-  //////////// 핸들러
-  const handleSmtChange = (e) => {
-    setCheck({ ...check, [e.target.value]: e.target.checked });
-    if (e.target.checked) {
-      setSmtValue((prevSmtValue) => [...prevSmtValue, e.target.name + ","]);
-    } else {
-      setSmtValue((prevSmtValue) =>
-        prevSmtValue.filter((value) => value !== e.target.name)
-      );
-    }
-  };
-
-  const handleSstChange = (e) => {
-    console.log(e.target);
-    setCheck({ ...check, [e.target.value]: e.target.checked });
-    if (e.target.checked) {
-      setSstValue((prevSstValue) => [...prevSstValue, e.target.name + ","]);
-    } else {
-      setSstValue((prevSstValue) =>
-        prevSstValue.filter((value) => value !== e.target.name)
-      );
-    }
-  };
-
-  const handleSsmChange = (e) => {
-    setCheck({ ...check, [e.target.value]: e.target.checked });
-    if (e.target.checked) {
-      setSsmValue((prevSsmValue) => [...prevSsmValue, e.target.name + ","]);
-    } else {
-      setSsmValue((prevSsmValue) =>
-        prevSsmValue.filter((value) => value !== e.target.name)
-      );
-    }
-  };
-
-  const handleSdrChange = (value) => {
-    setSdrValue(value);
-  };
-  ///////////////////////////
-
-  /////////////드롭다운
-  const [isOpenSst, setIsOpenSst] = useState(false);
-  const [isOpenSmt, setIsOpenSmt] = useState(false);
-  const [isOpenSsm, setIsOpenSsm] = useState(false);
-
-  // 팝억 여부 state
-  const [popUp, setPopUp] = useState({
-    smtPopup: false,
-    sstPopup: false,
-    ssmPopup: false,
-  });
-
-  const handlePopup = (e) => {
-    setPopUp({ [e.target.id]: !popUp[e.target.id] });
-  };
-
-  const ref = useRef();
-
-  useEffect(() => {
-    const onClick = (e) => {
-      if ((ref.current !== null) & !ref.current.contains(e.target)) {
-        setIsOpenSmt(!isOpenSmt);
-      }
-    };
-    if (isOpenSmt) {
-      window.addEventListener("click", onClick);
-    }
-    return () => {
-      window.removeEventListener("click", onClick);
-    };
-  }, [isOpenSmt]);
-
-  const DropdownSmt = () => {
-    setIsOpenSmt(!isOpenSmt);
-    setIsOpenSst(false);
-    setIsOpenSsm(false);
-  };
-
-  useEffect(() => {
-    const onClick = (e) => {
-      if ((ref.current !== null) & !ref.current.contains(e.target)) {
-        setIsOpenSst(!isOpenSst);
-      }
-    };
-    if (isOpenSst) {
-      window.addEventListener("click", onClick);
-    }
-    return () => {
-      window.removeEventListener("click", onClick);
-    };
-  }, [isOpenSst]);
-
-  const DropdownSst = () => {
-    setIsOpenSst(!isOpenSst);
-    setIsOpenSmt(false);
-    setIsOpenSsm(false);
-  };
-  useEffect(() => {
-    const onClick = (e) => {
-      if ((ref.current !== null) & !ref.current.contains(e.target)) {
-        setIsOpenSsm(!isOpenSsm);
-      }
-    };
-    if (isOpenSsm) {
-      window.addEventListener("click", onClick);
-    }
-    return () => {
-      window.removeEventListener("click", onClick);
-    };
-  }, [isOpenSsm]);
-
-  const DropdownSsm = () => {
-    setIsOpenSsm(!isOpenSsm);
-    setIsOpenSmt(false);
-    setIsOpenSst(false);
-  };
-  ///////////////////
+  }
   return (
     <div className="popupcart-wrapper">
       <button className="popupcart-close" onClick={() => setPopupState(false)}>
@@ -204,12 +19,13 @@ const Cuppopup = (props) => {
       </button>
       <div className="popup-image">
           <img
-            src={`http://localhost:8090/product/photo/${salData.productPhoto}`}
+            src={`http://localhost:8090/product/photo/${cupData.productPhoto}`}
             alt="상품 이미지"
-            style={{ width: "500px" }}
+            style={{ width: "300px" }}
           />
         </div>
-      <h2 className="popupcart-productname">상품명</h2>
+      <h2 className="popupcart-productname">{cupData.productName}</h2>
+      <h2 className="popupcart-productname">{cupData.productPrice}</h2>
         <div>
           <Count count={count} setCount={handleCountChange} />
           <span>

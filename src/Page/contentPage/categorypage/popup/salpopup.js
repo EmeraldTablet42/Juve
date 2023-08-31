@@ -3,7 +3,8 @@ import Count from "../components/count";
 import axios from "axios";
 import '../styles/popupcart.css';
 const Salpopup = (props) => {
-  const { productId, setPopupState, searchParam } = props;
+  const { productId, setPopupState, salData = {} } = props;
+  console.log(salData)
   const [count, setCount] = useState(1);
 
   const handleCountChange = (newCount) => {
@@ -28,11 +29,11 @@ const Salpopup = (props) => {
       const a = Object.keys(added).length + 1;
 
       if (added[a] === undefined) {
-        setAdded({ ...added, [a]: { sdrValue, smtValue, sstValue, ssmValue } });
+        setAdded({ ...added, [a]: { productName:salData.productName ,sdrValue, smtValue, sstValue, ssmValue, counting:count } });
       } else {
         setAdded({
           ...added,
-          [a + 1]: { sdrValue, smtValue, sstValue, ssmValue },
+          [a + 1]: { productName:salData.productName, sdrValue, smtValue, sstValue, ssmValue, counting:count },
         });
       }
       setCheck({});
@@ -42,16 +43,7 @@ const Salpopup = (props) => {
       setSsmValue([]);
     }
   };
-  //데이터관련
-
-  const [salData, setSalData] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
-      .then((res) => {
-        setSalData(res.data);
-      });
-  }, [searchParam]);
+  
   //옵션데이터
   const [sdrData, setSdrData] = useState([]);
   const [smtData, setSmtData] = useState([]);
@@ -205,10 +197,11 @@ const Salpopup = (props) => {
           <img
             src={`http://localhost:8090/product/photo/${salData.productPhoto}`}
             alt="상품 이미지"
-            style={{ width: "500px" }}
+            style={{ width: "300px" }}
           />
         </div>
-      <h2 className="popupcart-productname">상품명</h2>
+      <h2 >{salData.productName}</h2>
+      <h2 >{salData.productPrice}</h2>
       <div className="sdrOption">
         <select
           className="selectsize"
@@ -348,10 +341,12 @@ const Salpopup = (props) => {
             {Object.keys(added).map((i) => (
               <div className="added-text" key={i}>
                 <p>{i}</p>
+                <p>상 품 명 : {added[i].productName}</p>
                 <p>샐러드드레싱 : {added[i].sdrValue}</p>
                 <p>메인 토핑: {added[i].smtValue}</p>
                 <p>서브 토핑: {added[i].sstValue}</p>
                 <p>보조 메뉴: {added[i].ssmValue}</p>
+                <p>수 량: {added[i].counting}</p>
               </div>
             ))}
           </div>

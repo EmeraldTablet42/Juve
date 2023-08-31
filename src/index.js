@@ -12,6 +12,7 @@ import storage from "redux-persist/lib/storage";
 // import storageSession from "redux-persist/lib/storage/session"
 import { PersistGate } from "redux-persist/integration/react";
 import resentViewSlice from "./Page/basepage/resentViewSlice";
+import menuReducer from './Page/contentPage/categorypage/components/addmenuslice';
 
 const persistConfig = {
   key: "root",
@@ -28,6 +29,7 @@ const storee = configureStore({
   reducer: {
     authindex: persistedAuthReducer,
     rsntView:persistedResentViewReducer,
+    menu: menuReducer,
   },
 });
 // const storee = configureStore({

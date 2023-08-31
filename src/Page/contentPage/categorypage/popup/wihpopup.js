@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import Count from "../components/count";
 import axios from "axios";
 import '../styles/popupcart.css';
+import { useDispatch } from "react-redux";
+import {addMenuData} from '../components/addmenuslice'
 const Wihpopup = (props) => {
-  const { productId, setPopupState, searchParam } = props;
+  const { productId, setPopupState, wihData = {} } = props;
   const [count, setCount] = useState(1);
 
   const handleCountChange = (newCount) => {
@@ -11,6 +13,8 @@ const Wihpopup = (props) => {
       setCount(newCount);
     }
   };
+  //redux
+  const dispatch = useDispatch();
 
   //added
   const [check, setCheck] = useState({});
@@ -21,29 +25,28 @@ const Wihpopup = (props) => {
 
   const addMenu = () => {
     const a = Object.keys(added).length + 1;
-
+  
     if (added[a] === undefined) {
-      setAdded({ ...added, [a]: { wmtValue, wstValue} });
+      const newMenuData = {
+        wmtValue,
+        wstValue,
+        productName: wihData.productName,
+        counting: count,
+      };
+  
+      dispatch(addMenuData(newMenuData));
+  
+      setAdded({ ...added, [a]: newMenuData });
     } else {
       setAdded({
         ...added,
-        [a + 1]: { wmtValue, wstValue},
+        [a + 1]: { wmtValue, wstValue, productName: wihData.productName, counting: count },
       });
     }
     setCheck({});
     setWmtValue([]);
     setWstValue([]);
-};
-  //데이터관련
-
-  const [wihData, setWihData] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
-      .then((res) => {
-        setWihData(res.data);
-      });
-  }, [searchParam]);
+  };
   //옵션데이터
   const [wmtData, setWmtData] = useState([]);
   const [wstData, setWstData] = useState([]);
@@ -135,6 +138,8 @@ const Wihpopup = (props) => {
     };
   }, [isOpenWst]);
   ///////////////////
+
+  
   return (
     <div className="popupcart-wrapper">
       <button className="popupcart-close" onClick={() => setPopupState(false)}>
@@ -144,10 +149,11 @@ const Wihpopup = (props) => {
           <img
             src={`http://localhost:8090/product/photo/${wihData.productPhoto}`}
             alt="상품 이미지"
-            style={{ width: "500px" }}
+            style={{ width: "300px" }}
           />
         </div>
-      <h2 className="popupcart-productname">상품명</h2>
+      <h2 className="popupcart-productname">{wihData.productName}</h2>
+      <h2 className="popupcart-productname">{wihData.productPrice}</h2>
       <div className="sdrOption">
         <div className="dropdown" ref={ref}>
           <div
@@ -205,7 +211,7 @@ const Wihpopup = (props) => {
           <Count count={count} setCount={handleCountChange} />
           <span>
             <button
-              onClick={() => {
+              onClick={(handleBtnClick) => {
                 const hasCheckedOption = Object.values(check).some(
                   (isChecked) => isChecked
                 );
@@ -218,6 +224,7 @@ const Wihpopup = (props) => {
             >
               구매예약
             </button>
+            
           </span>
           <button onClick={addMenu}>메뉴담기</button>
           <button
@@ -234,8 +241,10 @@ const Wihpopup = (props) => {
             {Object.keys(added).map((i) => (
               <div className="added-text" key={i}>
                 <p>{i}</p>
+                <p>상 품 명: {added[i].productName}</p>
                 <p>메인 토핑: {added[i].wmtValue}</p>
                 <p>서브 토핑: {added[i].wstValue}</p>
+                <p>수 량: {added[i].counting}</p>
               </div>
             ))}
           </div>

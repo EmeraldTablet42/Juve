@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { setResentView } from "../../../basepage/resentViewSlice";
 import Bevdetail from "../detail/bevdetail";
 import Cupdetail from "../detail/cupdetail";
@@ -18,7 +18,6 @@ const Thumbnail = ({ productData }) => {
   const resentView = useSelector((state) => state.rsntView);
   const [popupState, setPopupState] = useState(false);
   const [selectedData, setSelectedData] = useState();
-  const [searchParam, setSearchParam] = useSearchParams();
 
   const goToCart = (product) => {
     setSelectedData(product); // 선택된 데이터 설정
@@ -73,34 +72,34 @@ const Thumbnail = ({ productData }) => {
             <div className="product-thumbnail-detail">
               <p>{product.productPrice}원</p>
               <button>찜</button>
-              <button onClick={() => goToCart()}>장바구니</button>
+              <button onClick={() => goToCart(product)}>장바구니</button>
             </div>
             {popupState && (
               <div className="cart-popup-wrapper">
                 {product.category === "SAL" && (
                   <Salpopup
-                    searchParam={searchParam}
+                    salData={selectedData}
                     productId={product.productCode}
                     setPopupState={setPopupState}
                   />
                 )}
                 {product.category === "WIH" && (
                   <Wihpopup
-                    searchParam={searchParam}
+                    wihData={selectedData}
                     productId={product.productCode}
                     setPopupState={setPopupState}
                   />
                 )}
                 {product.category === "CUP" && (
                   <Cuppopup
-                    searchParam={searchParam}
+                    cupData={selectedData}
                     productId={product.productCode}
                     setPopupState={setPopupState}
                   />
                 )}
                 {product.category === "BEV" && (
                   <Bevpopup
-                    searchParam={searchParam}
+                    bevData={selectedData}
                     productId={product.productCode}
                     setPopupState={setPopupState}
                   />
