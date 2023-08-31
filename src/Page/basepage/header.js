@@ -9,7 +9,6 @@ const Header = () => {
   const myDispatch = useDispatch();
   const navi = useNavigate();
 
-
   const handleLogout = () => {
     sessionStorage.removeItem("loginToken");
     myDispatch(setAuth({ isLogined: false, memberId: "" })); // 로그아웃 상태로 변경
@@ -30,26 +29,41 @@ const Header = () => {
             </Link>
           </td>
           <td id="right" align="right">
-            {!auth.isLogined ? (
-              <span className="loginButton">
-                <Link to="/member/join">회원가입</Link>
-                <Link to="/member/login">로그인</Link>
-              </span>
-            ) : (
-              <span>
-                {auth.memberId}님 환영합니다.
-                <button onClick={handleLogout}>로그아웃</button>
-              </span>
-            )}
-            <select>
-              <option>공지사항</option>
-              <option>문의게시판</option>
-              <option>1:1문의</option>
-            </select>
-            <span>
-              <Link to="/member/mypage/myorder">마이페이지</Link>
-            </span>
-            <span>장바구니</span>
+            <ul>
+              {!auth.isLogined ? (
+                <>
+                  <li>
+                    <a href="/member/join">회원가입</a>
+                  </li>
+                  <li>
+                    <a href="/member/login">로그인</a>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>{auth.memberId}님 환영합니다.</li>
+                  <li>
+                    <button onClick={handleLogout}>로그아웃</button>
+                  </li>
+                </>
+              )}
+              <li>
+                <div>
+                  고객센터
+                  <ul style={{ position: "absolute" }}>
+                    <li style={{ display: "block" }}>
+                      <a href="/board/notice/get">공지사항</a>
+                    </li>
+                    <li style={{ display: "block" }}>문의게시판</li>
+                    <li style={{ display: "block" }}>1:1문의</li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <a href="/member/mypage/myorder">마이페이지</a>
+              </li>
+              <li>장바구니</li>
+            </ul>
           </td>
         </tr>
       </table>

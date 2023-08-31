@@ -1,11 +1,60 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import redAsteriks from "../../../img/join/redAsteriks3.png";
 import { setAuth } from "../member/authSlice";
 import DaumPostcodeAPI from "../member/daumPostcodeAPI";
-const MyShipmentAdd = () => {
+
+const MyShipmentUpdate = () => {
+  const [searchParam, setSearchParam] = useSearchParams();
+  ///// 배송지 정보 가져오기/////
+  const getShipmentById = () => {
+    if (sessionStorage.getItem("loginToken")) {
+      const fdd = new FormData();
+      fdd.set("no", searchParam.get("no"));
+      fdd.set("token", sessionStorage.getItem("loginToken"));
+      axios
+        .post("http://localhost:8090/member/mypage/get.shipment", fdd)
+        .then((res) => {
+          //   alert(JSON.stringify(res.data));
+          const shipment = res.data;
+          const addr = shipment.address.split("^");
+          const phone = shipment.phone.split("-");
+          setDestination(shipment.destination);
+          setName(shipment.name);
+          setAddr({ addr1: addr[0], addr2: addr[1], addr3: addr[2] });
+          setPhone({ phone1: phone[0], phone2: phone[1], phone3: phone[2] });
+          if (shipment.tel) {
+            const tel = shipment.tel.split("-");
+            setTel({ tel1: tel[0], tel2: tel[1], tel3: tel[2] });
+          }
+          setIsDefault({
+            value: shipment.isDefault,
+            checked: shipment.isDefault === "Y" ? true : false,
+          });
+          setIsAllValidate({
+            ...isAllValidate,
+            destination: Boolean(shipment.destination),
+            name: Boolean(shipment.name),
+            address: Boolean(addr[0] && addr[1]),
+            phone: Boolean(phone[1] && phone[2]),
+          });
+        })
+        .catch(() => {
+          alert("DB통신에러. 잠시 후 다시 시도해주세요");
+          navi(-1);
+        });
+    } else {
+      alert("로그인 시간이 만료되었습니다. 로그인 후 다시 시도하여주세요.");
+      navi("/");
+    }
+  };
+
+  useEffect(() => {
+    getShipmentById();
+  }, []);
+
   const myDispatch = useDispatch();
   const navi = useNavigate();
   // 테이블 전체에 대한 키보드 이벤트 핸들러(숫자/한글 입력 구분용)//////////////////////
@@ -70,7 +119,7 @@ const MyShipmentAdd = () => {
     "019",
   ];
   const [tel, setTel] = useState({ tel1: "02", tel2: "", tel3: "" });
-  const [isDefault, setIsDefault] = useState("N");
+  const [isDefault, setIsDefault] = useState({ value: "N", checked: false });
 
   // 주소창 팝업 state - 기존값 false//
   const [addrPopup, setAddrPopup] = useState(false);
@@ -129,7 +178,9 @@ const MyShipmentAdd = () => {
   };
 
   const handleIsDefault = (e) => {
-    e.target.checked ? setIsDefault("Y") : setIsDefault("N");
+    e.target.checked
+      ? setIsDefault({ value: "Y", checked: true })
+      : setIsDefault({ value: "N", checked: false });
   };
 
   //폼 전송 전 최종 유효성 검사///////////////////////////////////////////////////////////////////////
@@ -159,65 +210,35 @@ const MyShipmentAdd = () => {
     }
     return true;
   };
-
-  /// 폼 설정//////////////////////////////////////////////////////////////////////////////////////////
-  const fd = new FormData();
-  // fd.append("id", id);
-  fd.append("destination", destination);
-  fd.append("name", name);
-  fd.append("address", addr.addr1 + "^" + addr.addr2 + "^" + addr.addr3);
-  fd.append("phone", phone.phone1 + "-" + phone.phone2 + "-" + phone.phone3);
-  if (tel.tel2 && tel.tel3) {
-    fd.append("tel", tel.tel1 + "-" + tel.tel2 + "-" + tel.tel3);
-  }
-  fd.append("regDate", new Date());
-  fd.append("isDefault", isDefault);
-
-  // 폼 전송 전 id 토큰 검사///////////////////////////////////////////////////////////////////////////
-  const getId = async () => {
-    if (sessionStorage.getItem("loginToken")) {
-      try {
-        const res = await axios.get(
-          `http://localhost:8090/member.get.loginedMember?token=${sessionStorage.getItem(
-            "loginToken"
-          )}`
-        );
-        if (res.data === "") {
-          alert("로그인 시간이 만료되었습니다. 로그인 후 다시 시도하여 주세요");
-          myDispatch(setAuth({ isLogined: false, memberId: "" }));
-          navi("/");
-        } else {
-          // alert(res.data.id);
-          fd.set("orderId", res.data.id);
-        }
-      } catch (error) {
-        alert("DB통신 에러. 잠시 후 다시 시도하여 주세요");
-        navi("/");
-      }
-    } else {
-      alert("로그인 시간이 만료되었습니다. 로그인 후 다시 시도하여 주세요");
-      myDispatch(setAuth({ isLogined: false, memberId: "" }));
-      navi("/");
-    }
-  };
   // 폼 전송/////////////////////////////////////////
-  const regShipment = async () => {
+  const updateShipment = async () => {
     if (validateMsg()) {
-      try {
-        await getId();
+      if (sessionStorage.getItem("loginToken")) {
+        const fddd = new FormData();
+        fddd.set("no", searchParam.get("no"));
+        fddd.set("token", sessionStorage.getItem("loginToken"));
+        fddd.set("destination", destination);
+        fddd.set("name", name);
+        fddd.set("address", addr.addr1 + "^" + addr.addr2 + "^" + addr.addr3);
+        fddd.set(
+          "phone",
+          phone.phone1 + "-" + phone.phone2 + "-" + phone.phone3
+        );
+        if (tel.tel2 && tel.tel3) {
+          fddd.set("tel", tel.tel1 + "-" + tel.tel2 + "-" + tel.tel3);
+        }
+        fddd.set("isDefault", isDefault.value);
+        fddd.set("regDate", new Date());
         axios
-          .post("http://localhost:8090/member/mypage/reg.shipment", fd)
+          .post("http://localhost:8090/member/mypage/update.shipment", fddd)
           .then((res) => {
-            if (res.data === "") {
-              alert("배송지는 최대 5개까지만 등록가능합니다.");
-              window.location.replace("/member/mypage/myshipment");
-            } else {
-              // alert("등록성공!");
-              window.location.replace("/member/mypage/myshipment");
-            }
+            alert(JSON.stringify(res.data));
+            window.location.replace("/member/mypage/myshipment");
           });
-      } catch (error) {
-        alert(error.message);
+      } else {
+        alert("로그인 시간이 만료되었습니다. 로그인 후 다시 시도하여 주세요");
+        myDispatch(setAuth({ isLogined: false, memberId: "" }));
+        navi("/");
       }
     }
   };
@@ -305,12 +326,12 @@ const MyShipmentAdd = () => {
                 onChange={handleAddr}
               />
               {/* <button
-              onClick={() => {
-                alert(JSON.stringify(addr));
-              }}
-            >
-              조회
-            </button> */}
+                onClick={() => {
+                  alert(JSON.stringify(addr));
+                }}
+              >
+                조회
+              </button> */}
             </td>
           </tr>
           <tr>
@@ -342,8 +363,8 @@ const MyShipmentAdd = () => {
                 onChange={handlePhone}
               />
               {/* <div>
-              {phone.phone1}-{phone.phone2}-{phone.phone3}
-            </div> */}
+                {phone.phone1}-{phone.phone2}-{phone.phone3}
+              </div> */}
             </td>
           </tr>
           <tr>
@@ -375,7 +396,7 @@ const MyShipmentAdd = () => {
           </tr>
         </table>
       </div>
-      <button onClick={regShipment}>등록</button>
+      <button onClick={updateShipment}>수정</button>
       <button
         onClick={() => {
           navi(-1);
@@ -383,10 +404,15 @@ const MyShipmentAdd = () => {
       >
         취소
       </button>
-      <input name="isDefault" type="checkbox" onChange={handleIsDefault} />
+      <input
+        name="isDefault"
+        checked={isDefault.checked}
+        type="checkbox"
+        onChange={handleIsDefault}
+      />
       기본 배송지로 지정
     </>
   );
 };
 
-export default MyShipmentAdd;
+export default MyShipmentUpdate;

@@ -3,12 +3,13 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Footer from "../basepage/footer";
 import Header from "../basepage/header";
-import MenuNavi from "../basepage/menuNavi";
 import Sidemeue from "../basepage/sideMenu";
 import { setAuth } from "../contentPage/member/authSlice";
 import "./index.css";
 import PageContentAreaRoutes from "./pageContentAreaRoutes";
 import TokenRefresher from "./tokenRefresher";
+import MenuNavi_Old from "../basepage/menuNavi_Old";
+import MenuNavi from "../basepage/menuNavi";
 
 const Index = () => {
   const myDispatch = useDispatch();

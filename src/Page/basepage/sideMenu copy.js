@@ -26,7 +26,7 @@ const SideMenu = () => {
         <button>장바구니</button>
         <button>최근 본 상품</button>
         {resentView.resentViewCodeUp && (
-          <div style={{height:"80px", width:"80px"}}>
+          <div>
             <a href={`/saldetail?id=${resentView.resentViewCodeUp}`}>
               <img
                 src={`http://localhost:8090/product/photo/${resentView.resentViewImgUp}`}
@@ -37,7 +37,7 @@ const SideMenu = () => {
           </div>
         )}
         {resentView.resentViewCodeDown && (
-          <div style={{height:"80px", width:"80px"}}>
+          <div>
             <a href={`/saldetail?id=${resentView.resentViewCodeDown}`}>
               <img
                 src={`http://localhost:8090/product/photo/${resentView.resentViewImgDown}`}

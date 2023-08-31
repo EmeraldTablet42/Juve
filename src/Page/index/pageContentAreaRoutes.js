@@ -21,6 +21,9 @@ import TokenRefresher from "./tokenRefresher";
 import { useSelector } from "react-redux";
 import Resign from "../contentPage/myPage/resign";
 import Purchase from "../contentPage/categorypage/purchase";
+import NoticeReg from "../contentPage/bbs/noticeReg";
+import NoticeGet from "../contentPage/bbs/noticeGet";
+import NoticeUpdate from "../contentPage/bbs/noticeUpdate";
 const PageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
   return (
@@ -34,9 +37,7 @@ const PageContentAreaRoutes = () => {
         <Route path="/fruit" element={<Fruit />} />
         <Route
           path="/member/join"
-          element={
-            !auth.isLogined ? <Join /> : <Navigate to={"/"} />
-          }
+          element={!auth.isLogined ? <Join /> : <Navigate to={"/"} />}
         />
         <Route path="/member/login" element={<Login />} />
         <Route path="/loginunsigned" element={<LoginUnsigned />} />
@@ -56,6 +57,9 @@ const PageContentAreaRoutes = () => {
         <Route path="/product/get" element={<ProductGet />} />
         <Route path="/product/update" element={<ProductUpdate />} />
         <Route path="/test" element={<Test />} />
+        <Route path="/board/notice/get" element={<NoticeGet />} />
+        <Route path="/board/notice/reg" element={<NoticeReg />} />
+        <Route path="/board/notice/update" element={<NoticeUpdate />} />
       </Routes>
     </div>
   );

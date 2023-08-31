@@ -1,15 +1,27 @@
-#header{
-    border-spacing: 0;
+#header {
+  border-spacing: 0;
 }
-#left{
-    width: 500px;
+#left {
+  width: 500px;
 }
-#right{
-    width: 500px;
+#right {
+  border: 1px solid black;
+  width: 500px;
 }
+
+#right li {
+  display: inline-block;
+  border: 1px solid black;
+  margin-left: 5px;
+  /* float: left; */
+}
+#right a {
+  color: black;
+}
+
 #middle {
-    width: 200px;
-  }
+  width: 200px;
+}
 #middle img {
-    width: 200px;
-  }
+  width: 200px;
+}

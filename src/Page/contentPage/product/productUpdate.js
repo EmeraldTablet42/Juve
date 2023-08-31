@@ -53,7 +53,7 @@ const ProductUpdate = () => {
 
   const photoInput = useRef();
 
-  const upload = () => {
+  const update = () => {
     // alert(JSON.stringify(productData));
     axios
       .post("http://localhost:8090/product.upload", fd, {
@@ -234,7 +234,7 @@ const ProductUpdate = () => {
       </div>
 
       <div>
-        <button onClick={upload}>상품 수정</button>
+        <button onClick={update}>상품 수정</button>
         <button onClick={show}>조회</button>
         <button
           onClick={() => {

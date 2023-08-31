@@ -6,6 +6,7 @@ import MyInfo from "./myInfo";
 import MyOrder from "./myOrder";
 import MyShipment from "./myShipment";
 import MyShipmentAdd from "./myShipmentAdd";
+import MyShipmentUpdate from "./myShipmentUpdate";
 
 const MyPageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
@@ -53,6 +54,12 @@ const MyPageContentAreaRoutes = () => {
           path="/myshipment/add"
           element={
             auth.isLogined ? <MyShipmentAdd /> : <Navigate to={"/member/login"} />
+          }
+        />
+        <Route
+          path="/myshipment/update"
+          element={
+            auth.isLogined ? <MyShipmentUpdate /> : <Navigate to={"/member/login"} />
           }
         />
       </Routes>

@@ -1,32 +1,33 @@
-.naviBackground {
-  background-color: white;
-  height: 50px;
-  width: 100%;
-  vertical-align: middle;
-  /* border: 1px solid black; */
-  border-bottom: 1px solid rgb(175, 174, 174);
+.menuNavi {
+  border-spacing: 0;
+  text-align: center;
 }
-
-.naviMenu {
+.menuNavi {
   background-color: white;
   height: 50px;
   width: 1200px;
-  text-align: center;
-  /* border: 1px solid black; */
-  margin-left: auto;
-  margin-right: auto;
+  vertical-align: middle;
+  border-bottom: 1px solid rgb(175, 174, 174);
+}
+.menuNavi .middle {
+  width: 1200px;
 }
 
-.naviMenu span {
+.menuNavi span {
   font-size: 20px;
   margin-right: 50px;
 }
 
-.naviMenu .wholeCategory {
-  font-weight: bold;
+.menuNavi a {
+  color: black;
+  text-decoration: none;
 }
 
-.naviMenu_fixed {
+.menuNavi .wholeCategory {
+  font-weight: bold;
+  text-decoration: none;
+}
+.menuNavi .middle .fixed {
   position: fixed;
   background-color: white;
   height: 40px;
@@ -36,5 +37,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 10;
+  z-index: 5000;
 }
+
+
