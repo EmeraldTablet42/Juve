@@ -2,16 +2,24 @@ import React, { useState, useEffect, useRef } from "react";
 import Count from "../components/count";
 import axios from "axios";
 import '../styles/popupcart.css';
+import { useDispatch, useSelector } from "react-redux";
+import { addMenuData } from "../components/addmenuslice";
+import { useNavigate } from "react-router-dom";
+
 const Salpopup = (props) => {
   const { productId, setPopupState, salData = {} } = props;
-  console.log(salData)
   const [count, setCount] = useState(1);
+  const addMenuDataSel = useSelector((state) => state.menu);
 
+  const navi = useNavigate();
   const handleCountChange = (newCount) => {
     if (newCount > 0) {
       setCount(newCount);
     }
   };
+   //redux
+   const dispatch = useDispatch();
+   
   //added
   const [check, setCheck] = useState({});
 
@@ -25,15 +33,22 @@ const Salpopup = (props) => {
   const addMenu = () => {
     if (sdrValue === "") {
       alert("샐러드 드레싱을 선택해주세요");
-    } else {
-      const a = Object.keys(added).length + 1;
-
-      if (added[a] === undefined) {
-        setAdded({ ...added, [a]: { productName:salData.productName ,sdrValue, smtValue, sstValue, ssmValue, counting:count } });
+    } 
+    const a = Object.keys(added).length + 1;
+    if (added[a] === undefined) {
+      const newMenuData = {
+        sdrValue,
+        smtValue,
+        sstValue,
+        ssmValue,
+        salproductName: salData.productName,
+        counting: count,
+      };
+      setAdded({ ...added, [a]: newMenuData })
       } else {
         setAdded({
           ...added,
-          [a + 1]: { productName:salData.productName, sdrValue, smtValue, sstValue, ssmValue, counting:count },
+          [a + 1]: { salproductName:salData.productName, sdrValue, smtValue, sstValue, ssmValue, counting:count },
         });
       }
       setCheck({});
@@ -41,8 +56,7 @@ const Salpopup = (props) => {
       setSmtValue([]);
       setSstValue([]);
       setSsmValue([]);
-    }
-  };
+    };
   
   //옵션데이터
   const [sdrData, setSdrData] = useState([]);
@@ -315,7 +329,8 @@ const Salpopup = (props) => {
                   (isChecked) => isChecked
                 );
                 if (hasCheckedOption || Object.keys(added).length !== 0) {
-                  window.location.href = "/purchase";
+                  dispatch(addMenuData(added));
+                  navi("/purchase");
                 } else {
                   alert("옵션을 선택하세요");
                 }

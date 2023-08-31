@@ -35,12 +35,9 @@ const Wihpopup = (props) => {
       const newMenuData = {
         wmtValue,
         wstValue,
-        productName: wihData.productName,
+        wihproductName: wihData.productName,
         counting: count,
       };
-
-      dispatch(addMenuData(newMenuData));
-
       setAdded({ ...added, [a]: newMenuData });
     } else {
       setAdded({
@@ -48,7 +45,7 @@ const Wihpopup = (props) => {
         [a + 1]: {
           wmtValue,
           wstValue,
-          productName: wihData.productName,
+          wihproductName: wihData.productName,
           counting: count,
         },
       });
@@ -217,6 +214,7 @@ const Wihpopup = (props) => {
                 );
                 if (hasCheckedOption || Object.keys(added).length !== 0) {
                   // alert(JSON.stringify(added));
+                  dispatch(addMenuData(added));
                   navi("/purchase");
                 } else {
                   alert("옵션을 선택하세요");

@@ -7,6 +7,9 @@ import Count from "../components/count";
 import Movescroll from "../components/movescroll";
 import sampleImage from "../static/saladsample.jpg";
 import Purchase from "../purchase";
+import { useDispatch, useSelector } from "react-redux";
+import { addMenuData } from "../components/addmenuslice";
+import { useNavigate } from "react-router-dom";
 
 const Saldetail = () => {
   const [detailData] = useState({});
@@ -16,6 +19,10 @@ const Saldetail = () => {
   const [sstData, setSstData] = useState([]);
   const [ssmData, setSsmData] = useState([]);
   const [count, setCount] = useState(1);
+  const addMenuDataSel = useSelector((state) => state.menu);
+
+  const navi = useNavigate();
+  const dispatch = useDispatch();
 
   const handleCountChange = (newCount) => {
     if (newCount > 0) {
@@ -68,15 +75,22 @@ const Saldetail = () => {
   const addMenu = () => {
     if (sdrValue === "") {
       alert("샐러드 드레싱을 선택해주세요");
-    } else {
-      const a = Object.keys(added).length + 1;
-
-      if (added[a] === undefined) {
-        setAdded({ ...added, [a]: { sdrValue, smtValue, sstValue, ssmValue } });
+    } 
+    const a = Object.keys(added).length + 1;
+    if (added[a] === undefined) {
+      const newMenuData = {
+        sdrValue,
+        smtValue,
+        sstValue,
+        ssmValue,
+        salproductName: salData.productName,
+        counting: count,
+      };
+      setAdded({ ...added, [a]: newMenuData })
       } else {
         setAdded({
           ...added,
-          [a + 1]: { sdrValue, smtValue, sstValue, ssmValue },
+          [a + 1]: { salproductName:salData.productName, sdrValue, smtValue, sstValue, ssmValue, counting:count },
         });
       }
       setCheck({});
@@ -84,8 +98,7 @@ const Saldetail = () => {
       setSmtValue([]);
       setSstValue([]);
       setSsmValue([]);
-    }
-  };
+    };
   //////////// 핸들러
   const handleSmtChange = (e) => {
     setCheck({ ...check, [e.target.value]: e.target.checked });
@@ -336,7 +349,8 @@ const Saldetail = () => {
                       (isChecked) => isChecked
                     );
                     if (hasCheckedOption || Object.keys(added).length !== 0) {
-                      window.location.href = "/purchase";
+                      dispatch(addMenuData(added));
+                      navi("/purchase");
                     } else {
                       alert("옵션을 선택하세요");
                     }

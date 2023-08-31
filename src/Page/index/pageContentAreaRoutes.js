@@ -24,6 +24,7 @@ import Purchase from "../contentPage/categorypage/purchase";
 import NoticeReg from "../contentPage/bbs/noticeReg";
 import NoticeGet from "../contentPage/bbs/noticeGet";
 import NoticeUpdate from "../contentPage/bbs/noticeUpdate";
+import Purchasecheck from "../contentPage/categorypage/purchasecheck";
 const PageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
   return (
@@ -53,6 +54,7 @@ const PageContentAreaRoutes = () => {
           }
         />
         <Route path="/purchase" element={<Purchase />} />
+        <Route path="/purchasecheck" element={<Purchasecheck />} />
         <Route path="/product/reg" element={<ProductReg />} />
         <Route path="/product/get" element={<ProductGet />} />
         <Route path="/product/update" element={<ProductUpdate />} />
