@@ -24,36 +24,73 @@ const Wihpopup = (props) => {
   //added
   const [check, setCheck] = useState({});
 
-  const [added, setAdded] = useState({});
+  // const [added, setAdded] = useState({});
+  const [added, setAdded] = useState([]);
   const [wmtValue, setWmtValue] = useState([]);
   const [wstValue, setWstValue] = useState([]);
-
+/////////////////////////////////////////////////////////////////GPT센세 로직///////////////////////////////
   const addMenu = () => {
-    const a = Object.keys(added).length + 1;
-
-    if (added[a] === undefined) {
-      const newMenuData = {
-        wmtValue,
-        wstValue,
-        wihproductName: wihData.productName,
-        counting: count,
-      };
-      setAdded({ ...added, [a]: newMenuData });
+    const newMenuData = {
+      wmtValue,
+      wstValue,
+      wihproductName: wihData.productName,
+      counting: count,
+    };
+  
+    // counting을 제외한 새로운 객체 생성
+    const newMenuDataWithoutCounting = { ...newMenuData };
+    delete newMenuDataWithoutCounting.counting;
+  
+    const index = added.findIndex(item => {
+      // 각 item에서 counting을 제외한 새로운 객체 생성
+      const itemWithoutCounting = { ...item };
+      delete itemWithoutCounting.counting;
+  
+      // counting을 제외한 객체끼리 비교
+      return JSON.stringify(itemWithoutCounting) === JSON.stringify(newMenuDataWithoutCounting);
+    });
+  
+    if (index !== -1) {
+      // 상태를 직접 수정하지 않고 새 배열을 생성
+      const updatedAdded = [...added];
+      updatedAdded[index].counting++;
+      setAdded(updatedAdded);
     } else {
-      setAdded({
-        ...added,
-        [a + 1]: {
-          wmtValue,
-          wstValue,
-          wihproductName: wihData.productName,
-          counting: count,
-        },
-      });
+      setAdded([...added, newMenuData]);
     }
+  
     setCheck({});
     setWmtValue([]);
     setWstValue([]);
   };
+ //////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  // const addMenu = () => {
+  //   const a = Object.keys(added).length + 1;
+
+  //   if (added[a] === undefined) {
+  //     const newMenuData = {
+  //       wmtValue,
+  //       wstValue,
+  //       wihproductName: wihData.productName,
+  //       counting: count,
+  //     };
+  //     setAdded({ ...added, [a]: newMenuData });
+  //   } else {
+  //     setAdded({
+  //       ...added,
+  //       [a + 1]: {
+  //         wmtValue,
+  //         wstValue,
+  //         wihproductName: wihData.productName,
+  //         counting: count,
+  //       },
+  //     });
+  //   }
+  //   setCheck({});
+  //   setWmtValue([]);
+  //   setWstValue([]);
+  // };
   //옵션데이터
   const [wmtData, setWmtData] = useState([]);
   const [wstData, setWstData] = useState([]);
