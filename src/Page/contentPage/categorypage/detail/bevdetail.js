@@ -5,11 +5,35 @@ import Count from "../components/count";
 import Movescroll from "../components/movescroll";
 import sampleImage from "../static/bev.jpg";
 import "../styles/scrollcss.css";
+import { useDispatch, useSelector } from "react-redux";
+import { addMenuData } from "../components/addmenuslice";
+import { useNavigate } from "react-router-dom";
 
 const Bevdetail = (detailData) => {
   const [bevData, setBevData] = useState([]);
   const [searchParam, setSearchParam] = useSearchParams();
   const [count, setCount] = useState(1);
+
+  const navi = useNavigate();
+  const dispatch = useDispatch();
+  const [added, setAdded] = useState({});
+  const addMenu = () => {
+    const a = Object.keys(added).length + 1;
+    if (added[a] === undefined) {
+      const newMenuData = {
+        bevproductName: bevData.productName,
+        counting: count,
+      };
+      setAdded({ ...added, [a]: newMenuData });
+    } else {
+      setAdded({
+        ...added,
+        [a + 1]: { bevproductName: bevData.productName, counting: count },
+      });
+    }
+    setCount(1);
+  };
+
   const handleCountChange = (newCount) => {
     if (newCount > 0) {
       setCount(newCount);
@@ -49,11 +73,31 @@ const Bevdetail = (detailData) => {
             <p>상 품 : {bevData.productName}</p>
             <p>가 격 : {bevData.productPrice}</p>
             <Count count={count} setCount={handleCountChange} />
-          </div>
-          <div>
             <span>
-              <Link to="/purchase">구매예약</Link>
-            </span>
+          <button
+            onClick={() => {
+              dispatch(addMenuData(added));
+              navi("/purchase");
+            }}>구매예약
+          </button>
+          </span>
+          <button onClick={addMenu}>메뉴담기</button>
+        <button
+            onClick={() => {
+              setAdded({});
+            }}
+          >
+            메뉴 초기화
+          </button>
+          <div>
+            {Object.keys(added).map((i) => (
+              <div className="added-text" key={i}>
+                <p>{i}</p>
+                <p>상 품 명 : {added[i].productName}</p>
+                <p>수 량: {added[i].counting}</p>
+              </div>
+            ))}
+          </div>
           </div>
         </div>
       </div>

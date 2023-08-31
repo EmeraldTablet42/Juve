@@ -75,7 +75,11 @@ const Purchase = () => {
   return (
     <div>
       <div>
-        <p>주문정보</p>
+        <div style={{textAlign:"center", margin:"40px", top:"10px"}}>
+          <p>주문이 완료되었습니다</p>
+          <p>고객님의 주문번호는</p>
+          <p>[날짜a0001] 입니다.</p>
+        </div>
         <table id="basicInfo" className="joinTbl" onKeyDown={handleKeyEvent}>
           <tr>
             <th className="col1">이름</th>
@@ -134,133 +138,8 @@ const Purchase = () => {
         </table>
       </div>
       <div>
-        <p>배송지</p>
-        <table id="basicInfo" className="joinTbl" onKeyDown={handleKeyEvent}>
-          <tr>
-            <th className="col1">이름</th>
-            <td>
-              {/* <input name="name" value={name} onChange={handleName} /> */}
-            </td>
-          </tr>
-          <tr>
-            <th className="col1" rowSpan={3} valign="top">
-              주소
-            </th>
-            <td>
-              {/* <input
-                name="addr1"
-                placeholder="우편번호"
-                value={addr.addr1}
-                onChange={handleAddr}
-                readOnly
-              />
-              <button onClick={handleAddrPopup}>주소 검색</button>
-              {addrPopup && (
-                <DaumPostcodeAPI
-                  addr={addr}
-                  setAddr={setAddr}
-                  addrPopup={addrPopup}
-                  setAddrPopup={setAddrPopup}
-                />
-              )} */}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              {/* <input
-                name="addr2"
-                placeholder="기본주소"
-                value={addr.addr2}
-                onChange={handleAddr}
-                readOnly
-              /> */}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              {/* <input
-                name="addr3"
-                placeholder="상세주소"
-                value={addr.addr3}
-                onChange={handleAddr}
-              /> */}
-            </td>
-          </tr>
-          <tr>
-            <th className="col1">휴대전화</th>
-            <td>
-              {/* <select name="phone1" value={phone.phone1} onChange={handlePhone}>
-                {phoneArr.map((item) => (
-                  <option value={item} key={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>{" "}
-              -{" "}
-              <input
-                name="phone2"
-                maxLength={4}
-                value={phone.phone2}
-                onChange={handlePhone}
-              />{" "}
-              -{" "}
-              <input
-                name="phone3"
-                maxLength={4}
-                value={phone.phone3}
-                onChange={handlePhone}
-              /> */}
-            </td>
-          </tr>
-          <tr>
-            <th className="col1">일반전화</th>
-            <td>
-              {/* <select name="tel1" value={tel.tel1} onChange={handleTel}>
-                {telArr.map((item) => (
-                  <option value={item} key={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-              -{" "}
-              <input
-                name="tel2"
-                maxLength={4}
-                value={tel.tel2}
-                onChange={handleTel}
-              />{" "}
-              -{" "}
-              <input
-                name="tel3"
-                maxLength={4}
-                value={tel.tel3}
-                onChange={handleTel}
-              /> */}
-            </td>
-          </tr>
-          <tr>
-            <th className="col1">이메일</th>
-            <td>
-              {/* <input name="email" value={email} onChange={handleEmail} />
-              <span> {verifyEmailMsg}</span> */}
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div>
-        <select>
-          <option value="" hidden>
-            추가메세지
-          </option>
-          <option>배송전 연락주세요</option>
-          <option>직접방문할게요</option>
-          <option>계좌이체하겠습니다</option>
-        </select>
-      </div>
-      <div>
         <div>
           <p>주문 상품</p>
-          <button onClick={() => { alert(JSON.stringify(addedMenus)) }}></button>
           {addedMenus.map((menu, index) => (
             <div key={index}>
               {menu.salproductName && <p>상 품 명: {menu.salproductName}</p>}
@@ -278,15 +157,7 @@ const Purchase = () => {
           ))}
         </div>
       </div>
-      <div>마일리지</div>
-      <div>
-        <h3>결제정보</h3>
-        <p>주문상품(총가격)</p>
-        <p>배송비 : 4000원</p>
-      </div>
-      <button>
-        <Link to="/purchasecheck">예약하기</Link>
-      </button>
+      <button><Link to="/">메인 화면으로</Link></button>
     </div>
   );
 };

@@ -5,17 +5,39 @@ import Count from "../components/count";
 import Movescroll from "../components/movescroll";
 import sampleImage from "../static/cup.jpg";
 import "../styles/scrollcss.css";
+import { useDispatch, useSelector } from "react-redux";
+import { addMenuData } from "../components/addmenuslice";
+import { useNavigate } from "react-router-dom";
 
 const Cupdetail = (detailData) => {
   const [cupData, setCupData] = useState([]);
   const [searchParam, setSearchParam] = useSearchParams();
   const [count, setCount] = useState(1);
+  const navi = useNavigate();
+
   const handleCountChange = (newCount) => {
     if (newCount > 0) {
       setCount(newCount);
     }
   };
+  const dispatch = useDispatch();
+  const [added, setAdded] = useState({});
 
+  const addMenu = () => {
+    const a = Object.keys(added).length + 1;
+    if (added[a] === undefined) {
+      const newMenuData = {
+        cupproductName: cupData.productName,
+        counting: count,
+      };
+      setAdded({ ...added, [a]: newMenuData });
+    } else {
+      setAdded({
+        ...added,
+        [a + 1]: { cupproductName: cupData.productName, counting: count },
+      });
+    }
+  };
   useEffect(() => {
     axios
       .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
@@ -52,11 +74,33 @@ const Cupdetail = (detailData) => {
             <p>상 품 : {cupData.productName}</p>
             <p>가 격 : {cupData.productPrice}</p>
             <Count count={count} setCount={handleCountChange} />
-          </div>
-          <div>
             <span>
-              <Link to="/purchase">구매예약</Link>
+              <button
+                onClick={() => {
+                  dispatch(addMenuData(added));
+                  navi("/purchase");
+                }}
+              >
+                구매예약
+              </button>
             </span>
+            <button onClick={addMenu}>메뉴담기</button>
+            <button
+              onClick={() => {
+                setAdded({});
+              }}
+            >
+              메뉴 초기화
+            </button>
+            <div>
+              {Object.keys(added).map((i) => (
+                <div className="added-text" key={i}>
+                  <p>{i}</p>
+                  <p>상 품 명 : {added[i].productName}</p>
+                  <p>수 량: {added[i].counting}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

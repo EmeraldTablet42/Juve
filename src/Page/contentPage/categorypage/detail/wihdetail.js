@@ -6,17 +6,22 @@ import { Link, useSearchParams } from "react-router-dom";
 import Count from "../components/count";
 import Movescroll from "../components/movescroll";
 import sampleImage from "../static/sand.png";
-
+import { useDispatch, useSelector } from "react-redux";
+import { addMenuData } from "../components/addmenuslice";
+import { useNavigate } from "react-router-dom";
 const Wihdetail = () => {
   const [wihData, setWihData] = useState([]);
   const [wmtData, setWmtData] = useState([]);
   const [wstData, setWstData] = useState([]);
 
-
   const [isOpenWmt, setIsOpenWmt] = useState(false);
   const [isOpenWst, setIsOpenWst] = useState(false);
 
   const [count, setCount] = useState(1);
+  const addMenuDataSel = useSelector((state) => state.menu);
+
+  const navi = useNavigate();
+
   const handleCountChange = (newCount) => {
     if (newCount > 0) {
       setCount(newCount);
@@ -78,7 +83,7 @@ const Wihdetail = () => {
     });
   }, []);
   const [wmtValue, setWmtValue] = useState([]);
-  
+
   const handleWmtChange = (e) => {
     setCheck({ ...check, [e.target.value]: e.target.checked });
     if (e.target.checked) {
@@ -110,23 +115,34 @@ const Wihdetail = () => {
     setIsOpenWst(!isOpenWst);
     setIsOpenWmt(false);
   };
-
+  const dispatch = useDispatch();
   const [added, setAdded] = useState({});
 
   const addMenu = () => {
-      const a = Object.keys(added).length + 1;
+    const a = Object.keys(added).length + 1;
 
-      if (added[a] === undefined) {
-        setAdded({ ...added, [a]: { wmtValue, wstValue} });
-      } else {
-        setAdded({
-          ...added,
-          [a + 1]: { wmtValue, wstValue},
-        });
-      }
-      setCheck({});
-      setWmtValue([]);
-      setWstValue([]);
+    if (added[a] === undefined) {
+      const newMenuData = {
+        wmtValue,
+        wstValue,
+        wihproductName: wihData.productName,
+        counting: count,
+      };
+      setAdded({ ...added, [a]: newMenuData });
+    } else {
+      setAdded({
+        ...added,
+        [a + 1]: {
+          wmtValue,
+          wstValue,
+          wihproductName: wihData.productName,
+          counting: count,
+        },
+      });
+    }
+    setCheck({});
+    setWmtValue([]);
+    setWstValue([]);
   };
   const productTabs = {
     0: Movescroll("상품 상세"),
@@ -202,7 +218,8 @@ const Wihdetail = () => {
                     (isChecked) => isChecked
                   );
                   if (hasCheckedOption || Object.keys(added).length !== 0) {
-                    window.location.href = "/purchase";
+                    dispatch(addMenuData(added));
+                    navi("/purchase");
                   } else {
                     alert("옵션을 선택하세요");
                   }
@@ -223,14 +240,14 @@ const Wihdetail = () => {
               메뉴 초기화
             </button>
             <div>
-                {Object.keys(added).map((i) => (
-                  <div className="added-text" key={i}>
-                    <p>{i}</p>
-                    <p>메인 토핑: {added[i].wmtValue}</p>
-                    <p>서브 토핑: {added[i].wstValue}</p>
-                  </div>
-                ))}
-              </div>
+              {Object.keys(added).map((i) => (
+                <div className="added-text" key={i}>
+                  <p>{i}</p>
+                  <p>메인 토핑: {added[i].wmtValue}</p>
+                  <p>서브 토핑: {added[i].wstValue}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
