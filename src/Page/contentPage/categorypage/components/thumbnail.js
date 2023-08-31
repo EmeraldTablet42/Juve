@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { setResentView } from "../../../basepage/resentViewSlice";
 import Bevdetail from "../detail/bevdetail";
 import Cupdetail from "../detail/cupdetail";
@@ -11,6 +11,7 @@ import Salpopup from "../popup/salpopup";
 import Cuppopup from "../popup/cuppopup";
 import Wihpopup from "../popup/wihpopup";
 import Bevpopup from "../popup/bevpopup";
+import { addMenuData, resetMenuData } from "./addmenuslice";
 const Thumbnail = ({ productData }) => {
   // redux에 등록한 slice 편집을 위한 DisPatch
   const myDispatch = useDispatch();
@@ -19,7 +20,11 @@ const Thumbnail = ({ productData }) => {
   const [popupState, setPopupState] = useState(false);
   const [selectedData, setSelectedData] = useState();
 
+  // 장바구니 초기화용 dispatch
+  const dispatch = useDispatch((state) => state.menu);
+
   const goToCart = (product) => {
+    dispatch(resetMenuData()); // 장바구니 초기화
     setSelectedData(product); // 선택된 데이터 설정
     setPopupState(true);
   };

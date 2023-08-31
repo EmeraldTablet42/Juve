@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import Count from "../components/count";
 import axios from "axios";
-import '../styles/popupcart.css';
-import { useDispatch } from "react-redux";
-import {addMenuData} from '../components/addmenuslice'
+import "../styles/popupcart.css";
+import { useDispatch, useSelector } from "react-redux";
+import { addMenuData } from "../components/addmenuslice";
+import { useNavigate } from "react-router-dom";
 const Wihpopup = (props) => {
   const { productId, setPopupState, wihData = {} } = props;
   const [count, setCount] = useState(1);
+  const addMenuDataSel = useSelector((state) => state.menu);
+
+  /// navi
+  const navi = useNavigate();
 
   const handleCountChange = (newCount) => {
     if (newCount > 0) {
@@ -25,7 +30,7 @@ const Wihpopup = (props) => {
 
   const addMenu = () => {
     const a = Object.keys(added).length + 1;
-  
+
     if (added[a] === undefined) {
       const newMenuData = {
         wmtValue,
@@ -33,14 +38,19 @@ const Wihpopup = (props) => {
         productName: wihData.productName,
         counting: count,
       };
-  
+
       dispatch(addMenuData(newMenuData));
-  
+
       setAdded({ ...added, [a]: newMenuData });
     } else {
       setAdded({
         ...added,
-        [a + 1]: { wmtValue, wstValue, productName: wihData.productName, counting: count },
+        [a + 1]: {
+          wmtValue,
+          wstValue,
+          productName: wihData.productName,
+          counting: count,
+        },
       });
     }
     setCheck({});
@@ -118,11 +128,10 @@ const Wihpopup = (props) => {
     };
   }, [isOpenWmt]);
 
-  
   const DropdownWst = () => {
-      setIsOpenWst(!isOpenWst);
-      setIsOpenWmt(false);
-    };
+    setIsOpenWst(!isOpenWst);
+    setIsOpenWmt(false);
+  };
 
   useEffect(() => {
     const onClick = (e) => {
@@ -139,28 +148,23 @@ const Wihpopup = (props) => {
   }, [isOpenWst]);
   ///////////////////
 
-  
   return (
     <div className="popupcart-wrapper">
       <button className="popupcart-close" onClick={() => setPopupState(false)}>
         x
       </button>
       <div className="popup-image">
-          <img
-            src={`http://localhost:8090/product/photo/${wihData.productPhoto}`}
-            alt="상품 이미지"
-            style={{ width: "300px" }}
-          />
-        </div>
+        <img
+          src={`http://localhost:8090/product/photo/${wihData.productPhoto}`}
+          alt="상품 이미지"
+          style={{ width: "300px" }}
+        />
+      </div>
       <h2 className="popupcart-productname">{wihData.productName}</h2>
       <h2 className="popupcart-productname">{wihData.productPrice}</h2>
       <div className="sdrOption">
         <div className="dropdown" ref={ref}>
-          <div
-            id="wmtPopup"
-            className="dropdown-header"
-            onClick={handlePopup}
-          >
+          <div id="wmtPopup" className="dropdown-header" onClick={handlePopup}>
             메인토핑 (다중 선택 가능)
           </div>
           {popUp.wmtPopup && (
@@ -181,11 +185,7 @@ const Wihpopup = (props) => {
               ))}
             </ul>
           )}
-          <div
-            id="wstPopup"
-            className="dropdown-header"
-            onClick={handlePopup}
-          >
+          <div id="wstPopup" className="dropdown-header" onClick={handlePopup}>
             서브 토핑 (다중 선택 가능)
           </div>
           {popUp.wstPopup && (
@@ -216,7 +216,8 @@ const Wihpopup = (props) => {
                   (isChecked) => isChecked
                 );
                 if (hasCheckedOption || Object.keys(added).length !== 0) {
-                  window.location.href = "/purchase";
+                  // alert(JSON.stringify(added));
+                  navi("/purchase");
                 } else {
                   alert("옵션을 선택하세요");
                 }
@@ -224,7 +225,6 @@ const Wihpopup = (props) => {
             >
               구매예약
             </button>
-            
           </span>
           <button onClick={addMenu}>메뉴담기</button>
           <button

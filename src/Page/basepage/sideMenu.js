@@ -17,7 +17,7 @@ const SideMenu = () => {
     );
   };
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  const addMenuDataSel = useSelector((state) => state.menu);
   const resentView = useSelector((state) => state.rsntView);
   return (
     <div className="sidmenu">
@@ -51,6 +51,11 @@ const SideMenu = () => {
       </div>
       <div className="sidemenu-top">
         <Top />
+      </div>
+      <div>
+        <button onClick={() => { 
+          alert(JSON.stringify(addMenuDataSel));
+         }}>addMenuDataSel조회</button>
       </div>
     </div>
   );

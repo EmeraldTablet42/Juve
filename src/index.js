@@ -12,7 +12,9 @@ import storage from "redux-persist/lib/storage";
 // import storageSession from "redux-persist/lib/storage/session"
 import { PersistGate } from "redux-persist/integration/react";
 import resentViewSlice from "./Page/basepage/resentViewSlice";
-import menuReducer from './Page/contentPage/categorypage/components/addmenuslice';
+import menuReducer from "./Page/contentPage/categorypage/components/addmenuslice";
+import addmenuslice from "./Page/contentPage/categorypage/components/addmenuslice";
+import ScrollToTop from "./Page/index/scrollToTop";
 
 const persistConfig = {
   key: "root",
@@ -21,14 +23,18 @@ const persistConfig = {
 
 const persistedAuthReducer = persistReducer(persistConfig, authSlice);
 
-const persistedResentViewReducer = persistReducer(persistConfig,resentViewSlice);
+const persistedResentViewReducer = persistReducer(
+  persistConfig,
+  resentViewSlice
+);
+
 
 // store
 // reducer(slice) 등록
 const storee = configureStore({
   reducer: {
     authindex: persistedAuthReducer,
-    rsntView:persistedResentViewReducer,
+    rsntView: persistedResentViewReducer,
     menu: menuReducer,
   },
 });
@@ -46,6 +52,7 @@ root.render(
   <Provider store={storee}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
+      <ScrollToTop/>
         <App />
       </BrowserRouter>
     </PersistGate>
@@ -54,10 +61,10 @@ root.render(
 );
 
 // Add the 'beforeunload' event listener after rendering the React app
-window.addEventListener('beforeunload', (event) => {
+window.addEventListener("beforeunload", (event) => {
   // Access the isLogined value from local storage directly
-  const isLogined = JSON.parse(localStorage.getItem('persist:root')).auth;
-  
+  const isLogined = JSON.parse(localStorage.getItem("persist:root")).auth;
+
   // If the user is logged in, dispatch the logout action
   if (isLogined) {
     storee.dispatch(setAuth({ isLogined: false, memberId: "" }));
