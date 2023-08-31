@@ -36,7 +36,6 @@
   
   .checkbox-list {
     position: absolute;
-    top: 100%; /* 드롭다운 메뉴가 헤더 아래에 나타나도록 설정 */
     left: 0;
     z-index: 1000; /* 다른 컨텐츠 위에 나타나도록 설정 */
     background-color: white;

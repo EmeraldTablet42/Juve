@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { setResentView } from "../../../basepage/resentViewSlice";
 import Bevdetail from "../detail/bevdetail";
 import Cupdetail from "../detail/cupdetail";
 import Saldetail from "../detail/saldetail";
 import Wihdetail from "../detail/wihdetail";
 import "../styles/thumbnail.css";
-import Popupcart from "./popupcart";
+import Salpopup from "../popup/salpopup";
+import Cuppopup from "../popup/cuppopup";
+import Wihpopup from "../popup/wihpopup";
+import Bevpopup from "../popup/bevpopup";
 const Thumbnail = ({ productData }) => {
   // redux에 등록한 slice 편집을 위한 DisPatch
   const myDispatch = useDispatch();
@@ -15,7 +18,10 @@ const Thumbnail = ({ productData }) => {
   const resentView = useSelector((state) => state.rsntView);
   const [popupState, setPopupState] = useState(false);
   const [selectedData, setSelectedData] = useState();
-  const goToCart = () => {
+  const [searchParam, setSearchParam] = useSearchParams();
+
+  const goToCart = (product) => {
+    setSelectedData(product); // 선택된 데이터 설정
     setPopupState(true);
   };
 
@@ -34,10 +40,6 @@ const Thumbnail = ({ productData }) => {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     setSelectedData(product);
   };
-
-  // 버뀌어서 여기자체에서는 잘 담기는데 Link클릭해서 ㅍ이지넘어갈떄 그데이터값들이
-  // 같이안넘어가짐
-  // Link
 
   return (
     <div className="product-thumbnail-wrapper">
@@ -64,7 +66,6 @@ const Thumbnail = ({ productData }) => {
                 style={{ width: "300px", height: "300px" }}
                 onClick={() => {
                   handleImageClick(product);
-                  console.log(selectedData);
                 }}
               />
             </Link>
@@ -76,12 +77,34 @@ const Thumbnail = ({ productData }) => {
             </div>
             {popupState && (
               <div className="cart-popup-wrapper">
-                <Popupcart
-                  productData={productData}
-                  productId={product.productCode}
-                  setPopupState={setPopupState}
-                  userInfo={{ username: "고건영", userPk: 1 }}
-                />
+                {product.category === "SAL" && (
+                  <Salpopup
+                    searchParam={searchParam}
+                    productId={product.productCode}
+                    setPopupState={setPopupState}
+                  />
+                )}
+                {product.category === "WIH" && (
+                  <Wihpopup
+                    searchParam={searchParam}
+                    productId={product.productCode}
+                    setPopupState={setPopupState}
+                  />
+                )}
+                {product.category === "CUP" && (
+                  <Cuppopup
+                    searchParam={searchParam}
+                    productId={product.productCode}
+                    setPopupState={setPopupState}
+                  />
+                )}
+                {product.category === "BEV" && (
+                  <Bevpopup
+                    searchParam={searchParam}
+                    productId={product.productCode}
+                    setPopupState={setPopupState}
+                  />
+                )}
               </div>
             )}
           </div>
