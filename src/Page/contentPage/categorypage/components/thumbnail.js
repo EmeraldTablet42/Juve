@@ -24,7 +24,7 @@ const Thumbnail = ({ productData }) => {
   const dispatch = useDispatch((state) => state.menu);
 
   const goToCart = (product) => {
-    dispatch(resetMenuData()); // 장바구니 초기화
+    // dispatch(resetMenuData()); // 장바구니 초기화
     setSelectedData(product); // 선택된 데이터 설정
     setPopupState(true);
   };
