@@ -125,6 +125,10 @@ const Salpopup = (props) => {
   };
   ///////////////////////////
 
+  const handleClick=(e)=>{
+    dispatch(addMenuData(added));
+    addMenuDataSel && alert(JSON.stringify(addMenuDataSel));
+  }
   /////////////드롭다운
   const [isOpenSst, setIsOpenSst] = useState(false);
   const [isOpenSmt, setIsOpenSmt] = useState(false);
@@ -352,6 +356,7 @@ const Salpopup = (props) => {
           >
             메뉴 초기화
           </button>
+          <button onClick={handleClick}>장바구니에 추가</button>
           <div>
             {Object.keys(added).map((i) => (
               <div className="added-text" key={i}>

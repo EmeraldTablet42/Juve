@@ -10,6 +10,7 @@ import Purchase from "../purchase";
 import { useDispatch, useSelector } from "react-redux";
 import { addMenuData } from "../components/addmenuslice";
 import { useNavigate } from "react-router-dom";
+import Review from "../components/review";
 
 const Saldetail = () => {
   const [detailData] = useState({});
@@ -75,7 +76,7 @@ const Saldetail = () => {
   const addMenu = () => {
     if (sdrValue === "") {
       alert("샐러드 드레싱을 선택해주세요");
-    } 
+    }
     const a = Object.keys(added).length + 1;
     if (added[a] === undefined) {
       const newMenuData = {
@@ -86,19 +87,26 @@ const Saldetail = () => {
         salproductName: salData.productName,
         counting: count,
       };
-      setAdded({ ...added, [a]: newMenuData })
-      } else {
-        setAdded({
-          ...added,
-          [a + 1]: { salproductName:salData.productName, sdrValue, smtValue, sstValue, ssmValue, counting:count },
-        });
-      }
-      setCheck({});
-      setSdrValue("");
-      setSmtValue([]);
-      setSstValue([]);
-      setSsmValue([]);
-    };
+      setAdded({ ...added, [a]: newMenuData });
+    } else {
+      setAdded({
+        ...added,
+        [a + 1]: {
+          salproductName: salData.productName,
+          sdrValue,
+          smtValue,
+          sstValue,
+          ssmValue,
+          counting: count,
+        },
+      });
+    }
+    setCheck({});
+    setSdrValue("");
+    setSmtValue([]);
+    setSstValue([]);
+    setSsmValue([]);
+  };
   //////////// 핸들러
   const handleSmtChange = (e) => {
     setCheck({ ...check, [e.target.value]: e.target.checked });
@@ -407,7 +415,10 @@ const Saldetail = () => {
         </div>
 
         <div ref={productTabs[1].element}>
-          <h1>리뷰</h1>
+          <h1 style={{ display: "none" }}>리뷰</h1>
+        </div>
+        <div>
+          <Review />
         </div>
         {false && <Purchase addData={added} />}
         <div ref={productTabs[2].element}>
