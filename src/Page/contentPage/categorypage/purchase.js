@@ -260,7 +260,7 @@ const Purchase = () => {
       <div>
         <div>
           <p>주문 상품</p>
-          <button onClick={() => { alert(JSON.stringify(addedMenus)) }}></button>
+          <button onClick={() => { alert(JSON.stringify(addedMenus[0])) }}></button>
           {addedMenus.map((menu, index) => (
             <div key={index}>
               {menu.salproductName && <p>상 품 명: {menu.salproductName}</p>}
