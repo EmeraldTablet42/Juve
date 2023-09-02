@@ -30,6 +30,7 @@ import ConsultListGet from "../contentPage/bbs/consult/consultListGet";
 import ConsultGet from "../contentPage/bbs/consult/consultGet";
 import ConsultReg from "../contentPage/bbs/consult/consultReg";
 import ConsultUpdate from "../contentPage/bbs/consult/consultUpdate";
+import Cart from "../contentPage/categorypage/cart/cart";
 const PageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
   return (
@@ -72,6 +73,7 @@ const PageContentAreaRoutes = () => {
         <Route path="/board/consult/get" element={<ConsultGet />} />
         <Route path="/board/consult/reg" element={<ConsultReg />} />
         <Route path="/board/consult/update" element={<ConsultUpdate />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </div>
   );

@@ -1,0 +1,22 @@
+.header-main {
+    display: flex;
+    margin: 30px;
+    width: 1200px;
+}
+.product-info {
+    display: flex;
+    width: 1200px;
+}
+.product-info-all{
+    display: flex;
+    width: 600px;
+}
+.product-info-all .info-all-image {
+    width: 300px;
+}
+.product-info-all .info-all-detail {
+    width: 300px;
+}
+.product-info-purchase{
+    width: 200px;
+}

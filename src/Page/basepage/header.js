@@ -4,6 +4,7 @@ import juveLogo from "../../img/header/juve_logo.png";
 import "../css/header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "../contentPage/member/authSlice";
+import Cart from "../contentPage/categorypage/cart/cart";
 const Header = () => {
   const auth = useSelector((state) => state.authindex);
   const myDispatch = useDispatch();
@@ -63,7 +64,7 @@ const Header = () => {
               <li>
                 <a href="/member/mypage/myorder">마이페이지</a>
               </li>
-              <li>장바구니</li>
+              <li><a href="/cart">장바구니</a></li>
             </ul>
           </td>
         </tr>
