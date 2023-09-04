@@ -1,65 +1,51 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import "../../bbs/ckeditor5.css";
+import sampleimage from "../static/sal1.jpg"
 const Review = () => {
-  const addedMenus = useSelector((state) => state.menu);
-  const [reviews, setReviews] = useState([]);
-  const [newReview, setNewReview] = useState("");
+  const [editorData, setEditorData] = useState("");
+  const [review, setReview] = useState([]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-  const handleReviewChange = (e) => {
-    setNewReview(e.target.value);
+  const handleEditorChange = (event, editor) => {
+    const data = editor.getData();
+    setEditorData(data);
+
+    setIsButtonDisabled(data.trim() === "");
   };
+  const handleReviewCheck = () => {
+    const newReview = {
+      id: Date.now(), 
+      photo:sampleimage,
+      content: editorData, 
+    };
 
-  const handleReviewSubmit = () => {
-    if (newReview.trim() !== "") {
-      setReviews([...reviews, newReview]);
-      setNewReview("");
-    }
+    setReview([...review, newReview]);
+    setEditorData("");
+    setIsButtonDisabled(true);
   };
-
   return (
-    <div className="review-board">
-      <h2 style={{ textAlign: "center" }}>리뷰 작성 게시판</h2>
-      <div className="review-form" style={{ alignItems: "center" }}>
-        <textarea
-          value={newReview}
-          onChange={handleReviewChange}
-          placeholder="리뷰를 작성해주세요."
-          style={{ width: "1200px", height: "200px" }}
-        />
-        <div
-          className="btn"
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-          <button onClick={handleReviewSubmit} style={{ width: "200px" }}>
-            리뷰 작성
-          </button>
-        </div>
+    <>
+    <div>
+      <h2>리뷰 등록</h2>
+      <CKEditor
+        editor={ClassicEditor}
+        data={editorData}
+        onChange={handleEditorChange}
+      />
       </div>
-      <div className="review-list">
-        <hr style={{ margin: "10px 0", border: "1px solid #ccc" }} />
-        <table
-          style={{
-            width: "1200px",
-            border: "1px solid black",
-            borderCollapse: "collapse",
-          }}
-        >
-          <tbody>
-            <tr>
-              <th>리뷰 확인하기</th>
-            </tr>
-            {reviews.map((review, index) => (
-              <tr key={index} style={{ height: "200px" }}>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  {review}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <button onClick={handleReviewCheck} disabled={isButtonDisabled}>리뷰작성</button>
+      <div>
+        {review.map((review) => (
+          <div key={review.id}>
+            <h3>리뷰 ID: {review.id}</h3>
+            <img src={sampleimage} alt="상품이미지" style={{width:"100px", height:"100px"}}/>
+            <p>{review.content}</p>
+          </div>
+        ))}
       </div>
-    </div>
+    </>
   );
 };
 
