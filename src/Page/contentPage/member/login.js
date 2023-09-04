@@ -87,6 +87,11 @@ const Login = () => {
               value={loginInput.password}
               placeholder="비밀번호"
               onChange={handleLoginInput}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  getLoginToken();
+                }
+              }}
               type="password"
             />
           </td>

@@ -169,14 +169,31 @@ const Wihdetail = () => {
     setAdded(updatedAdded); // 업데이트된 배열로 상태 업데이트
   };
 
+  const auth = useSelector((state) => state.authindex);
   const goCart = (e) => {
-    // dispatch(setCart(added));
     if (added.length === 0) {
       alert("메뉴를 추가해주세요.");
       return null;
     }
-    dispatch(setCart(added));
+    regCartDB();
+    if (!auth.isLogined) {
+      dispatch(setCart(added));
+    }
     dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
+  };
+
+  const regCartDB = () => {
+    alert(JSON.stringify(added));
+    axios
+      .post("http://localhost:8090/order/reg.cart", added, {
+        headers: {
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("loginToken"),
+        },
+      })
+      .then((res) => {
+        alert(res.data);
+      });
   };
 
   const DropdownWmt = () => {

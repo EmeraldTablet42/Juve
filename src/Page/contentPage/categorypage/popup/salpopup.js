@@ -23,6 +23,7 @@ const Salpopup = (props) => {
   const { setPopupState, salData = {} } = props;
   const [count, setCount] = useState(1);
   const addMenuDataSel = useSelector((state) => state.cart);
+  const auth = useSelector((state) => state.authindex);
 
   const cTn = useSelector((state) => state.codeToName).productCodeToName;
   const navi = useNavigate();
@@ -191,15 +192,32 @@ const Salpopup = (props) => {
   };
 
   const goCart = (e) => {
-    // dispatch(setCart(added));
     if (added.length === 0) {
       alert("메뉴를 추가해주세요.");
       return null;
     }
-    dispatch(setCart(added));
+    regCartDB();
+    if (!auth.isLogined) {
+      dispatch(setCart(added));
+    }
     setPopupState(false);
     dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
   };
+
+  const regCartDB = () => {
+    alert(JSON.stringify(added));
+    axios
+      .post("http://localhost:8090/order/reg.cart", added, {
+        headers: {
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("loginToken"),
+        },
+      })
+      .then((res) => {
+        alert(res.data);
+      });
+  };
+
   /////////////드롭다운
   const [isOpenSst, setIsOpenSst] = useState(false);
   const [isOpenSmt, setIsOpenSmt] = useState(false);

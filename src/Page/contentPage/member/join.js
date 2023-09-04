@@ -310,14 +310,24 @@ const Join = () => {
   const reg = () => {
     const validAll = validateAll(isAllValidate);
     if (validAll.validation) {
-      axios.post("http://localhost:8090/member/reg", fd).then((res) => {
-        console.log(isAllValidate.terms);
-        alert("회원가입 완료");
-        navi("/");
-      });
+      axios
+        .post("http://localhost:8090/member/reg", fd)
+        .then((res) => {
+          if (res.data === "") {
+            alert("잘못된 요청입니다.");
+            navi("/");
+            return null;
+          }
+          // alert(JSON.stringify(res.data));
+          alert("회원가입 완료");
+          navi("/");
+        })
+        .catch(() => {
+          alert("DB통신에러. 잠시 후 다시 가입해주세요.");
+          navi("/");
+        });
     } else {
       alert(validAll.msg);
-      console.log(isAllValidate.terms);
     }
   };
   ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -395,7 +405,12 @@ const Join = () => {
             <RedAs />
           </th>
           <td>
-            <input name="name" value={name} onChange={handleName} />
+            <input
+              name="name"
+              maxLength={4}
+              value={name}
+              onChange={handleName}
+            />
           </td>
         </tr>
         <tr>

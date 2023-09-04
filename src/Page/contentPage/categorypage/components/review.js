@@ -1,8 +1,9 @@
-import React, { useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import Editor from "ckeditor5-custom-build";
+import React, { useState } from "react";
 import "../../bbs/ckeditor5.css";
-import sampleimage from "../static/sal1.jpg"
+import sampleimage from "../static/sal1.jpg";
+import Parser from "html-react-parser";
 const Review = () => {
   const [editorData, setEditorData] = useState("");
   const [review, setReview] = useState([]);
@@ -30,7 +31,7 @@ const Review = () => {
     <div>
       <h2>리뷰 등록</h2>
       <CKEditor
-        editor={ClassicEditor}
+        editor={Editor}
         data={editorData}
         onChange={handleEditorChange}
       />
@@ -41,7 +42,7 @@ const Review = () => {
           <div key={review.id}>
             <h3>리뷰 ID: {review.id}</h3>
             <img src={sampleimage} alt="상품이미지" style={{width:"100px", height:"100px"}}/>
-            <p>{review.content}</p>
+            <p>{Parser(review.content)}</p>
           </div>
         ))}
       </div>
