@@ -53,10 +53,11 @@ const Header = () => {
                   고객센터
                   <ul style={{ position: "absolute" }}>
                     <li style={{ display: "block" }}>
-                      <a href="/board/notice/get">공지사항</a>
+                      <a href="/board/notice/list">공지사항</a>
                     </li>
-                    <li style={{ display: "block" }}>문의게시판</li>
-                    <li style={{ display: "block" }}>1:1문의</li>
+                    <li style={{ display: "block" }}>
+                      <a href="/board/consult/list">문의게시판</a>
+                    </li>
                   </ul>
                 </div>
               </li>

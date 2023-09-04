@@ -131,19 +131,21 @@ const ProductGet = () => {
       });
   };
 
-  const updateProduct = (productCode) => { 
+  const updateProduct = (productCode) => {
     window.location.replace(`/product/update?id=${productCode}`);
-   }
+  };
 
-   const deleteProduct = (productCode) => { 
-    axios.get(`http://localhost:8090/product.delete?productCode=${productCode}`)
-    .then(() => { 
-      alert("삭제 성공");
-      get();
-     }).catch(() => { 
-      alert("삭제 실패: DB통신 에러");
+  const deleteProduct = (productCode) => {
+    axios
+      .get(`http://localhost:8090/product.delete?productCode=${productCode}`)
+      .then(() => {
+        alert("삭제 성공");
+        get();
       })
-    }
+      .catch(() => {
+        alert("삭제 실패: DB통신 에러");
+      });
+  };
 
   const productTr = productDB.map((v, i) => (
     <tr>
@@ -152,11 +154,21 @@ const ProductGet = () => {
       <td>{v.productName}</td>
       <td>{v.productPrice}</td>
       <td>
-        <button onClick={() => { 
-          updateProduct(v.productCode)
-         }}>수정</button>
+        <button
+          onClick={() => {
+            updateProduct(v.productCode);
+          }}
+        >
+          수정
+        </button>
         /
-        <button onClick={() => { deleteProduct(v.productCode) }}>삭제</button>
+        <button
+          onClick={() => {
+            deleteProduct(v.productCode);
+          }}
+        >
+          삭제
+        </button>
       </td>
     </tr>
   ));

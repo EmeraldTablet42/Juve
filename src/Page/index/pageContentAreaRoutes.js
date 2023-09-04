@@ -21,10 +21,15 @@ import TokenRefresher from "./tokenRefresher";
 import { useSelector } from "react-redux";
 import Resign from "../contentPage/myPage/resign";
 import Purchase from "../contentPage/categorypage/purchase";
-import NoticeReg from "../contentPage/bbs/noticeReg";
-import NoticeGet from "../contentPage/bbs/noticeGet";
-import NoticeUpdate from "../contentPage/bbs/noticeUpdate";
 import Purchasecheck from "../contentPage/categorypage/purchasecheck";
+import NoticeListGet from "../contentPage/bbs/notice/noticeListGet";
+import NoticeReg from "../contentPage/bbs/notice/noticeReg";
+import NoticeUpdate from "../contentPage/bbs/notice/noticeUpdate";
+import NoticeGet from "../contentPage/bbs/notice/noticeGet";
+import ConsultListGet from "../contentPage/bbs/consult/consultListGet";
+import ConsultGet from "../contentPage/bbs/consult/consultGet";
+import ConsultReg from "../contentPage/bbs/consult/consultReg";
+import ConsultUpdate from "../contentPage/bbs/consult/consultUpdate";
 import Cart from "../contentPage/categorypage/cart/cart";
 const PageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
@@ -60,9 +65,14 @@ const PageContentAreaRoutes = () => {
         <Route path="/product/get" element={<ProductGet />} />
         <Route path="/product/update" element={<ProductUpdate />} />
         <Route path="/test" element={<Test />} />
+        <Route path="/board/notice/list" element={<NoticeListGet />} />
         <Route path="/board/notice/get" element={<NoticeGet />} />
         <Route path="/board/notice/reg" element={<NoticeReg />} />
         <Route path="/board/notice/update" element={<NoticeUpdate />} />
+        <Route path="/board/consult/list" element={<ConsultListGet />} />
+        <Route path="/board/consult/get" element={<ConsultGet />} />
+        <Route path="/board/consult/reg" element={<ConsultReg />} />
+        <Route path="/board/consult/update" element={<ConsultUpdate />} />
         <Route path="/cart" element={<Cart />} />
       </Routes>
     </div>
