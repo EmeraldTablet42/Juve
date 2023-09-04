@@ -38,3 +38,25 @@
   right: 0px;
   z-index: 9;
 }
+
+.background {
+  position: fixed;
+  background-color: #00000040;
+  height: 100%;
+  width: 100%;
+  z-index: 3;
+}
+
+.cartCompletePopup{
+  border: 1px solid white;
+  background-color: black;
+  color: white;
+  position: fixed;
+  height: 300px;
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  top:25%;
+  left: 45%;
+  z-index: 10;
+}

@@ -1,26 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import "../styles/saldetail.css";
-import "../styles/scrollcss.css";
-import { Link, useSearchParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { setCart } from "../components/cartSlice";
 import Count from "../components/count";
 import Movescroll from "../components/movescroll";
 import sampleImage from "../static/sand.png";
-import { useDispatch, useSelector } from "react-redux";
-import { addMenuData } from "../components/addmenuslice";
-import { useNavigate } from "react-router-dom";
+import "../styles/saldetail.css";
+import "../styles/scrollcss.css";
+import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
 const Wihdetail = () => {
   const [wihData, setWihData] = useState([]);
   const [wmtData, setWmtData] = useState([]);
   const [wstData, setWstData] = useState([]);
-
-  const [isOpenWmt, setIsOpenWmt] = useState(false);
-  const [isOpenWst, setIsOpenWst] = useState(false);
-
   const [count, setCount] = useState(1);
   const addMenuDataSel = useSelector((state) => state.menu);
 
+  const cTn = useSelector((state) => state.codeToName).productCodeToName;
   const navi = useNavigate();
+  //redux
+  const dispatch = useDispatch();
+
+  const [isOpenWmt, setIsOpenWmt] = useState(false);
+  const [isOpenWst, setIsOpenWst] = useState(false);
 
   const handleCountChange = (newCount) => {
     if (newCount > 0) {
@@ -31,15 +33,77 @@ const Wihdetail = () => {
 
   const [check, setCheck] = useState({});
 
-  const [searchParam, setSearchParam] = useSearchParams();
+  const [wmtValue, setWmtValue] = useState([]);
+  const [wstValue, setWstValue] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(wihData.productPrice);
 
+  const [added, setAdded] = useState([]);
+
+  const addMenu = () => {
+    const existingIndex = added.findIndex((item) => {
+      // 날짜를 제외한 모든 옵션을 비교
+      return (
+        item.productCode === wihData.productCode &&
+        JSON.stringify(item.wmtValue) === JSON.stringify(wmtValue) &&
+        JSON.stringify(item.wstValue) === JSON.stringify(wstValue)
+      );
+    });
+
+    if (existingIndex !== -1) {
+      // 같은 옵션이 이미 있는 경우 수량만 증가
+      const updatedAdded = added.slice();
+      updatedAdded[existingIndex].count += count;
+      updatedAdded[existingIndex].price =
+        updatedAdded[existingIndex].count * totalPrice; // 총 가격 업데이트
+      setAdded(updatedAdded);
+    } else {
+      // 같은 옵션이 없는 경우 새로운 아이템 추가
+      setAdded([
+        ...added,
+        {
+          productCode: wihData.productCode,
+          wmtValue: wmtValue,
+          wstValue: wstValue,
+          count: count,
+          price: totalPrice * count,
+          date: new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" }),
+        },
+      ]);
+    }
+    initialize();
+  };
+
+  const initialize = () => {
+    setCheck({});
+    setWmtValue([]);
+    setWstValue([]);
+    setCount(1);
+    setTotalPrice(wihData.productPrice);
+  };
+
+  const [searchParam, setSearchParam] = useSearchParams();
   useEffect(() => {
     axios
       .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
       .then((res) => {
         setWihData(res.data);
+        setTotalPrice(res.data.productPrice);
       });
   }, [searchParam]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8090/product.get").then((res) => {
+      const allProduct = res.data.products;
+      const wmtFilterData = allProduct.filter(
+        (product) => product.category === "WMT"
+      );
+      setWmtData(wmtFilterData);
+      const wstFilterData = allProduct.filter(
+        (product) => product.category === "WST"
+      );
+      setWstData(wstFilterData);
+    });
+  }, []);
 
   useEffect(() => {
     const onClick = (e) => {
@@ -69,42 +133,50 @@ const Wihdetail = () => {
     };
   }, [isOpenWst]);
 
-  useEffect(() => {
-    axios.get("http://localhost:8090/product.get").then((res) => {
-      const allProduct = res.data.products;
-      const wmtFilterData = allProduct.filter(
-        (product) => product.category === "WMT"
-      );
-      setWmtData(wmtFilterData);
-      const wstFilterData = allProduct.filter(
-        (product) => product.category === "WST"
-      );
-      setWstData(wstFilterData);
-    });
-  }, []);
-  const [wmtValue, setWmtValue] = useState([]);
-
+  ///// 핸들러
   const handleWmtChange = (e) => {
+    const price = parseInt(e.target.dataset.price, 10); // 문자열을 숫자로 변환
     setCheck({ ...check, [e.target.value]: e.target.checked });
     if (e.target.checked) {
-      setWmtValue((prevWmtValue) => [...prevWmtValue, e.target.name + ","]);
+      setWmtValue((prevWmtValue) => [...prevWmtValue, e.target.value]);
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + price); // 가격 더하기
     } else {
       setWmtValue((prevWmtValue) =>
-        prevWmtValue.filter((value) => value !== e.target.name)
+        prevWmtValue.filter((value) => value !== e.target.value)
       );
+      setTotalPrice((prevTotalPrice) => prevTotalPrice - price); // 가격 빼기
     }
   };
-  const [wstValue, setWstValue] = useState([]);
 
   const handleWstChange = (e) => {
+    const price = parseInt(e.target.dataset.price, 10); // 문자열을 숫자로 변환
     setCheck({ ...check, [e.target.value]: e.target.checked });
     if (e.target.checked) {
-      setWstValue((prevWstValue) => [...prevWstValue, e.target.name + ","]);
+      setWstValue((prevWstValue) => [...prevWstValue, e.target.value]);
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + price); // 가격 더하기
     } else {
       setWstValue((prevWstValue) =>
-        prevWstValue.filter((value) => value !== e.target.name)
+        prevWstValue.filter((value) => value !== e.target.value)
       );
+      setTotalPrice((prevTotalPrice) => prevTotalPrice - price); // 가격 빼기
     }
+  };
+
+  ///// 메뉴 추가된거 개별 삭제
+  const handleRemoveItem = (index) => {
+    const updatedAdded = added.slice(); // 배열 복사
+    updatedAdded.splice(index, 1); // 인덱스에 해당하는 요소 제거
+    setAdded(updatedAdded); // 업데이트된 배열로 상태 업데이트
+  };
+
+  const goCart = (e) => {
+    // dispatch(setCart(added));
+    if (added.length === 0) {
+      alert("메뉴를 추가해주세요.");
+      return null;
+    }
+    dispatch(setCart(added));
+    dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
   };
 
   const DropdownWmt = () => {
@@ -115,35 +187,7 @@ const Wihdetail = () => {
     setIsOpenWst(!isOpenWst);
     setIsOpenWmt(false);
   };
-  const dispatch = useDispatch();
-  const [added, setAdded] = useState({});
 
-  const addMenu = () => {
-    const a = Object.keys(added).length + 1;
-
-    if (added[a] === undefined) {
-      const newMenuData = {
-        wmtValue,
-        wstValue,
-        wihproductName: wihData.productName,
-        counting: count,
-      };
-      setAdded({ ...added, [a]: newMenuData });
-    } else {
-      setAdded({
-        ...added,
-        [a + 1]: {
-          wmtValue,
-          wstValue,
-          wihproductName: wihData.productName,
-          counting: count,
-        },
-      });
-    }
-    setCheck({});
-    setWmtValue([]);
-    setWstValue([]);
-  };
   const productTabs = {
     0: Movescroll("상품 상세"),
     1: Movescroll("리뷰"),
@@ -166,7 +210,7 @@ const Wihdetail = () => {
           <div className="sdrOption">
             <div className="dropdown" ref={ref}>
               <div className="dropdown-main" onClick={DropdownWmt}>
-                메인토핑 (다중 선택 가능)
+                메인토핑 (복수선택)
               </div>
               {isOpenWmt && (
                 <ul className="checkbox-list">
@@ -178,16 +222,17 @@ const Wihdetail = () => {
                           checked={check[productCode] || false}
                           type="checkbox"
                           value={productCode}
+                          data-price={productPrice}
                           onChange={handleWmtChange}
                         />
-                        {productName}
+                        {productName} + {` (+${productPrice})`}
                       </label>
                     </li>
                   ))}
                 </ul>
               )}
               <div className="dropdown-sub" onClick={DropdownWst}>
-                서브 토핑
+                서브토핑 (복수선택)
               </div>
               {isOpenWst && (
                 <ul className="checkbox-list">
@@ -199,55 +244,89 @@ const Wihdetail = () => {
                           checked={check[productCode] || false}
                           type="checkbox"
                           value={productCode}
+                          data-price={productPrice}
                           onChange={handleWstChange}
                         />
-                        {productName}
+                        {productName} + {` (+${productPrice})`}
                       </label>
                     </li>
                   ))}
                 </ul>
               )}
+              <Count count={count} setCount={handleCountChange} />
             </div>
           </div>
-          <div>
-            <Count count={count} setCount={handleCountChange} />
-            <span>
-              <button
-                onClick={() => {
-                  const hasCheckedOption = Object.values(check).some(
-                    (isChecked) => isChecked
-                  );
-                  if (hasCheckedOption || Object.keys(added).length !== 0) {
-                    dispatch(addMenuData(added));
-                    navi("/purchase");
-                  } else {
-                    alert("옵션을 선택하세요");
-                  }
-                }}
-              >
-                구매예약
-              </button>
-            </span>
-            <button onClick={addMenu}>메뉴담기</button>
-            <button
-              onClick={() => {
-                setAdded({});
-                setCheck({});
-                setWmtValue([]);
-                setWstValue([]);
+
+          <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+            {
+              <div className="menu-item">
+                {wihData.productName}
+                {wmtValue.length !== 0 && (
+                  <>
+                    <br />
+                    메인토핑 : {wmtValue.map((code) => cTn[code]).join(", ")}
+                  </>
+                )}
+                {wstValue.length !== 0 && (
+                  <>
+                    <br />
+                    서브토핑 : {wstValue.map((code) => cTn[code]).join(", ")}
+                  </>
+                )}
+                <br />
+                수량 : {count}
+                <br />총 가격 : {totalPrice * count}
+              </div>
+            }
+            <div
+              style={{
+                display: "block",
+                textAlign: "left",
               }}
+              className="addedMenus"
             >
-              메뉴 초기화
-            </button>
-            <div>
-              {Object.keys(added).map((i) => (
-                <div className="added-text" key={i}>
-                  <p>{i}</p>
-                  <p>메인 토핑: {added[i].wmtValue}</p>
-                  <p>서브 토핑: {added[i].wstValue}</p>
+              {added.map((v, i) => (
+                <div className="menu-item" key={i}>
+                  {/* {JSON.stringify(v)} */}
+                  {cTn[v.productCode]}
+                  <button onClick={() => handleRemoveItem(i)}>삭제</button>
+                  <br />
+                  {`메인토핑 :${v.wmtValue
+                    .map((code) => cTn[code])
+                    .join(", ")}`}
+                  <br />
+                  {`서브토핑 :${v.wstValue
+                    .map((code) => cTn[code])
+                    .join(", ")}`}
+                  <br />
+                  {`수량 :${v.count}`}
+                  <br />
+                  {`총가격 :${v.price}`}
+                  <br />
                 </div>
               ))}
             </div>
+          </div>
+
+          <div>
+            <button onClick={addMenu}>메뉴담기</button>
+            <button onClick={initialize}>메뉴 초기화</button>
+            <button
+              onClick={() => {
+                const hasCheckedOption = Object.values(check).some(
+                  (isChecked) => isChecked
+                );
+                if (hasCheckedOption || Object.keys(added).length !== 0) {
+                  dispatch(setCart(added));
+                  navi("/purchase");
+                } else {
+                  alert("옵션을 선택하세요");
+                }
+              }}
+            >
+              구매예약
+            </button>
+            <button onClick={goCart}>장바구니에 담기</button>
           </div>
         </div>
       </div>

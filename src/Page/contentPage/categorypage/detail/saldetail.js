@@ -1,19 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import "../styles/saldetail.css";
-import "../styles/scrollcss.css";
-import { Link, useSearchParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { setCart } from "../components/cartSlice";
 import Count from "../components/count";
 import Movescroll from "../components/movescroll";
-import sampleImage from "../static/saladsample.jpg";
-import Purchase from "../purchase";
-import { useDispatch, useSelector } from "react-redux";
-import { addMenuData } from "../components/addmenuslice";
-import { useNavigate } from "react-router-dom";
 import Review from "../components/review";
+import Purchase from "../purchase";
+import sampleImage from "../static/saladsample.jpg";
+import "../styles/saldetail.css";
+import "../styles/scrollcss.css";
+import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
 
 const Saldetail = () => {
-  const [detailData] = useState({});
   const [salData, setSalData] = useState([]);
   const [sdrData, setSdrData] = useState([]);
   const [smtData, setSmtData] = useState([]);
@@ -22,7 +21,9 @@ const Saldetail = () => {
   const [count, setCount] = useState(1);
   const addMenuDataSel = useSelector((state) => state.menu);
 
+  const cTn = useSelector((state) => state.codeToName).productCodeToName;
   const navi = useNavigate();
+  //redux
   const dispatch = useDispatch();
 
   const handleCountChange = (newCount) => {
@@ -38,6 +39,7 @@ const Saldetail = () => {
       .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
       .then((res) => {
         setSalData(res.data);
+        setTotalPrice(res.data.productPrice);
       });
   }, [searchParam]);
 
@@ -67,118 +69,141 @@ const Saldetail = () => {
   //add menu
   const [check, setCheck] = useState({});
 
+  const [sdrValue, setSdrValue] = useState("");
   const [smtValue, setSmtValue] = useState([]);
   const [sstValue, setSstValue] = useState([]);
   const [ssmValue, setSsmValue] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(salData.productPrice);
 
-  const [added, setAdded] = useState({});
+  const [added, setAdded] = useState([]);
 
   const addMenu = () => {
     if (sdrValue === "") {
       alert("샐러드 드레싱을 선택해주세요");
+      return;
     }
-    else{
-    const a = Object.keys(added).length + 1;
-    if (added[a] === undefined) {
-      const newMenuData = {
-        sdrValue,
-        smtValue,
-        sstValue,
-        ssmValue,
-        salproductName: salData.productName,
-        salproductPrice: salData.productPrice,
-        counting: count,
-      };
-      setAdded({ ...added, [a]: newMenuData });
+    const existingIndex = added.findIndex((item) => {
+      // 날짜를 제외한 모든 옵션을 비교
+      return (
+        item.productCode === salData.productCode &&
+        item.sdrValue === sdrValue &&
+        JSON.stringify(item.smtValue) === JSON.stringify(smtValue) &&
+        JSON.stringify(item.sstValue) === JSON.stringify(sstValue) &&
+        JSON.stringify(item.ssmValue) === JSON.stringify(ssmValue)
+      );
+    });
+
+    if (existingIndex !== -1) {
+      // 같은 옵션이 이미 있는 경우 수량만 증가
+      const updatedAdded = added.slice();
+      updatedAdded[existingIndex].count += count;
+      updatedAdded[existingIndex].price =
+        updatedAdded[existingIndex].count * totalPrice; // 총 가격 업데이트
+      setAdded(updatedAdded);
     } else {
-      setAdded({
+      // 같은 옵션이 없는 경우 새로운 아이템 추가
+      setAdded([
         ...added,
-        [a + 1]: {
-          salproductName: salData.productName,
-          salproductPrice: salData.productPrice,
-          sdrValue,
-          smtValue,
-          sstValue,
-          ssmValue,
-          productPrice,
-          counting: count,
+        {
+          productCode: salData.productCode,
+          sdrValue: sdrValue,
+          smtValue: smtValue,
+          sstValue: sstValue,
+          ssmValue: ssmValue,
+          count: count,
+          price: totalPrice * count,
+          date: new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" }),
         },
-      });
+      ]);
     }
-  }
+    initialize();
+  };
+
+  const initialize = () => {
     setCheck({});
     setSdrValue("");
     setSmtValue([]);
     setSstValue([]);
     setSsmValue([]);
+    setCount(1);
+    setTotalPrice(salData.productPrice);
   };
+
   //////////// 핸들러
-  {/*const handleSmtChange = (e) => {
+  const handleSmtChange = (e) => {
+    if (sdrValue === "") {
+      alert("샐러드 드레싱을 선택해주세요");
+      return;
+    }
+    const price = parseInt(e.target.dataset.price, 10); // 문자열을 숫자로 변환
     setCheck({ ...check, [e.target.value]: e.target.checked });
     if (e.target.checked) {
-      setSmtValue((prevSmtValue) => [...prevSmtValue, e.target.name + ","]);
+      setSmtValue((prevSmtValue) => [...prevSmtValue, e.target.value]);
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + price); // 가격 더하기
     } else {
       setSmtValue((prevSmtValue) =>
-        prevSmtValue.filter((value) => value !== e.target.name)
+        prevSmtValue.filter((value) => value !== e.target.value)
       );
+      setTotalPrice((prevTotalPrice) => prevTotalPrice - price); // 가격 더하기
     }
-  };*/}
-  const [productPrice, setProductPrice]=useState();
-  const handleSmtChange = (e) => {
-    // 기존 check 상태 복사
-    const updatedCheck = { ...check, [e.target.value]: e.target.checked };
-  
-    // productprice 변수 설정
-    let updatedProductPrice = productPrice;
-  
-    // 만약 체크박스가 체크되었을 때
-    if (e.target.checked) {
-      // check에 해당하는 productprice를 추가
-      updatedProductPrice += e.target.productprice;
-      // setSmtValue 업데이트
-      setSmtValue((prevSmtValue) => [...prevSmtValue, e.target.name + ","]);
-    } else {
-      // 체크가 해제된 경우, check에 해당하는 productprice를 뺌
-      updatedProductPrice -= e.target.productprice;
-      // setSmtValue 업데이트
-      setSmtValue((prevSmtValue) =>
-        prevSmtValue.filter((value) => value !== e.target.name)
-      );
-    }
-  
-    // check와 productprice 업데이트
-    setCheck(updatedCheck);
-    setProductPrice(updatedProductPrice);
   };
 
   const handleSstChange = (e) => {
-    console.log(e.target);
+    if (sdrValue === "") {
+      alert("샐러드 드레싱을 선택해주세요");
+      return;
+    }
+    const price = parseInt(e.target.dataset.price, 10); // 문자열을 숫자로 변환
     setCheck({ ...check, [e.target.value]: e.target.checked });
     if (e.target.checked) {
-      setSstValue((prevSstValue) => [...prevSstValue, e.target.name + ","]);
+      setSstValue((prevSstValue) => [...prevSstValue, e.target.value]);
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + price); // 가격 더하기
     } else {
       setSstValue((prevSstValue) =>
-        prevSstValue.filter((value) => value !== e.target.name)
+        prevSstValue.filter((value) => value !== e.target.value)
       );
+      setTotalPrice((prevTotalPrice) => prevTotalPrice - price); // 가격 빼기
     }
   };
 
   const handleSsmChange = (e) => {
+    if (sdrValue === "") {
+      alert("샐러드 드레싱을 선택해주세요");
+      return;
+    }
+    const price = parseInt(e.target.dataset.price, 10); // 문자열을 숫자로 변환
     setCheck({ ...check, [e.target.value]: e.target.checked });
     if (e.target.checked) {
-      setSsmValue((prevSsmValue) => [...prevSsmValue, e.target.name + ","]);
+      setSsmValue((prevSsmValue) => [...prevSsmValue, e.target.value]);
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + price); // 가격 더하기
     } else {
       setSsmValue((prevSsmValue) =>
-        prevSsmValue.filter((value) => value !== e.target.name)
+        prevSsmValue.filter((value) => value !== e.target.value)
       );
+      setTotalPrice((prevTotalPrice) => prevTotalPrice - price); // 가격 더하기
     }
   };
 
-  const [sdrValue, setSdrValue] = useState("");
-  const handleSdrChange = (value) => {
-    setSdrValue(value);
+  const handleSdrChange = (e) => {
+    setSdrValue(e.target.value);
   };
   ///////////////////////////
+
+  const handleRemoveItem = (index) => {
+    const updatedAdded = added.slice(); // 배열 복사
+    updatedAdded.splice(index, 1); // 인덱스에 해당하는 요소 제거
+    setAdded(updatedAdded); // 업데이트된 배열로 상태 업데이트
+  };
+
+  const goCart = (e) => {
+    // dispatch(setCart(added));
+    if (added.length === 0) {
+      alert("메뉴를 추가해주세요.");
+      return null;
+    }
+    dispatch(setCart(added));
+    dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
+  };
 
   /////////////드롭다운
   const [isOpenSst, setIsOpenSst] = useState(false);
@@ -212,12 +237,6 @@ const Saldetail = () => {
     };
   }, [isOpenSmt]);
 
-  const DropdownSmt = () => {
-    setIsOpenSmt(!isOpenSmt);
-    setIsOpenSst(false);
-    setIsOpenSsm(false);
-  };
-
   useEffect(() => {
     const onClick = (e) => {
       if ((ref.current !== null) & !ref.current.contains(e.target)) {
@@ -232,11 +251,6 @@ const Saldetail = () => {
     };
   }, [isOpenSst]);
 
-  const DropdownSst = () => {
-    setIsOpenSst(!isOpenSst);
-    setIsOpenSmt(false);
-    setIsOpenSsm(false);
-  };
   useEffect(() => {
     const onClick = (e) => {
       if ((ref.current !== null) & !ref.current.contains(e.target)) {
@@ -251,11 +265,6 @@ const Saldetail = () => {
     };
   }, [isOpenSsm]);
 
-  const DropdownSsm = () => {
-    setIsOpenSsm(!isOpenSsm);
-    setIsOpenSmt(false);
-    setIsOpenSst(false);
-  };
   ///////////////////
   const productTabs = {
     0: Movescroll("상품 상세"),
@@ -274,23 +283,23 @@ const Saldetail = () => {
           />
         </div>
         <div className="product-data">
-          <p>상 품 : {salData.productName}</p>
-          <p>가 격 : {salData.productPrice}</p>
+          <p>{salData.productName}</p>
+          <p>{salData.productPrice}</p>
           <div className="sdrOption">
             <select
               className="selectsize"
               value={sdrValue}
               onChange={(e) => {
-                handleSdrChange(e.target.value);
+                handleSdrChange(e);
               }}
             >
               <option value="" hidden>
-                샐러드 소스를 선택하세요
+                샐러드 드레싱을 선택하세요
               </option>
               {sdrData.map(({ productCode, productName, productPrice }) => (
                 <option
                   key={`sdr-${productCode}`}
-                  value={productName}
+                  value={productCode}
                   data-price={productPrice}
                 >
                   {productName}
@@ -304,7 +313,7 @@ const Saldetail = () => {
                 // onClick={DropdownSmt}
                 onClick={handlePopup}
               >
-                메인토핑 (다중 선택 가능)
+                메인토핑 (복수선택)
               </div>
               {/* {isOpenSmt && ( */}
               {popUp.smtPopup && (
@@ -317,9 +326,10 @@ const Saldetail = () => {
                           checked={check[productCode] || false}
                           type="checkbox"
                           value={productCode}
+                          data-price={productPrice}
                           onChange={handleSmtChange}
                         />
-                        {productName}
+                        {productName} + {` (+${productPrice})`}
                       </label>
                     </li>
                   ))}
@@ -331,7 +341,7 @@ const Saldetail = () => {
                 // onClick={DropdownSst}
                 onClick={handlePopup}
               >
-                서브 토핑 (다중 선택 가능)
+                서브토핑 (복수선택)
               </div>
               {/* {isOpenSst && ( */}
               {popUp.sstPopup && (
@@ -344,9 +354,10 @@ const Saldetail = () => {
                           name={productName}
                           checked={check[productCode] || false}
                           value={productCode}
+                          data-price={productPrice}
                           onChange={handleSstChange}
                         />
-                        {productName}
+                        {productName} + {` (+${productPrice})`}
                       </label>
                     </li>
                   ))}
@@ -371,58 +382,105 @@ const Saldetail = () => {
                           name={productName}
                           checked={check[productCode] || false}
                           value={productCode}
+                          data-price={productPrice}
                           onChange={handleSsmChange}
                         />
-                        {productName}
+                        {productName} + {` (+${productPrice})`}
                       </label>
                     </li>
                   ))}
                 </ul>
               )}
-            </div>
-            <div>
               <Count count={count} setCount={handleCountChange} />
-              <span>
-                <button
-                  onClick={() => {
-                    const hasCheckedOption = Object.values(check).some(
-                      (isChecked) => isChecked
-                    );
-                    if (hasCheckedOption || Object.keys(added).length !== 0) {
-                      dispatch(addMenuData(added));
-                      navi("/purchase");
-                    } else {
-                      alert("옵션을 선택하세요");
-                    }
-                  }}
-                >
-                  구매예약
-                </button>
-              </span>
-              <button onClick={addMenu}>메뉴담기</button>
-              <button
-                onClick={() => {
-                  setAdded({});
-                  setCheck({});
-                  setSdrValue("");
-                  setSmtValue([]);
-                  setSstValue([]);
-                  setSsmValue([]);
+            </div>
+            <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+              {sdrValue && (
+                <div className="menu-item">
+                  {salData.productName}
+                  {sdrValue && (
+                    <>
+                      <br />
+                      드레싱 : {cTn[sdrValue]}
+                    </>
+                  )}
+                  {smtValue.length !== 0 && (
+                    <>
+                      <br />
+                      메인토핑 : {smtValue.map((code) => cTn[code]).join(", ")}
+                    </>
+                  )}
+                  {sstValue.length !== 0 && (
+                    <>
+                      <br />
+                      서브토핑 : {sstValue.map((code) => cTn[code]).join(", ")}
+                    </>
+                  )}
+                  {ssmValue.length !== 0 && (
+                    <>
+                      <br />
+                      보조메뉴 : {ssmValue.map((code) => cTn[code]).join(", ")}
+                    </>
+                  )}
+                  <br />
+                  수량 : {count}
+                  <br />총 가격 : {totalPrice * count}
+                </div>
+              )}
+              <div
+                style={{
+                  display: "block",
+                  textAlign: "left",
                 }}
+                className="addedMenus"
               >
-                메뉴 초기화
-              </button>
-              <div>
-                {Object.keys(added).map((i) => (
-                  <div className="added-text" key={i}>
-                    <p>{i}</p>
-                    <p>샐러드드레싱 : {added[i].sdrValue}</p>
-                    <p>메인 토핑: {added[i].smtValue}</p>
-                    <p>서브 토핑: {added[i].sstValue}</p>
-                    <p>보조 메뉴: {added[i].ssmValue}</p>
+                {added.map((v, i) => (
+                  <div className="menu-item" key={i}>
+                    {/* {JSON.stringify(v)} */}
+                    {cTn[v.productCode]}
+                    <button onClick={() => handleRemoveItem(i)}>삭제</button>
+                    <br />
+                    {`드레싱 :${cTn[v.sdrValue]}`}
+                    <br />
+                    {`메인토핑 :${v.smtValue
+                      .map((code) => cTn[code])
+                      .join(", ")}`}
+                    <br />
+                    {`서브토핑 :${v.sstValue
+                      .map((code) => cTn[code])
+                      .join(", ")}`}
+                    <br />
+                    {`보조메뉴 :${v.ssmValue
+                      .map((code) => cTn[code])
+                      .join(", ")}`}
+                    <br />
+                    {`수량 :${v.count}`}
+                    <br />
+                    {`총가격 :${v.price}`}
+                    <br />
                   </div>
                 ))}
               </div>
+            </div>
+            <div>
+              <button onClick={addMenu}>메뉴 추가</button>
+              <button onClick={initialize}>메뉴 초기화</button>
+              <br />
+              <button
+                onClick={() => {
+                  const hasCheckedOption = Object.values(check).some(
+                    (isChecked) => isChecked
+                  );
+                  if (hasCheckedOption || Object.keys(added).length !== 0) {
+                    dispatch(setCart(added));
+                    navi("/purchase");
+                  } else {
+                    alert("옵션을 선택하세요");
+                  }
+                }}
+              >
+                구매예약
+              </button>
+              <button onClick={goCart}>장바구니에 담기</button>
             </div>
           </div>
         </div>

@@ -3,22 +3,30 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import App from "./App";
 import authSlice, { setAuth } from "./Page/contentPage/member/authSlice";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
 // import storageSession from "redux-persist/lib/storage/session"
+import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
 import { PersistGate } from "redux-persist/integration/react";
 import resentViewSlice from "./Page/basepage/resentViewSlice";
-import menuReducer from "./Page/contentPage/categorypage/components/addmenuslice";
-import addmenuslice from "./Page/contentPage/categorypage/components/addmenuslice";
+import cartSlice from "./Page/contentPage/categorypage/components/cartSlice";
+import codeToNameSlice from "./Page/contentPage/product/codeToNameSlice";
 import ScrollToTop from "./Page/index/scrollToTop";
+import popUpSlice from "./Page/system/popUpSlice";
 
 const persistConfig = {
   key: "root",
   storage,
+};
+
+const persistCartConfig = {
+  key: "cart",
+  storage,
+  stateReconciler: autoMergeLevel2,
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, authSlice);
@@ -28,16 +36,25 @@ const persistedResentViewReducer = persistReducer(
   resentViewSlice
 );
 
+const persistedCodeToNameReducer = persistReducer(
+  persistConfig,
+  codeToNameSlice
+);
+
+const persistedCartReducer = persistReducer(persistCartConfig, cartSlice);
 
 // store
 // reducer(slice) 등록
 const storee = configureStore({
   reducer: {
+    cart: persistedCartReducer,
     authindex: persistedAuthReducer,
     rsntView: persistedResentViewReducer,
-    menu: menuReducer,
+    codeToName: persistedCodeToNameReducer,
+    popUp: popUpSlice,
   },
 });
+
 // const storee = configureStore({
 //   reducer: {
 //     authindex: authSlice,
@@ -52,7 +69,7 @@ root.render(
   <Provider store={storee}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
-      <ScrollToTop/>
+        <ScrollToTop />
         <App />
       </BrowserRouter>
     </PersistGate>

@@ -34,10 +34,10 @@ const Header = () => {
               {!auth.isLogined ? (
                 <>
                   <li>
-                    <a href="/member/join">회원가입</a>
+                    <Link to="/member/join">회원가입</Link>
                   </li>
                   <li>
-                    <a href="/member/login">로그인</a>
+                    <Link to="/member/login">로그인</Link>
                   </li>
                 </>
               ) : (
@@ -53,18 +53,18 @@ const Header = () => {
                   고객센터
                   <ul style={{ position: "absolute" }}>
                     <li style={{ display: "block" }}>
-                      <a href="/board/notice/list">공지사항</a>
+                      <Link to="/board/notice/list">공지사항</Link>
                     </li>
                     <li style={{ display: "block" }}>
-                      <a href="/board/consult/list">문의게시판</a>
+                      <Link to="/board/consult/list">문의게시판</Link>
                     </li>
                   </ul>
                 </div>
               </li>
               <li>
-                <a href="/member/mypage/myorder">마이페이지</a>
+                <Link to="/member/mypage/myorder">마이페이지</Link>
               </li>
-              <li><a href="/cart">장바구니</a></li>
+              <li><Link to="/cart">장바구니</Link></li>
             </ul>
           </td>
         </tr>

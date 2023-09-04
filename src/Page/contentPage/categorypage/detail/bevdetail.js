@@ -1,57 +1,91 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useSearchParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { setCart } from "../components/cartSlice";
 import Count from "../components/count";
 import Movescroll from "../components/movescroll";
 import sampleImage from "../static/bev.jpg";
 import "../styles/scrollcss.css";
-import { useDispatch, useSelector } from "react-redux";
-import { addMenuData } from "../components/addmenuslice";
-import { useNavigate } from "react-router-dom";
+import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
 
 const Bevdetail = (detailData) => {
   const [bevData, setBevData] = useState([]);
   const [searchParam, setSearchParam] = useSearchParams();
   const [count, setCount] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(bevData.productPrice);
+  const cTn = useSelector((state) => state.codeToName).productCodeToName;
 
   const navi = useNavigate();
+
   const dispatch = useDispatch();
-  const [added, setAdded] = useState({});
-  const addMenu = () => {
-    const a = Object.keys(added).length + 1;
-    if (added[a] === undefined) {
-      const newMenuData = {
-        bevproductName: bevData.productName,
-        counting: count,
-      };
-      setAdded({ ...added, [a]: newMenuData });
-    } else {
-      setAdded({
-        ...added,
-        [a + 1]: { bevproductName: bevData.productName, counting: count },
-      });
-    }
-    setCount(1);
-  };
+
+  const [added, setAdded] = useState([]);
 
   const handleCountChange = (newCount) => {
     if (newCount > 0) {
       setCount(newCount);
     }
   };
+
+  const handleRemoveItem = (index) => {
+    const updatedAdded = added.slice(); // 배열 복사
+    updatedAdded.splice(index, 1); // 인덱스에 해당하는 요소 제거
+    setAdded(updatedAdded); // 업데이트된 배열로 상태 업데이트
+  };
+
+  const goCart = (e) => {
+    // dispatch(setCart(added));
+    if (added.length === 0) {
+      alert("메뉴를 추가해주세요.");
+      return null;
+    }
+    dispatch(setCart(added));
+    dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
+  };
+
+  const addMenu = () => {
+    const existingIndex = added.findIndex((item) => {
+      // 날짜를 제외한 모든 옵션을 비교
+      return item.productCode === bevData.productCode;
+    });
+
+    if (existingIndex !== -1) {
+      // 같은 옵션이 이미 있는 경우 수량만 증가
+      const updatedAdded = added.slice();
+      updatedAdded[existingIndex].count += count;
+      updatedAdded[existingIndex].price =
+        updatedAdded[existingIndex].count * totalPrice; // 총 가격 업데이트
+      setAdded(updatedAdded);
+    } else {
+      // 같은 옵션이 없는 경우 새로운 아이템 추가
+      setAdded([
+        ...added,
+        {
+          productCode: bevData.productCode,
+          count: count,
+          price: totalPrice * count,
+          date: new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" }),
+        },
+      ]);
+    }
+    initialize();
+  };
+
+  const initialize = () => {
+    setCount(1);
+    setTotalPrice(bevData.productPrice);
+  };
+
   useEffect(() => {
     axios
       .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
       .then((res) => {
         setBevData(res.data);
+        setTotalPrice(res.data.productPrice);
       });
   }, []);
-  const handleClick = () => {
-    const totalPrice = parseInt(bevData.productPrice) * count;
-    alert(
-      `상품명:${bevData.productName}\n상품가격:${bevData.productPrice}\n구매갯수: ${count}\n총 가격:${totalPrice}`
-    );
-  };
+
   const productTabs = {
     0: Movescroll("상품 상세"),
     1: Movescroll("리뷰"),
@@ -73,31 +107,49 @@ const Bevdetail = (detailData) => {
             <p>상 품 : {bevData.productName}</p>
             <p>가 격 : {bevData.productPrice}</p>
             <Count count={count} setCount={handleCountChange} />
-            <span>
-          <button
-            onClick={() => {
-              dispatch(addMenuData(added));
-              navi("/purchase");
-            }}>구매예약
-          </button>
-          </span>
-          <button onClick={addMenu}>메뉴담기</button>
-        <button
-            onClick={() => {
-              setAdded({});
-            }}
-          >
-            메뉴 초기화
-          </button>
-          <div>
-            {Object.keys(added).map((i) => (
-              <div className="added-text" key={i}>
-                <p>{i}</p>
-                <p>상 품 명 : {added[i].productName}</p>
-                <p>수 량: {added[i].counting}</p>
+
+            <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+              {
+                <div className="menu-item">
+                  {bevData.productName}
+                  <br />
+                  수량 : {count}
+                  <br />총 가격 : {totalPrice * count}
+                </div>
+              }
+              <div
+                style={{
+                  display: "block",
+                  textAlign: "left",
+                }}
+                className="addedMenus"
+              >
+                {added.map((v, i) => (
+                  <div className="menu-item" key={i}>
+                    {/* {JSON.stringify(v)} */}
+                    {cTn[v.productCode]}
+                    <button onClick={() => handleRemoveItem(i)}>삭제</button>
+                    <br />
+                    {`수량 :${v.count}`}
+                    <br />
+                    {`총가격 :${v.price}`}
+                    <br />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+
+            <button onClick={addMenu}>메뉴담기</button>
+            <button onClick={initialize}>메뉴 초기화</button>
+            <button
+              onClick={() => {
+                dispatch(setCart(added));
+                navi("/purchase");
+              }}
+            >
+              구매예약
+            </button>
+            <button onClick={goCart}>장바구니에 담기</button>
           </div>
         </div>
       </div>
