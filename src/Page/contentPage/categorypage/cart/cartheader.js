@@ -3,9 +3,9 @@ import "../styles/cart.css";
 const Cartheader = () => {
   return (
     <div className='header-main'>
-        <span>상품정보</span>
-        <span>수량</span>
-        <span>상품금액</span>
+        <p style={{width:"300px", textAlign:"center"}}>상품 이미지</p>
+        <p style={{width:"450px", textAlign:"center"}}>상품정보</p>
+        <p style={{width:"450px", textAlign:"center"}}>수량/상품금액</p>
     </div>
   )
 }

@@ -46,27 +46,19 @@ const Index = () => {
       <div className="sideMenu">
         <Sidemeue />
       </div>
-      <table className="pageHeaderArea">
-        <tr>
-          <td>
-            <Header />
-          </td>
-        </tr>
-      </table>
-      <table className="pageMenuNaviArea">
+      <div className="pageHeaderArea">
+          <Header />
+      </div>
+      <div className="pageMenuNaviArea">
         <MenuNavi />
-      </table>
-      <table className="pageContentArea">
-        <tr>
-          <td align="left">
+      </div>
+      <div className="pageContentArea" style={{border:"none"}}>
             <PageContentAreaRoutes />
-          </td>
-        </tr>
-      </table>
-      <table className="pageFooterArea">
+      </div>
+      <div className="pageFooterArea">
         <Footer />
         {/* <SessionSucceeding/> */}
-      </table>
+      </div>
     </>
   );
 };

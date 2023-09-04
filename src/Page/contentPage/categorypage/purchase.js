@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DaumPostcodeAPI from "../member/daumPostcodeAPI";
 import { validateEmail } from "../member/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { addMenuData } from "./components/cartSlice";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
+import "./styles/purchase.css";
+import { useNavigate } from "react-router";
 const Purchase = () => {
   // 회원정보 더미데이터(DB통신시 이부분을 setMemberInfo로 바꿔주면됨)
   const [memberInfo, setMemberInfo] = useState({
@@ -14,11 +16,9 @@ const Purchase = () => {
     phone: "010-1234-1234",
     tel: { tel1: "02", tel2: "", tel3: "" },
   });
-
+  const navi = useNavigate();
   //Redux 부분
   const dispatch = useDispatch();
-  const addedMenus = useSelector((state) => state.menu);
-
   const [keyEvent, setKeyEvent] = useState("");
   const handleKeyEvent = (e) => {
     const key = e.key;
@@ -71,9 +71,26 @@ const Purchase = () => {
       setTel({ ...tel, [e.target.name]: e.target.value });
     }
   };
+  // 모든 데이터
+  const [allData, setAllData] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:8090/product.get").then((res) => {
+      setAllData(res.data.products);
+    });
+  }, []);
+  // cartdata
+  const cart = useSelector((state) => state.cart);
 
+  const cTn = useSelector((state) => state.codeToName).productCodeToName;
+
+  const totalCartPrice = cart.cart.reduce(
+    (total, item) => total + item.price,
+    0
+  );
+  const finalPrice = totalCartPrice + 4000;
+  const point = totalCartPrice * 0.1;
   return (
-    <div>
+    <div className="purchase-wrapper">
       <div>
         <p>주문정보</p>
         <table id="basicInfo" className="joinTbl" onKeyDown={handleKeyEvent}>
@@ -259,33 +276,130 @@ const Purchase = () => {
       </div>
       <div>
         <div>
-          <p>주문 상품</p>
-          <button onClick={() => { alert(JSON.stringify(addedMenus[0])) }}></button>
-          {addedMenus.map((menu, index) => (
-            <div key={index}>
-              {menu.salproductName && <p>상 품 명: {menu.salproductName}</p>}
-              {menu.wihproductName && <p>상 품 명: {menu.wihproductName}</p>}
-              {menu.cupproductName && <p>상 품 명: {menu.cupproductName}</p>}
-              {menu.bevproductName && <p>상 품 명: {menu.bevproductName}</p>}
-              {menu.sdrValue && <p>드 레 싱: {menu.sdrValue}</p>}
-              {menu.smtValue && <p>메인토핑: {menu.smtValue}</p>}
-              {menu.sstValue && <p>서브토핑: {menu.sstValue}</p>}
-              {menu.ssmValue && <p>서브메뉴: {menu.ssmValue}</p>}
-              {menu.wmtValue && <p>메인토핑: {menu.wmtValue}</p>}
-              {menu.wstValue && <p>서브토핑: {menu.wstValue}</p>}
-              <p>수 량: {menu.counting}</p>
-            </div>
-          ))}
+          <p>주문 상품 (옵션에따라 상품가격은 달라질수있습니다)</p>
+          {cart.cart.map((v, i) => {
+            const productData = allData.find(
+              (data) => data.productCode === v.productCode
+            );
+            const imageUrl = productData
+              ? `http://localhost:8090/product/photo/${productData.productPhoto}`
+              : "";
+            //일단 menu-item 클래로 css 임시로 설정해둠
+            // src\Page\contentPage\categorypage\styles\popupcart.css <- 여기에 가면 해당 css 설정 있음
+            return (
+              <div className="menu-item" key={i}>
+                <div className="product-image">
+                  <img
+                    src={imageUrl}
+                    alt="상품이미지"
+                    style={{ width: "100px", height: "100px" }}
+                  />
+                </div>
+                <div
+                  className="product-detail"
+                  style={{ alignItems: "center" }}
+                >
+                  <div className="product-item">
+                    {cTn[v.productCode]}
+                    {/* 이부분 누르면 배열에서 삭제됨 */}
+                    <br />
+                    {/* cTn(codeToName) 넣은 이유 = 코드명 -> 제품이름으로 변환 */}
+                    {v.sdrValue && `드레싱 :${cTn[v.sdrValue]}`}
+                    <br />
+                    {/* && 앞에 해당제품 있을때만 map 돌림 안쓰면 오류터짐 */}
+                    {v.smtValue &&
+                      `메인토핑 :${v.smtValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                    {v.wmtValue &&
+                      `메인토핑 :${v.wmtValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                    <br />
+                    {v.sstValue &&
+                      `서브토핑 :${v.sstValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                    {v.wstValue &&
+                      `서브토핑 :${v.wstValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                    <br />
+                    {v.ssmValue &&
+                      `보조메뉴 :${v.ssmValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                  </div>
+                </div>
+                <div className="product-price">
+                  {`수량 :${v.count}`}
+                  <br />
+                  {`가격 :${v.price}`}
+                  <br />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
-      <div>마일리지</div>
       <div>
         <h3>결제정보</h3>
-        <p>주문상품(총가격)</p>
-        <p>배송비 : 4000원</p>
+        {cart.cart.map((v, i) => {
+          const productData = allData.find(
+            (data) => data.productCode === v.productCode
+          );
+          const imageUrl = productData
+            ? `http://localhost:8090/product/photo/${productData.productPhoto}`
+            : "";
+          return (
+            <div className="menu-item" key={i} style={{ alignItems: "center" }}>
+              {" "}
+              <div className="product-image">
+                <img
+                  src={imageUrl}
+                  alt="상품이미지"
+                  style={{ width: "100px", height: "100px" }}
+                />
+              </div>
+              <div className="product-item" style={{ textAlign: "center" }}>
+                {cTn[v.productCode]}
+              </div>
+              <div className="product-price">
+                {`수량 :${v.count}`}
+                <br />
+                {`가격 :${v.price}`}
+                <br />
+              </div>
+            </div>
+          );
+        })}
+        <div
+          className="purchase-detail"
+          style={{ textAlign: "right", fontSize: "24pt", marginRight: "20px" }}
+        >
+          <p>적립마일리지:{point}</p>
+          <table className="purchase-price">
+            <tr>
+              <td>총 상품 가격</td>
+              <td>배송비</td>
+              <td>최종금액</td>
+            </tr>
+            <tr className="tr2">
+              <td>{totalCartPrice}원</td>
+              <td>4000원</td>
+              <td>={finalPrice}원</td>
+            </tr>
+          </table>
+          </div>
       </div>
-      <button>
-        <Link to="/purchasecheck">예약하기</Link>
+      <button
+        className="go-to-check"
+        onClick={() => {
+          navi("/purchasecheck");
+        }}
+        style={{ width: "150px", height: "70px" }}
+      >
+        구매 예약
       </button>
     </div>
   );

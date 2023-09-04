@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DaumPostcodeAPI from "../member/daumPostcodeAPI";
 import { validateEmail } from "../member/validation";
 import { useDispatch, useSelector } from "react-redux";
-import { addMenuData } from "./components/cartSlice";
 import { Link } from "react-router-dom";
-
+import "./styles/purchase.css";
+import axios from "axios";
 const Purchase = () => {
   // 회원정보 더미데이터(DB통신시 이부분을 setMemberInfo로 바꿔주면됨)
   const [memberInfo, setMemberInfo] = useState({
@@ -17,7 +17,6 @@ const Purchase = () => {
 
   //Redux 부분
   const dispatch = useDispatch();
-  const addedMenus = useSelector((state) => state.menu);
 
   const [keyEvent, setKeyEvent] = useState("");
   const handleKeyEvent = (e) => {
@@ -71,11 +70,28 @@ const Purchase = () => {
       setTel({ ...tel, [e.target.name]: e.target.value });
     }
   };
+  // cartData
+  const [allData, setAllData] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:8090/product.get").then((res) => {
+      setAllData(res.data.products);
+    });
+  }, []);
+  // cartdata
+  const cart = useSelector((state) => state.cart);
 
+  const cTn = useSelector((state) => state.codeToName).productCodeToName;
+
+  const totalCartPrice = cart.cart.reduce(
+    (total, item) => total + item.price,
+    0
+  );
+  const finalPrice = totalCartPrice + 4000;
+  const point = totalCartPrice * 0.1;
   return (
     <div>
       <div>
-        <div style={{textAlign:"center", margin:"40px", top:"10px"}}>
+        <div style={{ textAlign: "center", margin: "40px", top: "10px" }}>
           <p>주문이 완료되었습니다</p>
           <p>고객님의 주문번호는</p>
           <p>[날짜a0001] 입니다.</p>
@@ -140,24 +156,93 @@ const Purchase = () => {
       <div>
         <div>
           <p>주문 상품</p>
-          {addedMenus.map((menu, index) => (
-            <div key={index}>
-              {menu.salproductName && <p>상 품 명: {menu.salproductName}</p>}
-              {menu.wihproductName && <p>상 품 명: {menu.wihproductName}</p>}
-              {menu.cupproductName && <p>상 품 명: {menu.cupproductName}</p>}
-              {menu.bevproductName && <p>상 품 명: {menu.bevproductName}</p>}
-              {menu.sdrValue && <p>드 레 싱: {menu.sdrValue}</p>}
-              {menu.smtValue && <p>메인토핑: {menu.smtValue}</p>}
-              {menu.sstValue && <p>서브토핑: {menu.sstValue}</p>}
-              {menu.ssmValue && <p>서브메뉴: {menu.ssmValue}</p>}
-              {menu.wmtValue && <p>메인토핑: {menu.wmtValue}</p>}
-              {menu.wstValue && <p>서브토핑: {menu.wstValue}</p>}
-              <p>수 량: {menu.counting}</p>
-            </div>
-          ))}
+          {cart.cart.map((v, i) => {
+            const productData = allData.find(
+              (data) => data.productCode === v.productCode
+            );
+            const imageUrl = productData
+              ? `http://localhost:8090/product/photo/${productData.productPhoto}`
+              : "";
+            //일단 menu-item 클래로 css 임시로 설정해둠
+            // src\Page\contentPage\categorypage\styles\popupcart.css <- 여기에 가면 해당 css 설정 있음
+            return (
+              <div className="menu-item" key={i}>
+                <div className="product-image">
+                  <img
+                    src={imageUrl}
+                    alt="상품이미지"
+                    style={{ width: "100px", height: "100px" }}
+                  />
+                </div>
+                <div
+                  className="product-detail"
+                  style={{ alignItems: "center" }}
+                >
+                  <div className="product-item">
+                    {cTn[v.productCode]}
+                    {/* 이부분 누르면 배열에서 삭제됨 */}
+                    <br />
+                    {/* cTn(codeToName) 넣은 이유 = 코드명 -> 제품이름으로 변환 */}
+                    {v.sdrValue && `드레싱 :${cTn[v.sdrValue]}`}
+                    <br />
+                    {/* && 앞에 해당제품 있을때만 map 돌림 안쓰면 오류터짐 */}
+                    {v.smtValue &&
+                      `메인토핑 :${v.smtValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                    {v.wmtValue &&
+                      `메인토핑 :${v.wmtValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                    <br />
+                    {v.sstValue &&
+                      `서브토핑 :${v.sstValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                    {v.wstValue &&
+                      `서브토핑 :${v.wstValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                    <br />
+                    {v.ssmValue &&
+                      `보조메뉴 :${v.ssmValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                  </div>
+                </div>
+                <div className="product-price">
+                  {`수량 :${v.count}`}
+                  <br />
+                  {`가격 :${v.price}`}
+                  <br />
+                </div>
+              </div>
+            );
+          })}
+          <div
+            className="purchase-detail"
+            style={{ textAlign: "right", fontSize: "24pt", marginRight:"20px"}}
+          >
+            <p>{point}포인트가 적립되었습니다.</p>
+            <p>잔여포인트:</p>
+            <table className="purchase-price">
+            <tr>
+              <td>총 상품 가격</td>
+              <td>배송비</td>
+              <td>최종금액</td>
+            </tr>
+            <tr className="tr2">
+              <td>{totalCartPrice}원</td>
+              <td>4000원</td>
+              <td>={finalPrice}원</td>
+            </tr>
+          </table>
+          </div>
         </div>
       </div>
-      <button><Link to="/">메인 화면으로</Link></button>
+      <button>
+        <Link to="/">메인 화면으로</Link>
+      </button>
     </div>
   );
 };
