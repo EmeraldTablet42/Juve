@@ -20,3 +20,16 @@
 .product-info-purchase{
     width: 200px;
 }
+
+.cartCompletePopup{
+    border: 1px solid white;
+    background-color: black;
+    color: white;
+    position: fixed;
+    height: 300px;
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    top:25%;
+    z-index: 10;
+}

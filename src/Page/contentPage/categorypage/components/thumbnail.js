@@ -11,7 +11,7 @@ import Salpopup from "../popup/salpopup";
 import Cuppopup from "../popup/cuppopup";
 import Wihpopup from "../popup/wihpopup";
 import Bevpopup from "../popup/bevpopup";
-import { addMenuData, resetMenuData } from "./addmenuslice";
+import { addMenuData, resetMenuData } from "./cartSlice";
 const Thumbnail = ({ productData }) => {
   // redux에 등록한 slice 편집을 위한 DisPatch
   const myDispatch = useDispatch();

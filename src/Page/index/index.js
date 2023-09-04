@@ -1,19 +1,21 @@
 import axios from "axios";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../basepage/footer";
 import Header from "../basepage/header";
+import MenuNavi from "../basepage/menuNavi";
 import Sidemeue from "../basepage/sideMenu";
 import { setAuth } from "../contentPage/member/authSlice";
 import "./index.css";
 import PageContentAreaRoutes from "./pageContentAreaRoutes";
 import TokenRefresher from "./tokenRefresher";
-import MenuNavi_Old from "../basepage/menuNavi_Old";
-import MenuNavi from "../basepage/menuNavi";
+import CodeToNameConverter from "../contentPage/product/codeToNameConverter";
+import CartComplete from "../contentPage/categorypage/cart/cartComplete";
 
 const Index = () => {
   const myDispatch = useDispatch();
-  <TokenRefresher />;
+  const popUp = useSelector((state) => state.popUp);
+  // <TokenRefresher />;
 
   useEffect(() => {
     const checkIsLogined = async () => {
@@ -39,6 +41,8 @@ const Index = () => {
 
   return (
     <>
+    {popUp.cartComplete && <CartComplete />}
+    <CodeToNameConverter />;
       <div className="sideMenu">
         <Sidemeue />
       </div>

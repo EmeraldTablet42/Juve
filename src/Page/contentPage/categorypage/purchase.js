@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DaumPostcodeAPI from "../member/daumPostcodeAPI";
 import { validateEmail } from "../member/validation";
 import { useDispatch, useSelector } from "react-redux";
-import { addMenuData } from "./components/addmenuslice";
+import { addMenuData } from "./components/cartSlice";
 import { Link } from "react-router-dom";
 
 const Purchase = () => {
