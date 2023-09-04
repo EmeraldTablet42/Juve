@@ -298,8 +298,10 @@ const Salpopup = (props) => {
         </div>
         <div className="popupcart-option-wrapper">
           <h2>{salData.productName}</h2>
+          <hr style={{ margin: "10px 0", border: "1px solid #ccc" }} />
           <h2>{salData.productPrice}</h2>
-          <div className="sdrOption">
+          <hr style={{ margin: "10px 0", border: "1px solid #ccc" }} />
+          <div className="sdrOption" style={{marginTop:"20px"}}>
             <select
               className="selectsize"
               value={sdrValue}
@@ -448,41 +450,48 @@ const Salpopup = (props) => {
             >
               {added.map((v, i) => (
                 <div className="menu-item" key={i}>
-                  {/* {JSON.stringify(v)} */}
-                  {cTn[v.productCode]}
-                  <button onClick={() => handleRemoveItem(i)}>삭제</button>
-                  <br />
-                  {`드레싱 :${cTn[v.sdrValue]}`}
-                  <br />
-                  {`메인토핑 :${v.smtValue
-                    .map((code) => cTn[code])
-                    .join(", ")}`}
-                  <br />
-                  {`서브토핑 :${v.sstValue
-                    .map((code) => cTn[code])
-                    .join(", ")}`}
-                  <br />
-                  {`보조메뉴 :${v.ssmValue
-                    .map((code) => cTn[code])
-                    .join(", ")}`}
-                  <br />
-                  {`수량 :${v.count}`}
-                  <br />
-                  {`총가격 :${v.price}`}
-                  <br />
+                  <div className="menu-product">
+                    <div className="menu-detail">
+                      {/* {JSON.stringify(v)} */}
+                      {cTn[v.productCode]}
+                      <br />
+                      {`드레싱 :${cTn[v.sdrValue]}`}
+                      <br />
+                      {`메인토핑 :${v.smtValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                      <br />
+                      {`서브토핑 :${v.sstValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                      <br />
+                      {`보조메뉴 :${v.ssmValue
+                        .map((code) => cTn[code])
+                        .join(", ")}`}
+                      <br />
+                    </div>
+                    <div className="product-price">
+                      {`수량 :${v.count}`}
+                      <br />
+                      {`총가격 :${v.price}`}
+                      <br />
+                    </div>
+                  </div>
+                  <div className="delete">
+                    <button onClick={() => handleRemoveItem(i)}>x</button>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-          <button
+          {/*} <button
             onClick={() => {
               alert(JSON.stringify(added));
             }}
           >
             조회
-          </button>
+          </button>*/}
           <button onClick={addMenu}>메뉴 추가</button>
-          <button onClick={initialize}>메뉴 초기화</button>
           <br />
           <button
             onClick={() => {

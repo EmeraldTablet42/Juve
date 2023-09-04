@@ -145,7 +145,6 @@ const Cuppopup = (props) => {
             <div />
           </div>
           <button onClick={addMenu}>메뉴담기</button>
-          <button onClick={initialize}>메뉴 초기화</button>
           <button
             onClick={() => {
               dispatch(setCart(added));
