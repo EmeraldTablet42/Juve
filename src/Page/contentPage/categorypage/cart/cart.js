@@ -1,18 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Cartheader from './cartheader'
 import Cartlist from './cartlist'
+import { useDispatch, useSelector } from "react-redux";
 
-const newData ={
-    productName:"샌드위치",
-    productPrice:"2000원"
-}
 const Cart = () => {
-    const[cartproduct, setCartProduct] = useState([]);
-
-    const addNewData = (newData) => {
-         const updataCart = [...cartproduct, newData];
-         setCartProduct(updataCart);
-    }
+    const addedMenus = useSelector((state) => state.menu);
   return (
     <div>
         <p>장바구니</p>
@@ -22,7 +14,7 @@ const Cart = () => {
         </div>
         <hr style={{ margin: "10px 0", border: "1px solid #ccc" }} />
         <div className='cartlist'>
-            <Cartlist dummyData={cartproduct}/>
+            <Cartlist cartData={addedMenus}/>
         </div>
     </div>
   )

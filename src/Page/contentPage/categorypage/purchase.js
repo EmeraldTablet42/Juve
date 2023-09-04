@@ -260,22 +260,35 @@ const Purchase = () => {
       <div>
         <div>
           <p>주문 상품</p>
-          <button onClick={() => { alert(JSON.stringify(addedMenus)) }}></button>
-          {addedMenus.map((menu, index) => (
-            <div key={index}>
-              {menu.salproductName && <p>상 품 명: {menu.salproductName}</p>}
-              {menu.wihproductName && <p>상 품 명: {menu.wihproductName}</p>}
-              {menu.cupproductName && <p>상 품 명: {menu.cupproductName}</p>}
-              {menu.bevproductName && <p>상 품 명: {menu.bevproductName}</p>}
-              {menu.sdrValue && <p>드 레 싱: {menu.sdrValue}</p>}
-              {menu.smtValue && <p>메인토핑: {menu.smtValue}</p>}
-              {menu.sstValue && <p>서브토핑: {menu.sstValue}</p>}
-              {menu.ssmValue && <p>서브메뉴: {menu.ssmValue}</p>}
-              {menu.wmtValue && <p>메인토핑: {menu.wmtValue}</p>}
-              {menu.wstValue && <p>서브토핑: {menu.wstValue}</p>}
-              <p>수 량: {menu.counting}</p>
-            </div>
-          ))}
+          <button
+            onClick={() => {
+              alert(JSON.stringify(addedMenus));
+            }}
+          ></button>
+          {addedMenus.map((menuObject, index) => {
+            const menu = menuObject[index +1];
+          return(
+              <div key={index}>
+                <p>상품명: {menu.salproductName}</p>
+                <p>상품금액: {menu.salproductPrice}</p>
+                {menu.sdrValue && <p>샐러드 드레싱: {menu.sdrValue}</p>}
+                {menu.smtValue && (
+                  <p>메인토핑: {menu.smtValue.join(" ")}</p>
+                )}
+                {menu.sstValue && (
+                  <p>서브토핑: {menu.sstValue.join(" ")}</p>
+                )}
+                {menu.ssmValue && (
+                  <p>보조메뉴: {menu.ssmValue.join(" ")}</p>
+                )}
+                {menu.productPrice && (
+                  <p>옵션금액: {menu.productPrice.join(" ")}</p>
+                )}
+
+                <p>갯수: {menu.counting}</p>
+              </div>
+          );
+          })}
         </div>
       </div>
       <div>마일리지</div>

@@ -77,6 +77,7 @@ const Saldetail = () => {
     if (sdrValue === "") {
       alert("샐러드 드레싱을 선택해주세요");
     }
+    else{
     const a = Object.keys(added).length + 1;
     if (added[a] === undefined) {
       const newMenuData = {
@@ -85,6 +86,7 @@ const Saldetail = () => {
         sstValue,
         ssmValue,
         salproductName: salData.productName,
+        salproductPrice: salData.productPrice,
         counting: count,
       };
       setAdded({ ...added, [a]: newMenuData });
@@ -93,14 +95,17 @@ const Saldetail = () => {
         ...added,
         [a + 1]: {
           salproductName: salData.productName,
+          salproductPrice: salData.productPrice,
           sdrValue,
           smtValue,
           sstValue,
           ssmValue,
+          productPrice,
           counting: count,
         },
       });
     }
+  }
     setCheck({});
     setSdrValue("");
     setSmtValue([]);
@@ -108,7 +113,7 @@ const Saldetail = () => {
     setSsmValue([]);
   };
   //////////// 핸들러
-  const handleSmtChange = (e) => {
+  {/*const handleSmtChange = (e) => {
     setCheck({ ...check, [e.target.value]: e.target.checked });
     if (e.target.checked) {
       setSmtValue((prevSmtValue) => [...prevSmtValue, e.target.name + ","]);
@@ -117,6 +122,33 @@ const Saldetail = () => {
         prevSmtValue.filter((value) => value !== e.target.name)
       );
     }
+  };*/}
+  const [productPrice, setProductPrice]=useState();
+  const handleSmtChange = (e) => {
+    // 기존 check 상태 복사
+    const updatedCheck = { ...check, [e.target.value]: e.target.checked };
+  
+    // productprice 변수 설정
+    let updatedProductPrice = productPrice;
+  
+    // 만약 체크박스가 체크되었을 때
+    if (e.target.checked) {
+      // check에 해당하는 productprice를 추가
+      updatedProductPrice += e.target.productprice;
+      // setSmtValue 업데이트
+      setSmtValue((prevSmtValue) => [...prevSmtValue, e.target.name + ","]);
+    } else {
+      // 체크가 해제된 경우, check에 해당하는 productprice를 뺌
+      updatedProductPrice -= e.target.productprice;
+      // setSmtValue 업데이트
+      setSmtValue((prevSmtValue) =>
+        prevSmtValue.filter((value) => value !== e.target.name)
+      );
+    }
+  
+    // check와 productprice 업데이트
+    setCheck(updatedCheck);
+    setProductPrice(updatedProductPrice);
   };
 
   const handleSstChange = (e) => {

@@ -5,7 +5,7 @@ const menuSlice = createSlice({
     initialState: [],
     reducers: {
       addMenuData: (state, action) => {
-        state.push(action.payload);
+        return [...state, action.payload]
       },
     },
   });

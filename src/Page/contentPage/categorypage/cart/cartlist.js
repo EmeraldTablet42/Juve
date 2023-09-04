@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import Count from "../components/count";
-import Purchasecheck from "../purchasecheck";
-import { useDispatch, useSelector } from "react-redux";
 import "../styles/cart.css";
-const Cartlist = () => {
-  const dummyData = {
-    productName: "샐러드",
-    productPrice: "3000원",
-  };
+
+const Cartlist = ({cartData}) => {
   //카운팅 useState부분에 받아온 데이터의 카운팅값을 기본값으로 넣을예정
   const [count, setCount] = useState(1);
-
   const handleCountChange = (newCount) => {
     if (newCount > 0) {
       setCount(newCount);
@@ -18,9 +12,6 @@ const Cartlist = () => {
   };
 
   // redux데이터 부분
-  const dispatch = useDispatch();
-  const addedMenus = useSelector((state) => state.menu);
-
   return (
     <section className="cartlist">
       <div className="product-info">
@@ -29,9 +20,12 @@ const Cartlist = () => {
             <img src="" alt="상품 이미지" />
           </div>
           <div className="info-all-detail">
-            <p>{dummyData.productName}</p>
-            <p>상품 옵션</p>
-            <p>{dummyData.productPrice}</p>
+            {cartData.map((menu, index) => (
+              <div key={index}>
+                <p>상품 이름: {menu.prductName}</p>
+                <p>상품 가격: {menu.productPrice}</p>
+              </div>
+            ))}
           </div>
         </div>
         <div className="product-info-count">
@@ -39,12 +33,8 @@ const Cartlist = () => {
         </div>
         <div className="product-info-purchase">
           <p>상품 총 금액</p>
-          <button
-            onClick={(e) => {
-              <Purchasecheck />;
-            }}
-          >
-            주문하기
+          <button>
+            <a href="/purchasecheck">구매예약</a>
           </button>
         </div>
         <div className="product-info-delete">

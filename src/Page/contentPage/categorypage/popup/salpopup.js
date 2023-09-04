@@ -127,7 +127,7 @@ const Salpopup = (props) => {
 
   const handleClick=(e)=>{
     dispatch(addMenuData(added));
-    addMenuDataSel && alert(JSON.stringify(addMenuDataSel));
+    alert(JSON.stringify(added));
   }
   /////////////드롭다운
   const [isOpenSst, setIsOpenSst] = useState(false);

@@ -1,27 +1,34 @@
 import React from "react";
-
+import Imageslider from "./imageslider";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import sampleimage4 from "./pageimage/cup1.png";
 const HomePage = () => {
   return (
-    <>
-      <div id="bxSlider">bx슬라이더</div>
-      <table id="recomMenu" border={1}>
-        <tr>
-          <td colSpan={3} align="center">
-            대표 메뉴
-          </td>
-        </tr>
-        <tr>
-          <td>골라담는 샐러드</td>
-          <td>파스타 샐러드</td>
-          <td>하와이안 포케샐러드</td>
-        </tr>
-        <tr>
-          <td colSpan={3} align="center">
-            <button>전체 메뉴 보기</button>
-          </td>
-        </tr>
-      </table>
-    </>
+    <div>
+      <div id="bxSlider">
+        <Imageslider />
+      </div>
+      <div>
+        <h1 style={{textAlign:"center"}}>대표메뉴</h1>
+      </div>
+      <div className="bestMenu" style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", margin: "30px"}}>
+      <div>
+        <img src={sampleimage4} alt="골라담는샐러드"  style={{width:"300px", height:"300px"}}/>
+        <p>골라담는 샐러드</p>
+      </div>
+      <div>
+        <img src={sampleimage4} alt="파스타 샐러드" style={{width:"300px", height:"300px"}}/>
+        <p>파스타 샐러드</p>
+      </div>
+      <div>
+        <img src={sampleimage4} alt="하와이안 포켓 샐러드" style={{width:"300px", height:"300px"}}/>
+        <p>하와이안 포켓 샐러드</p>
+      </div>
+      </div>
+      <div>
+        <button>전체 메뉴 보기</button>
+      </div>
+    </div>
   );
 };
 
