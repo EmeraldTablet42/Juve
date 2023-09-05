@@ -1,0 +1,20 @@
+.saldetail-wrapper {
+  display: grid;
+}
+.submenu {
+  display: flex;
+}
+
+.dropdown {
+  align-items: end;
+}
+
+.image-hover {
+  transition: transform 0.3s ease;
+  width: 500px;
+  height: 500px;
+}
+
+.image-hover:hover {
+  transform: scale(1.1);
+}

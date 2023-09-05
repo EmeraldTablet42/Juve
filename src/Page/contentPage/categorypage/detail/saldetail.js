@@ -8,7 +8,7 @@ import Movescroll from "../components/movescroll";
 import Review from "../components/review";
 import Purchase from "../purchase";
 import sampleImage from "../static/saladsample.jpg";
-import "../styles/saldetail.css";
+import "../styles/detail.css";
 import "../styles/scrollcss.css";
 import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
 
@@ -293,9 +293,9 @@ const Saldetail = () => {
       <div className="detail-high">
         <div className="detail-image">
           <img
+            className="image-hover"
             src={`http://localhost:8090/product/photo/${salData.productPhoto}`}
             alt="상품 이미지"
-            style={{ width: "500px" }}
           />
         </div>
         <div className="product-data">

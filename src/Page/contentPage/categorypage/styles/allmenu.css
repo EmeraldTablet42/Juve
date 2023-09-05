@@ -1,33 +1,35 @@
-.product-thumbnail-wrapper {
-  min-height: 1200px;
+.allmenu-wrapper {
 }
 
-.product-thumbnail-grid {
+.allmenu-grid {
   align-items: center;
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: repeat(
+    3,
+    1fr
+  ); /* 그리드 아이템의 최소 너비와 최대 너비를 설정합니다. */
   gap: 20px;
 }
-.product-thumbnail {
+.allmenu-thumbnail {
   text-align: center;
   border: 1px solid #ddd;
   padding: 20px;
   background-color: #fff;
 }
-.product-thumbnail img {
+.allmenu-thumbnail img {
   width: 100%;
   height: 300px;
 }
-.product-thumbnail-detail {
+.allmenu-thumbnail-detail {
   margin-top: 10px;
 }
-.product-thumbnail-detail p {
+.allmenu-thumbnail-detail p {
   font-weight: bold;
   font-size: 16px;
   margin-bottom: 5px;
 }
-.product-thumbnail-detail button {
-  background-color: hsl(130, 98%, 66%);
+.allmenu-thumbnail-detail button {
+  background-color: #007bff;
   color: #fff;
   border: none;
   padding: 5px 10px;

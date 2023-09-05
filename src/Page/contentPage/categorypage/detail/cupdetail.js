@@ -7,6 +7,7 @@ import Count from "../components/count";
 import Movescroll from "../components/movescroll";
 import sampleImage from "../static/cup.jpg";
 import "../styles/scrollcss.css";
+import "../styles/detail.css";
 import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
 
 const Cupdetail = (detailData) => {
@@ -120,6 +121,7 @@ const Cupdetail = (detailData) => {
       <div className="detail-high">
         <div className="saldetail-image">
           <img
+            className="image-hover"
             src={`http://localhost:8090/product/photo/${cupData.productPhoto}`}
             alt="상품 이미지"
             style={{ width: "500px" }}
