@@ -39,7 +39,7 @@ const TokenRefresher = () => {
     if (sessionStorage.getItem("loginToken")) {
       refreshToken();
     }
-  }, [navi]);
+  }, [myDispatch, navi]);
 
   return null;
 };

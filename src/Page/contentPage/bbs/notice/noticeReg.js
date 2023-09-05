@@ -166,7 +166,7 @@ const NoticeReg = () => {
     fd.set("context", context);
     fd.set("date", new Date());
     fd.set("photos", imgUploaded);
-    fd.set("hits",0);
+    fd.set("hits", 0);
 
     axios
       .post("http://localhost:8090/bbs/reg.bbs", fd)
@@ -175,9 +175,9 @@ const NoticeReg = () => {
         sessionStorage.setItem(
           "successUUID",
           sessionStorage.getItem("checkUUID")
-          );
-          navi("/board/notice/list");
-        })
+        );
+        navi("/board/notice/list");
+      })
       .catch(() => {
         alert("DB통신 에러. 잠시 후 다시 시도해주세요.");
       });
@@ -222,7 +222,13 @@ const NoticeReg = () => {
       >
         chk확인
       </button>
-      <button onClick={() => { alert(context) }}>data 확인</button>
+      <button
+        onClick={() => {
+          alert(context);
+        }}
+      >
+        data 확인
+      </button>
       <button
         onClick={() => {
           alert(sessionStorage.getItem("successUUID"));

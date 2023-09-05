@@ -17,9 +17,9 @@ const Review = () => {
   };
   const handleReviewCheck = () => {
     const newReview = {
-      id: Date.now(), 
-      photo:sampleimage,
-      content: editorData, 
+      id: Date.now(),
+      photo: sampleimage,
+      content: editorData,
     };
 
     setReview([...review, newReview]);
@@ -28,25 +28,34 @@ const Review = () => {
   };
   return (
     <>
-    <div>
-      <h2>리뷰 등록</h2>
-      <CKEditor
-        editor={Editor}
-        data={editorData}
-        onChange={handleEditorChange}
-      />
+      <div>
+        <h2>리뷰 등록</h2>
+        <CKEditor
+          config={{
+            toolbar: [""],
+          }}
+          editor={Editor}
+          data={editorData}
+          onChange={handleEditorChange}
+        />
       </div>
-      <button onClick={handleReviewCheck} disabled={isButtonDisabled}>리뷰작성</button>
+      <button onClick={handleReviewCheck} disabled={isButtonDisabled}>
+        리뷰작성
+      </button>
       <div>
         {review.map((review) => (
           <div key={review.id}>
             <h3>리뷰 ID: {review.id}</h3>
-            <img src={sampleimage} alt="상품이미지" style={{width:"100px", height:"100px"}}/>
+            <img
+              src={sampleimage}
+              alt="상품이미지"
+              style={{ width: "100px", height: "100px" }}
+            />
             <p>{Parser(review.content)}</p>
           </div>
         ))}
       </div>
-        </>
+    </>
   );
 };
 
