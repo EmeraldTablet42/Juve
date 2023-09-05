@@ -9,7 +9,7 @@ import "./styles/purchase.css";
 const Purchase = () => {
   // 회원정보 더미데이터(DB통신시 이부분을 setMemberInfo로 바꿔주면됨)
   const [memberInfo, setMemberInfo] = useState({
-    name: "김쥬브",
+    name: "김쥬브2",
     email: "aaa@bb.com",
     addr: "28802^충북 청주시 서원구 궁뜰로33번길 135(분평동)^123123",
     phone: "010-1234-1234",

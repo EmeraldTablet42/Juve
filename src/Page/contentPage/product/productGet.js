@@ -128,6 +128,7 @@ const ProductGet = () => {
         //   alert(JSON.stringify(res.data.products));
         setProductDB(res.data.products);
         setTotalPage(res.data.totalPage);
+        console.log(params);
       });
   };
 

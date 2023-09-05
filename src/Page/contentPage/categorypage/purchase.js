@@ -7,15 +7,49 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./styles/purchase.css";
 import { useNavigate } from "react-router";
-import { removeFromCart } from "../categorypage/components/cartSlice"
+import { removeFromCart } from "../categorypage/components/cartSlice";
 const Purchase = () => {
+  useEffect(() => {
+    getMemberInfoByLoginToken();
+  }, []);
+
+  const auth = useSelector((state) => state.authindex);
+  // 회원정보 가져오기
+  const getMemberInfoByLoginToken = () => {
+    if (auth.isLogined) {
+      axios
+        .post(
+          `http://localhost:8090/member/getMemberByToken?token=${sessionStorage.getItem(
+            "loginToken"
+          )}`
+        )
+        .then((res) => {
+          alert(JSON.stringify(res.data));
+          const dbInfo = res.data;
+          const addr = dbInfo.address.split("^");
+          let tempTel = "02--".split("-");
+          if (dbInfo.tel) {
+            tempTel = dbInfo.tel.split("-");
+          }
+          setMemberInfo({
+            ...memberInfo,
+            name: dbInfo.name,
+            email: dbInfo.email,
+            addr: { addr1: addr[0], addr2: addr[1], addr3: addr[3] },
+            phone: dbInfo.phone,
+            tel: { tel1: tempTel[0], tel2: tempTel[1], tel3: tempTel[2] },
+          });
+        });
+    }
+  };
+
   // 회원정보 더미데이터(DB통신시 이부분을 setMemberInfo로 바꿔주면됨)
   const [memberInfo, setMemberInfo] = useState({
-    name: "김쥬브",
-    email: "aaa@bb.com",
-    addr: "28802^충북 청주시 서원구 궁뜰로33번길 135(분평동)^123123",
-    phone: "010-1234-1234",
-    tel: { tel1: "02", tel2: "", tel3: "" },
+    name: "",
+    email: "",
+    addr: {},
+    phone: "",
+    tel: { tel1: "051", tel2: "", tel3: "" },
   });
   const navi = useNavigate();
   //Redux 부분
@@ -64,16 +98,21 @@ const Purchase = () => {
     "018",
     "019",
   ];
-  const [tel, setTel] = useState({ tel1: "02", tel2: "", tel3: "" });
   const handleTel = (e) => {
     if (e.target.name === "tel1") {
-      setTel({ ...tel, [e.target.name]: e.target.value });
+      setMemberInfo({
+        ...memberInfo,
+        tel: { ...memberInfo.tel, [e.target.name]: e.target.value },
+      });
     } else if (
       /^[0-9]$/.test(keyEvent) ||
       keyEvent === "Backspace" ||
       keyEvent === "Delete"
     ) {
-      setTel({ ...tel, [e.target.name]: e.target.value });
+      setMemberInfo({
+        ...memberInfo,
+        tel: { ...memberInfo.tel, [e.target.name]: e.target.value },
+      });
     }
   };
   // 모든 데이터
@@ -113,13 +152,13 @@ const Purchase = () => {
                 <th className="col1" rowSpan={3} valign="top">
                   주소
                 </th>
-                <td>{memberInfo.addr.split("^")[0]}</td>
+                <td>{memberInfo.addr.addr1}</td>
               </tr>
               <tr>
-                <td>{memberInfo.addr.split("^")[1]}</td>
+                <td>{memberInfo.addr.addr2}</td>
               </tr>
               <tr>
-                <td>{memberInfo.addr.split("^")[2]}</td>
+                <td>{memberInfo.addr.addr3}</td>
               </tr>
               <tr>
                 <th className="col1">휴대전화</th>
@@ -167,23 +206,24 @@ const Purchase = () => {
         <div className="purchase-get">
           <h2>배송지</h2>
           <div className="purchase-table">
-            <table
-              id="basicInfo"
-              className="joinTbl"
-              onKeyDown={handleKeyEvent}
-            >
-              <tr>
-                <th className="col1">이름</th>
-                <td>
-                  {/* <input name="name" value={name} onChange={handleName} /> */}
-                </td>
-              </tr>
-              <tr>
-                <th className="col1" rowSpan={3} valign="top">
-                  주소
-                </th>
-                <td>
-                  {/* <input
+            <div className="purchase-ship-select">
+              <table
+                id="basicInfo"
+                className="joinTbl"
+                onKeyDown={handleKeyEvent}
+              >
+                <tr>
+                  <th className="col1">이름</th>
+                  <td>
+                    {/* <input name="name" value={name} onChange={handleName} /> */}
+                  </td>
+                </tr>
+                <tr>
+                  <th className="col1" rowSpan={3} valign="top">
+                    주소
+                  </th>
+                  <td>
+                    {/* <input
                 name="addr1"
                 placeholder="우편번호"
                 value={addr.addr1}
@@ -199,33 +239,33 @@ const Purchase = () => {
                   setAddrPopup={setAddrPopup}
                 />
               )} */}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  {/* <input
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    {/* <input
                 name="addr2"
                 placeholder="기본주소"
                 value={addr.addr2}
                 onChange={handleAddr}
                 readOnly
               /> */}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  {/* <input
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    {/* <input
                 name="addr3"
                 placeholder="상세주소"
                 value={addr.addr3}
                 onChange={handleAddr}
               /> */}
-                </td>
-              </tr>
-              <tr>
-                <th className="col1">휴대전화</th>
-                <td>
-                  {/* <select name="phone1" value={phone.phone1} onChange={handlePhone}>
+                  </td>
+                </tr>
+                <tr>
+                  <th className="col1">휴대전화</th>
+                  <td>
+                    {/* <select name="phone1" value={phone.phone1} onChange={handlePhone}>
                 {phoneArr.map((item) => (
                   <option value={item} key={item}>
                     {item}
@@ -246,12 +286,12 @@ const Purchase = () => {
                 value={phone.phone3}
                 onChange={handlePhone}
               /> */}
-                </td>
-              </tr>
-              <tr>
-                <th className="col1">일반전화</th>
-                <td>
-                  {/* <select name="tel1" value={tel.tel1} onChange={handleTel}>
+                  </td>
+                </tr>
+                <tr>
+                  <th className="col1">일반전화</th>
+                  <td>
+                    {/* <select name="tel1" value={tel.tel1} onChange={handleTel}>
                 {telArr.map((item) => (
                   <option value={item} key={item}>
                     {item}
@@ -272,16 +312,17 @@ const Purchase = () => {
                 value={tel.tel3}
                 onChange={handleTel}
               /> */}
-                </td>
-              </tr>
-              <tr>
-                <th className="col1">이메일</th>
-                <td>
-                  {/* <input name="email" value={email} onChange={handleEmail} />
+                  </td>
+                </tr>
+                <tr>
+                  <th className="col1">이메일</th>
+                  <td>
+                    {/* <input name="email" value={email} onChange={handleEmail} />
               <span> {verifyEmailMsg}</span> */}
-                </td>
-              </tr>
-            </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
           </div>
           <div className="purchase-mesege">
             <select>
