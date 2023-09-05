@@ -61,10 +61,20 @@ const Header = () => {
                   </ul>
                 </div>
               </li>
-              <li>
-                <Link to="/member/mypage/myorder">마이페이지</Link>
-              </li>
-              <li><Link to="/cart">장바구니</Link></li>
+              {auth.memberId === "adminjuve" ? (
+                <li>
+                  <Link to="/admin/main">관리자페이지</Link>
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <Link to="/member/mypage/myorder">마이페이지</Link>
+                  </li>
+                  <li>
+                    <Link to="/cart">장바구니</Link>
+                  </li>
+                </>
+              )}
             </ul>
           </td>
         </tr>

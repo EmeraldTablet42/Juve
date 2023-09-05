@@ -31,6 +31,7 @@ import ConsultGet from "../contentPage/bbs/consult/consultGet";
 import ConsultReg from "../contentPage/bbs/consult/consultReg";
 import ConsultUpdate from "../contentPage/bbs/consult/consultUpdate";
 import Cart from "../contentPage/categorypage/cart/cart";
+import AdminMain from "../contentPage/admin/adminMain";
 const PageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
   return (
@@ -74,6 +75,10 @@ const PageContentAreaRoutes = () => {
         <Route path="/board/consult/reg" element={<ConsultReg />} />
         <Route path="/board/consult/update" element={<ConsultUpdate />} />
         <Route path="/cart" element={<Cart />} />
+        <Route
+          path="/admin/main"
+          element={auth.memberId==="adminjuve" ? <AdminMain /> : <Navigate to={"/"} />}
+        />
       </Routes>
     </div>
   );
