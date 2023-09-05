@@ -117,62 +117,69 @@ const Cupdetail = (detailData) => {
   };
 
   return (
-    <div className="saldetail-wrapper">
+    <div className="detail-wrapper">
       <div className="detail-high">
-        <div className="saldetail-image">
+        <div className="detail-image">
           <img
             className="image-hover"
             src={`http://localhost:8090/product/photo/${cupData.productPhoto}`}
             alt="상품 이미지"
-            style={{ width: "500px" }}
           />
         </div>
-        <div className="product-data">
-          <div className="sdrOption">
-            <p>상 품 : {cupData.productName}</p>
-            <p>가 격 : {cupData.productPrice}</p>
-            <Count count={count} setCount={handleCountChange} />
-            <div style={{ maxHeight: "200px", overflowY: "auto" }}>
-              {
-                <div className="menu-item">
-                  {cupData.productName}
-                  <br />
-                  수량 : {count}
-                  <br />총 가격 : {totalPrice * count}
-                </div>
-              }
-              <div
-                style={{
-                  display: "block",
-                  textAlign: "left",
-                }}
-                className="addedMenus"
-              >
-                {added.map((v, i) => (
-                  <div className="menu-item" key={i}>
-                    {/* {JSON.stringify(v)} */}
-                    {cTn[v.productCode]}
-                    <button onClick={() => handleRemoveItem(i)}>삭제</button>
+        <div className="product-view">
+          <div className="product-data">
+            <div className="sdrOption">
+              <p>상 품 : {cupData.productName}</p>
+              <p>가 격 : {cupData.productPrice}</p>
+              <Count count={count} setCount={handleCountChange} />
+              <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+                {
+                  <div className="menu-item">
+                    {cupData.productName}
                     <br />
-                    {`수량 :${v.count}`}
-                    <br />
-                    {`총가격 :${v.price}`}
-                    <br />
+                    수량 : {count}
+                    <br />총 가격 : {totalPrice * count}
                   </div>
-                ))}
+                }
+                <div
+                  style={{
+                    display: "block",
+                    textAlign: "left",
+                  }}
+                  className="addedMenus"
+                >
+                  {added.map((v, i) => (
+                    <div className="menu-item" key={i}>
+                      {/* {JSON.stringify(v)} */}
+                      {cTn[v.productCode]}
+                      <br />
+                      {`수량 :${v.count}`}
+                      <br />
+                      {`총가격 :${v.price}`}
+                      <br />
+                      <div>
+                        <button
+                          onClick={() => handleRemoveItem(i)}
+                          style={{ width: "20px", height: "20px" }}
+                        >
+                          x
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
+              <button onClick={addMenu}>메뉴담기</button>
+              <button
+                onClick={() => {
+                  dispatch(setCart(added));
+                  navi("/purchase");
+                }}
+              >
+                구매예약
+              </button>
+              <button onClick={goCart}>장바구니에 담기</button>
             </div>
-            <button onClick={addMenu}>메뉴담기</button>
-            <button onClick={initialize}>메뉴 초기화</button>
-            <button
-              onClick={() => {
-                dispatch(setCart(added));
-                navi("/purchase");
-              }}
-            >
-              구매예약
-            </button>
-            <button onClick={goCart}>장바구니에 담기</button>
           </div>
         </div>
       </div>

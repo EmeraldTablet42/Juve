@@ -289,7 +289,7 @@ const Saldetail = () => {
     length: 3,
   };
   return (
-    <div className="saldetail-wrapper">
+    <div className="detail-wrapper">
       <div className="detail-high">
         <div className="detail-image">
           <img
@@ -298,6 +298,7 @@ const Saldetail = () => {
             alt="상품 이미지"
           />
         </div>
+        <div className="product-view">
         <div className="product-data">
           <p>{salData.productName}</p>
           <p>{salData.productPrice}</p>
@@ -453,7 +454,6 @@ const Saldetail = () => {
                   <div className="menu-item" key={i}>
                     {/* {JSON.stringify(v)} */}
                     {cTn[v.productCode]}
-                    <button onClick={() => handleRemoveItem(i)}>삭제</button>
                     <br />
                     {`드레싱 :${cTn[v.sdrValue]}`}
                     <br />
@@ -473,13 +473,15 @@ const Saldetail = () => {
                     <br />
                     {`총가격 :${v.price}`}
                     <br />
+                    <div>
+                      <button onClick={() => handleRemoveItem(i) } style={{width:"20px",height:"20px"}}>x</button>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
             <div>
               <button onClick={addMenu}>메뉴 추가</button>
-              <button onClick={initialize}>메뉴 초기화</button>
               <br />
               <button
                 onClick={() => {
@@ -499,6 +501,7 @@ const Saldetail = () => {
               <button onClick={goCart}>장바구니에 담기</button>
             </div>
           </div>
+        </div>
         </div>
       </div>
       <div className="scroll-buttons">

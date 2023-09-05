@@ -1,5 +1,6 @@
-.saldetail-wrapper {
+.detail-wrapper {
   display: grid;
+  width: 1200px;
 }
 .submenu {
   display: flex;
@@ -8,7 +9,33 @@
 .dropdown {
   align-items: end;
 }
-
+.detail-high{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+;
+}
+.detail-image{
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  height: 600px;
+  align-items: center;
+  justify-content: center;
+}
+.product-data{
+  width: 600px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.product-item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .image-hover {
   transition: transform 0.3s ease;
   width: 500px;
@@ -17,4 +44,12 @@
 
 .image-hover:hover {
   transform: scale(1.1);
+}
+
+.menu-item{
+  font-size: 12pt;
+}
+.menu-view{
+max-height: 300px;
+overflow-y: auto;
 }
