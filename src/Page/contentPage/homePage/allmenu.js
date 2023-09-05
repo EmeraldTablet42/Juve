@@ -1,34 +1,58 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
-import { setResentView } from "../../../basepage/resentViewSlice";
-import Bevdetail from "../detail/bevdetail";
-import Cupdetail from "../detail/cupdetail";
-import Saldetail from "../detail/saldetail";
-import Wihdetail from "../detail/wihdetail";
-import "../styles/thumbnail.css";
-import Salpopup from "../popup/salpopup";
-import Cuppopup from "../popup/cuppopup";
-import Wihpopup from "../popup/wihpopup";
-import Bevpopup from "../popup/bevpopup";
-import { addMenuData, resetMenuData } from "./cartSlice";
-const Thumbnail = ({ productData }) => {
-  // redux에 등록한 slice 편집을 위한 DisPatch
+import { useDispatch, useSelector } from "react-redux";
+import { setResentView } from "../../basepage/resentViewSlice";
+import Bevdetail from "../categorypage/detail/bevdetail";
+import Cupdetail from "../categorypage/detail/cupdetail";
+import Saldetail from "../categorypage/detail/saldetail";
+import Wihdetail from "../categorypage/detail/wihdetail";
+import Salpopup from "../categorypage/popup/salpopup";
+import Cuppopup from "../categorypage/popup/cuppopup";
+import Wihpopup from "../categorypage/popup/wihpopup";
+import Bevpopup from "../categorypage/popup/bevpopup";
+import "../categorypage/styles/allmenu.css"
+const Allmenu = () => {
+
+    //Data출력 
+  const [allData, setAllData] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8090/product.get").then((res) => {
+      setAllData(res.data.products);
+    });
+  }, []);
+  const [filterData, setFilteredData] = useState([]);
+  useEffect(() => {
+    const include = ["BEV", "SAL", "WIH", "CUP"];
+    const filteredProduct = allData.filter(
+      (product) => include.includes(product.category)
+    );
+    setFilteredData(filteredProduct);
+  }, [allData]);
+/////////////////////////////
+
   const myDispatch = useDispatch();
-  // redux에 등록한 state를 사용하기 위한 selector
   const resentView = useSelector((state) => state.rsntView);
   const [popupState, setPopupState] = useState(false);
   const [selectedData, setSelectedData] = useState();
-
-  // 장바구니 초기화용 dispatch
-  const dispatch = useDispatch((state) => state.menu);
-
+  const allmenuRef = useRef(null);
+// allmenu의 크기조절
+  useEffect(() => {
+    // Allmenu 컴포넌트의 높이를 상위 <div>에 적용
+    if (allmenuRef.current) {
+      const allmenuHeight = allmenuRef.current.clientHeight;
+      allmenuRef.current.parentElement.style.height = `${allmenuHeight}px`;
+    }
+  }, [filterData]);
+/////////
+  //장바구니 이동
   const goToCart = (product) => {
     // dispatch(resetMenuData()); // 장바구니 초기화
     setSelectedData(product); // 선택된 데이터 설정
     setPopupState(true);
   };
-
+/////
   const handleImageClick = (product) => {
     //// 사이드바 최근 본 메뉴 처리하는 로직부분// 병합충돌시 이부분만 handleImageClick 때 넣어주세요!//
     if (product.productCode !== resentView.resentViewCodeUp) {
@@ -41,15 +65,13 @@ const Thumbnail = ({ productData }) => {
         })
       );
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
     setSelectedData(product);
   };
-
   return (
-    <div className="product-thumbnail-wrapper">
-      <div className="product-thumbnail-grid">
-        {productData.map((product) => (
-          <div className="product-thumbnail" key={product.productCode}>
+    <div className="allmenu-wrapper">
+      <div className="allmenu-grid">
+        {filterData.map((product) => (
+          <div className="allmenu-thumbnail" key={product.productCode}>
             <Link
               to={
                 product.category === "SAL"
@@ -73,8 +95,8 @@ const Thumbnail = ({ productData }) => {
                 }}
               />
             </Link>
-            <h3 style={{ textAlign: "center" }}>{product.productName}</h3>
-            <div className="product-thumbnail-detail">
+            <h3 style={{ textAlign: "center"}}>{product.productName}</h3>
+            <div className="allmenu-thumbnail-detail">
               <p>{product.productPrice}원</p>
               <button>찜</button>
               <button onClick={() => goToCart(product)}>장바구니</button>
@@ -123,4 +145,4 @@ const Thumbnail = ({ productData }) => {
   );
 };
 
-export default Thumbnail;
+export default Allmenu;

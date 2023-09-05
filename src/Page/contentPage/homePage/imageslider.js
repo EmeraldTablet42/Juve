@@ -47,12 +47,12 @@ const Imageslider = () => {
 
   const renderSlides = imageData.map((image, index) => (
     <div key={image.alt}>
-      <img src={image.url} alt={image.alt} style={{ width: "1000px", height: "700px" }}/>
+      <img src={image.url} alt={image.alt} style={{ width: "1200px", height: "850px" }}/>
     </div>
   ));
 
   return (
-    <div style={{width:"1000px", margin: "0 auto", textAlign: "center"}}>
+    <div style={{width:"1200px", margin: "0 auto", textAlign: "center"}}>
       <Carousel
         showArrows={true}
         autoPlay={true}

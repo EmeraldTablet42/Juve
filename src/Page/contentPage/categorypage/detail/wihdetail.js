@@ -6,7 +6,7 @@ import { setCart } from "../components/cartSlice";
 import Count from "../components/count";
 import Movescroll from "../components/movescroll";
 import sampleImage from "../static/sand.png";
-import "../styles/saldetail.css";
+import "../styles/detail.css";
 import "../styles/scrollcss.css";
 import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
 const Wihdetail = () => {
@@ -216,6 +216,7 @@ const Wihdetail = () => {
       <div className="detail-high">
         <div className="saldetail-image">
           <img
+            className="image-hover"
             src={`http://localhost:8090/product/photo/${wihData.productPhoto}`}
             alt="상품 이미지"
             style={{ width: "500px" }}

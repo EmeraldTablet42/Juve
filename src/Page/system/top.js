@@ -1,5 +1,5 @@
 import React from 'react'
-
+import sampleimage from "../imagefile/topbutton.png"
 const Top = () => {
 
     const scrollToTop = () => {
@@ -10,7 +10,9 @@ const Top = () => {
 }
     return(
         <div className='scroll'>
-            <button id="top" onClick={scrollToTop} type='button'  style={{width:"80px"}}>Top</button>
+            <button id="top" onClick={scrollToTop} type='button'>
+                <img src={sampleimage} alt="top" style={{width:"65px",backgroundColor: "rgba(255, 255, 255, 0)"}}></img>
+            </button>
         </div>
     )
 }

@@ -8,6 +8,7 @@ import Movescroll from "../components/movescroll";
 import sampleImage from "../static/bev.jpg";
 import "../styles/scrollcss.css";
 import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
+import "../styles/detail.css";
 
 const Bevdetail = (detailData) => {
   const [bevData, setBevData] = useState([]);
@@ -114,6 +115,7 @@ const Bevdetail = (detailData) => {
       <div className="detail-high">
         <div className="saldetail-image">
           <img
+            className="image-hover"
             src={`http://localhost:8090/product/photo/${bevData.productPhoto}`}
             alt="상품 이미지"
             style={{ width: "500px" }}
