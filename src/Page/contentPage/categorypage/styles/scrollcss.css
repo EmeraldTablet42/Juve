@@ -26,8 +26,6 @@
 
   .product-data {
     font-size: 24px;
-    align-items: right;
-    /* 나머지 .product-data의 스타일링 추가 */
   }
   .dropdown {
     position: relative;

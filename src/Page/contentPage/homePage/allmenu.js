@@ -12,6 +12,7 @@ import Cuppopup from "../categorypage/popup/cuppopup";
 import Wihpopup from "../categorypage/popup/wihpopup";
 import Bevpopup from "../categorypage/popup/bevpopup";
 import "../categorypage/styles/allmenu.css"
+import sampleimage from "../../imagefile/carticon.png"
 const Allmenu = () => {
 
     //Data출력 
@@ -98,8 +99,10 @@ const Allmenu = () => {
             <h3 style={{ textAlign: "center"}}>{product.productName}</h3>
             <div className="allmenu-thumbnail-detail">
               <p>{product.productPrice}원</p>
+              <div className="allmenu-detail-btn">
               <button>찜</button>
-              <button onClick={() => goToCart(product)}>장바구니</button>
+              <button onClick={() => goToCart(product)}><img src={sampleimage} alt="장바구니" style={{width:"20px",height:"20px"}}/></button>
+            </div>
             </div>
             {popupState && (
               <div className="cart-popup-wrapper">

@@ -1,0 +1,38 @@
+.help-dropdown {
+    position: relative;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 120px;
+  }
+  
+  .help-dropdown:hover .dropdown-content {
+    display: block;
+  }
+  .dropdown-btn{
+    width: 120px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    font-size: 13pt;
+    bottom: 0;
+  }
+  
+  .dropdown-content a {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    font-size: 12pt;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  /* 드롭다운 메뉴 항목에 호버 스타일 추가 (선택 사항) */
+  .dropdown-content a:hover {
+    background-color: #f2f2f2;
+  }
+  
