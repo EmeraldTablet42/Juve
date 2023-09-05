@@ -20,7 +20,6 @@
   }
 
   .detail-image img {
-    width: 100%; /* 이미지 가로 폭 100% 설정 */
     max-width: 500px; /* 이미지 최대 가로 폭 설정 */
     display: block; /* 이미지 블록 요소로 표시 */
   }

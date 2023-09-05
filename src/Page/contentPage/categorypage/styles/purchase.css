@@ -1,4 +1,82 @@
+.purchase-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #d3cece;
+  border-radius: 5px;
+}
+.purchase-addr {
+  align-items: center;
+}
+.purchase-addr h2 {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+.purchase-table {
+  padding: 20px;
+}
+.purchase-get {
+  align-items: center;
+}
+.purchase-get h2 {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.purchase-mesege {
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+.purchase-mesege select {
+  padding-left: 1cm;
+  width: 1120px;
+}
+.purchase-product p {
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
 .go-to-check {
+  width: 1160px;
+  height: 80px;
+  display: block;
+  background-color: #ffa928;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 18pt;
+}
+
+.purchase-price {
+  width: 1160px;
+  padding: 20px;
+}
+.purchase-price td {
+  width: 33%;
+  height: 100px;
+  flex: 1;
+  text-align: center;
+  border: 1px solid hsla(0, 2%, 40%, 0.205);
+}
+.purchase-price .tr2 {
+  background-color: hsl(36, 89%, 71%);
+}
+
+.purchase-calculate {
+  align-items: center;
+}
+.purchase-calculate h2 {
+  margin-top: 20px;
+  margin-right: 20px;
+  text-align: right;
+}
+.purchase-main-button {
   display: block;
   padding: 10px 20px;
   margin: 0 auto;
@@ -9,23 +87,21 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-size:18pt;
+  font-size: 18pt;
   margin-bottom: 40px;
 }
 
-.purchase-price{
-    width: 1200px;
-    margin-top: 40px;
-    margin-bottom: 40px;
+.purchase-margin {
+  border-radius: 5px;
+  background-color: #fff;
+  margin-top: 10px;
+  align-items: center;
 }
-.purchase-price td{
-    width: 33%;
-    height: 100px;
-    flex: 1;
-    text-align: center;
-    border: 1px solid hsla(0, 2%, 40%, 0.205);
-    
-}
-.purchase-price .tr2{
-    background-color: hsl(36, 89%, 71%);
+.purchase-margin-button {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  align-items: center;
+  border-radius: 5px;
 }

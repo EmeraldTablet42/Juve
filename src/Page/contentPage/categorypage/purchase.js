@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./styles/purchase.css";
 import { useNavigate } from "react-router";
+import { removeFromCart } from "../categorypage/components/cartSlice"
 const Purchase = () => {
   // 회원정보 더미데이터(DB통신시 이부분을 setMemberInfo로 바꿔주면됨)
   const [memberInfo, setMemberInfo] = useState({
@@ -24,6 +25,10 @@ const Purchase = () => {
     const key = e.key;
     setKeyEvent(key);
     console.log(key);
+  };
+
+  const handleRemoveItem = (index) => {
+    dispatch(removeFromCart(index));
   };
 
   const telArr = [
@@ -91,80 +96,94 @@ const Purchase = () => {
   const point = totalCartPrice * 0.1;
   return (
     <div className="purchase-wrapper">
-      <div>
-        <p>주문정보</p>
-        <table id="basicInfo" className="joinTbl" onKeyDown={handleKeyEvent}>
-          <tr>
-            <th className="col1">이름</th>
-            <td>{memberInfo.name}</td>
-          </tr>
-          <tr>
-            <th className="col1" rowSpan={3} valign="top">
-              주소
-            </th>
-            <td>{memberInfo.addr.split("^")[0]}</td>
-          </tr>
-          <tr>
-            <td>{memberInfo.addr.split("^")[1]}</td>
-          </tr>
-          <tr>
-            <td>{memberInfo.addr.split("^")[2]}</td>
-          </tr>
-          <tr>
-            <th className="col1">휴대전화</th>
-            <td>{memberInfo.phone}</td>
-          </tr>
-          <tr>
-            <th className="col1">일반전화</th>
-            <td>
-              <select
-                name="tel1"
-                value={memberInfo.tel.tel1}
-                onChange={handleTel}
-              >
-                {telArr.map((item) => (
-                  <option value={item} key={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-              -{" "}
-              <input
-                name="tel2"
-                maxLength={4}
-                value={memberInfo.tel.tel2}
-                onChange={handleTel}
-              />{" "}
-              -{" "}
-              <input
-                name="tel3"
-                maxLength={4}
-                value={memberInfo.tel.tel3}
-                onChange={handleTel}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th className="col1">이메일</th>
-            <td>{memberInfo.email}</td>
-          </tr>
-        </table>
+      <div className="purchase-margin">
+        <div className="purchase-addr">
+          <h2>주 문 정 보</h2>
+          <div className="purchase-table">
+            <table
+              id="basicInfo"
+              className="joinTbl"
+              onKeyDown={handleKeyEvent}
+            >
+              <tr>
+                <th className="col1">이름</th>
+                <td>{memberInfo.name}</td>
+              </tr>
+              <tr>
+                <th className="col1" rowSpan={3} valign="top">
+                  주소
+                </th>
+                <td>{memberInfo.addr.split("^")[0]}</td>
+              </tr>
+              <tr>
+                <td>{memberInfo.addr.split("^")[1]}</td>
+              </tr>
+              <tr>
+                <td>{memberInfo.addr.split("^")[2]}</td>
+              </tr>
+              <tr>
+                <th className="col1">휴대전화</th>
+                <td>{memberInfo.phone}</td>
+              </tr>
+              <tr>
+                <th className="col1">일반전화</th>
+                <td>
+                  <select
+                    name="tel1"
+                    value={memberInfo.tel.tel1}
+                    onChange={handleTel}
+                  >
+                    {telArr.map((item) => (
+                      <option value={item} key={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                  -{" "}
+                  <input
+                    name="tel2"
+                    maxLength={4}
+                    value={memberInfo.tel.tel2}
+                    onChange={handleTel}
+                  />{" "}
+                  -{" "}
+                  <input
+                    name="tel3"
+                    maxLength={4}
+                    value={memberInfo.tel.tel3}
+                    onChange={handleTel}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th className="col1">이메일</th>
+                <td>{memberInfo.email}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
-      <div>
-        <p>배송지</p>
-        <table id="basicInfo" className="joinTbl" onKeyDown={handleKeyEvent}>
-          <tr>
-            <th className="col1">이름</th>
-            <td>
-              {/* <input name="name" value={name} onChange={handleName} /> */}
-            </td>
-          </tr>
-          <tr>
-            <th className="col1" rowSpan={3} valign="top">
-              주소
-            </th>
-            <td>
-              {/* <input
+      <div className="purchase-margin">
+        <div className="purchase-get">
+          <h2>배송지</h2>
+          <div className="purchase-table">
+            <table
+              id="basicInfo"
+              className="joinTbl"
+              onKeyDown={handleKeyEvent}
+            >
+              <tr>
+                <th className="col1">이름</th>
+                <td>
+                  {/* <input name="name" value={name} onChange={handleName} /> */}
+                </td>
+              </tr>
+              <tr>
+                <th className="col1" rowSpan={3} valign="top">
+                  주소
+                </th>
+                <td>
+                  {/* <input
                 name="addr1"
                 placeholder="우편번호"
                 value={addr.addr1}
@@ -180,33 +199,33 @@ const Purchase = () => {
                   setAddrPopup={setAddrPopup}
                 />
               )} */}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              {/* <input
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {/* <input
                 name="addr2"
                 placeholder="기본주소"
                 value={addr.addr2}
                 onChange={handleAddr}
                 readOnly
               /> */}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              {/* <input
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {/* <input
                 name="addr3"
                 placeholder="상세주소"
                 value={addr.addr3}
                 onChange={handleAddr}
               /> */}
-            </td>
-          </tr>
-          <tr>
-            <th className="col1">휴대전화</th>
-            <td>
-              {/* <select name="phone1" value={phone.phone1} onChange={handlePhone}>
+                </td>
+              </tr>
+              <tr>
+                <th className="col1">휴대전화</th>
+                <td>
+                  {/* <select name="phone1" value={phone.phone1} onChange={handlePhone}>
                 {phoneArr.map((item) => (
                   <option value={item} key={item}>
                     {item}
@@ -227,12 +246,12 @@ const Purchase = () => {
                 value={phone.phone3}
                 onChange={handlePhone}
               /> */}
-            </td>
-          </tr>
-          <tr>
-            <th className="col1">일반전화</th>
-            <td>
-              {/* <select name="tel1" value={tel.tel1} onChange={handleTel}>
+                </td>
+              </tr>
+              <tr>
+                <th className="col1">일반전화</th>
+                <td>
+                  {/* <select name="tel1" value={tel.tel1} onChange={handleTel}>
                 {telArr.map((item) => (
                   <option value={item} key={item}>
                     {item}
@@ -253,30 +272,33 @@ const Purchase = () => {
                 value={tel.tel3}
                 onChange={handleTel}
               /> */}
-            </td>
-          </tr>
-          <tr>
-            <th className="col1">이메일</th>
-            <td>
-              {/* <input name="email" value={email} onChange={handleEmail} />
+                </td>
+              </tr>
+              <tr>
+                <th className="col1">이메일</th>
+                <td>
+                  {/* <input name="email" value={email} onChange={handleEmail} />
               <span> {verifyEmailMsg}</span> */}
-            </td>
-          </tr>
-        </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div className="purchase-mesege">
+            <select>
+              <option value="" hidden>
+                배송 메세지
+              </option>
+              <option>배송전 연락주세요</option>
+              <option>직접방문할게요</option>
+              <option>계좌이체하겠습니다</option>
+            </select>
+          </div>
+        </div>
       </div>
-      <div>
-        <select>
-          <option value="" hidden>
-            추가메세지
-          </option>
-          <option>배송전 연락주세요</option>
-          <option>직접방문할게요</option>
-          <option>계좌이체하겠습니다</option>
-        </select>
-      </div>
-      <div>
-        <div>
-          <p>주문 상품 (옵션에따라 상품가격은 달라질수있습니다)</p>
+
+      <div className="purchase-margin">
+        <div className="purchase-product">
+          <p>주문 상품</p>
           {cart.cart.map((v, i) => {
             const productData = allData.find(
               (data) => data.productCode === v.productCode
@@ -337,47 +359,17 @@ const Purchase = () => {
                   {`가격 :${v.price}`}
                   <br />
                 </div>
+                <div className="delete">
+                  <button onClick={() => handleRemoveItem(i)}>x</button>
+                </div>
               </div>
             );
           })}
         </div>
       </div>
-      <div>
-        <h3>결제정보</h3>
-        {cart.cart.map((v, i) => {
-          const productData = allData.find(
-            (data) => data.productCode === v.productCode
-          );
-          const imageUrl = productData
-            ? `http://localhost:8090/product/photo/${productData.productPhoto}`
-            : "";
-          return (
-            <div className="menu-item" key={i} style={{ alignItems: "center" }}>
-              {" "}
-              <div className="product-image">
-                <img
-                  src={imageUrl}
-                  alt="상품이미지"
-                  style={{ width: "100px", height: "100px" }}
-                />
-              </div>
-              <div className="product-item" style={{ textAlign: "center" }}>
-                {cTn[v.productCode]}
-              </div>
-              <div className="product-price">
-                {`수량 :${v.count}`}
-                <br />
-                {`가격 :${v.price}`}
-                <br />
-              </div>
-            </div>
-          );
-        })}
-        <div
-          className="purchase-detail"
-          style={{ textAlign: "right", fontSize: "24pt", marginRight: "20px" }}
-        >
-          <p>적립마일리지:{point}</p>
+      <div className="purchase-margin">
+        <div className="purchase-calculate">
+          <h2>적립마일리지:{point}</h2>
           <table className="purchase-price">
             <tr>
               <td>총 상품 가격</td>
@@ -386,21 +378,22 @@ const Purchase = () => {
             </tr>
             <tr className="tr2">
               <td>{totalCartPrice}원</td>
-              <td>4000원</td>
+              <td>+4000원</td>
               <td>={finalPrice}원</td>
             </tr>
           </table>
-          </div>
+        </div>
       </div>
-      <button
-        className="go-to-check"
-        onClick={() => {
-          navi("/purchasecheck");
-        }}
-        style={{ width: "150px", height: "70px" }}
-      >
-        구매 예약
-      </button>
+      <div className="purchase-margin-button">
+        <button
+          className="go-to-check"
+          onClick={() => {
+            navi("/purchasecheck");
+          }}
+        >
+          구매 예약
+        </button>
+      </div>
     </div>
   );
 };

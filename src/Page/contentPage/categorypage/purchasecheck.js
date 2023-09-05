@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "./styles/purchase.css";
 import axios from "axios";
+import "./styles/purchase.css";
 const Purchase = () => {
   // 회원정보 더미데이터(DB통신시 이부분을 setMemberInfo로 바꿔주면됨)
   const [memberInfo, setMemberInfo] = useState({
@@ -240,9 +241,11 @@ const Purchase = () => {
           </div>
         </div>
       </div>
-      <button>
+      <div className="purchase-main">
+      <button className="purchase-main-button">
         <Link to="/">메인 화면으로</Link>
       </button>
+    </div>
     </div>
   );
 };

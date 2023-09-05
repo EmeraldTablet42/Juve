@@ -212,16 +212,16 @@ const Wihdetail = () => {
     length: 3,
   };
   return (
-    <div className="saldetail-wrapper">
+    <div className="detail-wrapper">
       <div className="detail-high">
-        <div className="saldetail-image">
+        <div className="detail-image">
           <img
             className="image-hover"
             src={`http://localhost:8090/product/photo/${wihData.productPhoto}`}
             alt="상품 이미지"
-            style={{ width: "500px" }}
           />
         </div>
+        <div className="product-view">
         <div className="product-data">
           <p>상 품 : {wihData.productName} </p>
           <p>가 격 : {wihData.productPrice} </p>
@@ -275,7 +275,7 @@ const Wihdetail = () => {
             </div>
           </div>
 
-          <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+          <div className="menu-view">
             {
               <div className="menu-item">
                 {wihData.productName}
@@ -307,7 +307,6 @@ const Wihdetail = () => {
                 <div className="menu-item" key={i}>
                   {/* {JSON.stringify(v)} */}
                   {cTn[v.productCode]}
-                  <button onClick={() => handleRemoveItem(i)}>삭제</button>
                   <br />
                   {`메인토핑 :${v.wmtValue
                     .map((code) => cTn[code])
@@ -321,6 +320,9 @@ const Wihdetail = () => {
                   <br />
                   {`총가격 :${v.price}`}
                   <br />
+                  <div>
+                    <button onClick={() => handleRemoveItem(i)} style={{width:"20px",height:"20px"}}>x</button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -328,7 +330,6 @@ const Wihdetail = () => {
 
           <div>
             <button onClick={addMenu}>메뉴담기</button>
-            <button onClick={initialize}>메뉴 초기화</button>
             <button
               onClick={() => {
                 const hasCheckedOption = Object.values(check).some(
@@ -346,6 +347,7 @@ const Wihdetail = () => {
             </button>
             <button onClick={goCart}>장바구니에 담기</button>
           </div>
+        </div>
         </div>
       </div>
       <div className="scroll-buttons">
