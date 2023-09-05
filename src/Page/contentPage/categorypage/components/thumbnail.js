@@ -12,6 +12,7 @@ import Cuppopup from "../popup/cuppopup";
 import Wihpopup from "../popup/wihpopup";
 import Bevpopup from "../popup/bevpopup";
 import { addMenuData, resetMenuData } from "./cartSlice";
+import sampleimage from "../../../imagefile/carticon.png"
 const Thumbnail = ({ productData }) => {
   // redux에 등록한 slice 편집을 위한 DisPatch
   const myDispatch = useDispatch();
@@ -76,8 +77,10 @@ const Thumbnail = ({ productData }) => {
             <h3 style={{ textAlign: "center" }}>{product.productName}</h3>
             <div className="product-thumbnail-detail">
               <p>{product.productPrice}원</p>
+              <div className="product-detail-btn">
               <button>찜</button>
-              <button onClick={() => goToCart(product)}>장바구니</button>
+              <button onClick={() => goToCart(product)}><img src={sampleimage} alt="장바구니" style={{width:"20px",height:"20px"}}/></button>
+            </div>
             </div>
             {popupState && (
               <div className="cart-popup-wrapper">

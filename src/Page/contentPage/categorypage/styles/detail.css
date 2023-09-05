@@ -5,10 +5,6 @@
 .submenu {
   display: flex;
 }
-
-.dropdown {
-  align-items: end;
-}
 .detail-high{
   display: flex;
   justify-content: center;
@@ -52,4 +48,13 @@
 .menu-view{
 max-height: 300px;
 overflow-y: auto;
+}
+
+
+.dropdown{
+  align-items: center;
+  text-align: center;
+}
+.dropdown .purchase-count-button{
+  align-items: end;
 }
