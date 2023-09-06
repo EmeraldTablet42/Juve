@@ -13,6 +13,7 @@
   border-spacing: 0px;
   width: 100%;
   margin-top: 2%;
+  margin-bottom: 2%;
   /* margin-left: 2%; */
   border-top: 3px solid #ffa928;
   border-bottom: 3px solid #ffa928;
@@ -24,6 +25,7 @@
   padding-left: 15px;
   border-bottom: 1px solid #f2ab4182;
   font-size: 12px;
+  background-color: white;
 }
 
 .joinTbl th {

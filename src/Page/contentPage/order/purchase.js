@@ -458,7 +458,7 @@ const Purchase = () => {
     <div className="purchase-wrapper">
       <div className="purchase-margin">
         <div className="purchase-addr">
-          <h2>주 문 정 보</h2>
+          <div className="purchase-addr-h2"><h2>주 문 정 보</h2></div>
           <div className="purchase-table">
             {auth.isLogined && (
               <table
@@ -653,7 +653,7 @@ const Purchase = () => {
       </div>
       <div className="purchase-margin">
         <div className="purchase-get">
-          <h2>배송지</h2>
+          <div className="purchase-get-h2"><h2>배송지</h2></div>
           <div className="purchase-table">
             <div className="purchase-shipSelector">
               <input
@@ -858,7 +858,7 @@ const Purchase = () => {
           </div>
         </div>
       </div>
-      <div className="purchase-margin">
+      <div className="purchase-margin-botton">
         <div className="purchase-product">
           <p>
             주문 상품{" "}
@@ -938,19 +938,19 @@ const Purchase = () => {
           })}
         </div>
       </div>
-      <div className="purchase-margin">
+      <div className="purchase-margin-bottom">
         <div className="purchase-calculate">
           {auth.isLogined && <h2>예상 적립 마일리지:{point}</h2>}
           <table className="purchase-price">
-            <tr>
+            <tr className="tr1">
               <td>총 상품 가격</td>
               <td>배송비</td>
               <td>최종금액</td>
             </tr>
             <tr className="tr2">
               <td>{totalCartPrice}원</td>
-              <td>{shipfee === 0 ? "무료" : shipfee}</td>
-              <td>{finalPrice}원</td>
+              <td>+{shipfee === 0 ? "무료" : shipfee}</td>
+              <td>={finalPrice}원</td>
             </tr>
           </table>
         </div>

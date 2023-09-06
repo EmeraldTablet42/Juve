@@ -32,16 +32,16 @@ const PurchaseCheck = () => {
     order && (
       <div>
         <div>
-          <div style={{ textAlign: "center", margin: "40px", top: "10px" }}>
+          <div className="completememo">
             <p>주문이 완료되었습니다</p>
             <p>고객님의 주문번호는</p>
             <p>{order.orderCode}입니다.</p>
           </div>
         </div>
         <div className="purchase-wrapper">
-          <div className="purchase-margin">
+          <div className="purchase-margin-check">
             <div className="purchase-addr">
-              <h2>주 문 정 보</h2>
+            <div className="purchase-addr-h2"><h2>주 문 정 보</h2></div>
               <div className="purchase-table">
                 <table id="basicInfo" className="joinTbl">
                   <tr>
@@ -76,9 +76,9 @@ const PurchaseCheck = () => {
               </div>
             </div>
           </div>
-          <div className="purchase-margin">
+          <div className="purchase-margin-check">
             <div className="purchase-get">
-              <h2>배송지</h2>
+            <div className="purchase-get-h2"><h2>배송지</h2></div>
               <div className="purchase-table">
                 <table id="resentShipment" className="joinTbl">
                   <tr>
@@ -114,7 +114,7 @@ const PurchaseCheck = () => {
               <div className="purchase-mesege">{order.message}</div>
             </div>
           </div>
-          <div className="purchase-margin">
+          <div className="purchase-margin-bottom">
             <div className="purchase-product">
               <p>주문 상품 </p>
               {order.carts.map((v, i) => {
@@ -182,19 +182,19 @@ const PurchaseCheck = () => {
               })}
             </div>
           </div>
-          <div className="purchase-margin">
+          <div className="purchase-margin-bottom">
             <div className="purchase-calculate">
               {auth.isLogined && <h2>예상 적립 마일리지:{order.mileage}</h2>}
               <table className="purchase-price">
-                <tr>
+                <tr className="tr1">
                   <td>총 상품 가격</td>
                   <td>배송비</td>
                   <td>최종금액</td>
                 </tr>
                 <tr className="tr2">
                   <td>{order.totalCartPrice}</td>
-                  <td>{order.shipfee}</td>
-                  <td>{order.finalPrice}</td>
+                  <td>+ {order.shipfee}</td>
+                  <td>= {order.finalPrice}</td>
                 </tr>
               </table>
             </div>
