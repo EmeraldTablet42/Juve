@@ -74,14 +74,10 @@ const Cupdetail = (detailData) => {
       return null;
     }
     regCartDB();
-    if (!auth.isLogined) {
-      dispatch(setCart(added));
-    }
-    dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
   };
 
   const regCartDB = () => {
-    alert(JSON.stringify(added));
+    // alert(JSON.stringify(added));
     axios
       .post("http://localhost:8090/order/reg.cart", added, {
         headers: {
@@ -90,7 +86,14 @@ const Cupdetail = (detailData) => {
         },
       })
       .then((res) => {
-        alert(res.data);
+        // alert(res.data);
+        if (!auth.isLogined) {
+          dispatch(setCart(added));
+        }
+        dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
+      })
+      .catch(() => {
+        navi("/");
       });
   };
 
@@ -204,7 +207,7 @@ const Cupdetail = (detailData) => {
         </div>
 
         <div ref={productTabs[1].element}>
-        <h1 style={{ display: "none" }}>리뷰</h1>
+          <h1 style={{ display: "none" }}>리뷰</h1>
         </div>
         <div>
           <Review />

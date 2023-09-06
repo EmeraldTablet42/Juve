@@ -197,15 +197,10 @@ const Salpopup = (props) => {
       return null;
     }
     regCartDB();
-    if (!auth.isLogined) {
-      dispatch(setCart(added));
-    }
-    setPopupState(false);
-    dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
   };
 
   const regCartDB = () => {
-    alert(JSON.stringify(added));
+    // alert(JSON.stringify(added));
     axios
       .post("http://localhost:8090/order/reg.cart", added, {
         headers: {
@@ -214,7 +209,15 @@ const Salpopup = (props) => {
         },
       })
       .then((res) => {
-        alert(res.data);
+        // alert(res.data);
+        if (!auth.isLogined) {
+          dispatch(setCart(added));
+        }
+        setPopupState(false);
+        dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
+      })
+      .catch(() => {
+        navi("/");
       });
   };
 
@@ -281,6 +284,7 @@ const Salpopup = (props) => {
   ///////////////////
   return (
     <>
+      {/* 배경 어둡게 */}
       <Background />
       <div className="popupcart-wrapper">
         <button
@@ -301,7 +305,7 @@ const Salpopup = (props) => {
           <hr style={{ margin: "10px 0", border: "1px solid #ccc" }} />
           <h2>{salData.productPrice}</h2>
           <hr style={{ margin: "10px 0", border: "1px solid #ccc" }} />
-          <div className="sdrOption" style={{marginTop:"20px"}}>
+          <div className="sdrOption" style={{ marginTop: "20px" }}>
             <select
               className="selectsize"
               value={sdrValue}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setCart } from "../components/cartSlice";
@@ -6,11 +6,23 @@ import Count from "../components/count";
 import "../styles/popupcart.css";
 import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
 import axios from "axios";
+import Background from "../../../system/background";
 const Bevpopup = (props) => {
   const { productId, setPopupState, bevData = {} } = props;
   const [count, setCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(bevData.productPrice);
   const cTn = useSelector((state) => state.codeToName).productCodeToName;
+
+  /// 팝업 열릴때 스크롤 금지
+  useEffect(() => {
+    // 팝업이 열릴 때 스크롤 금지
+    document.body.style.overflow = "hidden";
+
+    // 컴포넌트가 언마운트될 때 스크롤 허용
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
 
   const navi = useNavigate();
   const dispatch = useDispatch();
@@ -68,15 +80,10 @@ const Bevpopup = (props) => {
       return null;
     }
     regCartDB();
-    if (!auth.isLogined) {
-      dispatch(setCart(added));
-    }
-    setPopupState(false);
-    dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
   };
 
   const regCartDB = () => {
-    alert(JSON.stringify(added));
+    // alert(JSON.stringify(added));
     axios
       .post("http://localhost:8090/order/reg.cart", added, {
         headers: {
@@ -85,12 +92,21 @@ const Bevpopup = (props) => {
         },
       })
       .then((res) => {
-        alert(res.data);
+        // alert(res.data);
+        if (!auth.isLogined) {
+          dispatch(setCart(added));
+        }
+        setPopupState(false);
+        dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
+      })
+      .catch(() => {
+        navi("/");
       });
   };
 
   return (
     <>
+      <Background />
       <div className="popupcart-wrapper">
         <button
           className="popupcart-close"
@@ -142,7 +158,6 @@ const Bevpopup = (props) => {
               <div />
             </div>
 
-              
             <button onClick={addMenu}>메뉴담기</button>
             <button onClick={initialize}>메뉴 초기화</button>
             <button

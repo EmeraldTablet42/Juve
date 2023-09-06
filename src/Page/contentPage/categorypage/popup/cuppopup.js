@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
@@ -6,6 +6,7 @@ import { setCart } from "../components/cartSlice";
 import Count from "../components/count";
 import "../styles/popupcart.css";
 import axios from "axios";
+import Background from "../../../system/background";
 
 const Cuppopup = (props) => {
   const { productId, setPopupState, cupData = {} } = props;
@@ -14,6 +15,17 @@ const Cuppopup = (props) => {
   const cTn = useSelector((state) => state.codeToName).productCodeToName;
   const navi = useNavigate();
 
+  /// 팝업 열릴때 스크롤 금지
+  useEffect(() => {
+    // 팝업이 열릴 때 스크롤 금지
+    document.body.style.overflow = "hidden";
+
+    // 컴포넌트가 언마운트될 때 스크롤 허용
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   const handleCountChange = (newCount) => {
     if (newCount > 0) {
       setCount(newCount);
@@ -21,8 +33,6 @@ const Cuppopup = (props) => {
   };
   const dispatch = useDispatch();
   const [added, setAdded] = useState([]);
-
-
 
   const addMenu = () => {
     const existingIndex = added.findIndex((item) => {
@@ -71,15 +81,10 @@ const Cuppopup = (props) => {
       return null;
     }
     regCartDB();
-    if (!auth.isLogined) {
-      dispatch(setCart(added));
-    }
-    setPopupState(false);
-    dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
   };
 
   const regCartDB = () => {
-    alert(JSON.stringify(added));
+    // alert(JSON.stringify(added));
     axios
       .post("http://localhost:8090/order/reg.cart", added, {
         headers: {
@@ -88,12 +93,21 @@ const Cuppopup = (props) => {
         },
       })
       .then((res) => {
-        alert(res.data);
+        // alert(res.data);
+        if (!auth.isLogined) {
+          dispatch(setCart(added));
+        }
+        setPopupState(false);
+        dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
+      })
+      .catch(() => {
+        navi("/");
       });
   };
 
   return (
     <>
+      <Background />
       <div className="popupcart-wrapper">
         <button
           className="popupcart-close"
@@ -134,7 +148,7 @@ const Cuppopup = (props) => {
                   {/* {JSON.stringify(v)} */}
                   {cTn[v.productCode]}
                   <button onClick={() => handleRemoveItem(i)}>삭제</button>
-                  <br/>
+                  <br />
                   {`수량 :${v.count}`}
                   <br />
                   {`총가격 :${v.price}`}

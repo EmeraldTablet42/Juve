@@ -201,14 +201,10 @@ const Saldetail = () => {
       return null;
     }
     regCartDB();
-    if (!auth.isLogined) {
-      dispatch(setCart(added));
-    }
-    dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
   };
 
   const regCartDB = () => {
-    alert(JSON.stringify(added));
+    // alert(JSON.stringify(added));
     axios
       .post("http://localhost:8090/order/reg.cart", added, {
         headers: {
@@ -217,7 +213,14 @@ const Saldetail = () => {
         },
       })
       .then((res) => {
-        alert(res.data);
+        // alert(res.data);
+        if (!auth.isLogined) {
+          dispatch(setCart(added));
+        }
+        dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
+      })
+      .catch(() => {
+        navi("/");
       });
   };
 
