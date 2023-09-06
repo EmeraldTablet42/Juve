@@ -6,7 +6,7 @@ import { setCart } from "../components/cartSlice";
 import Count from "../components/count";
 import Movescroll from "../components/movescroll";
 import Review from "../components/review";
-import Purchase from "../purchase";
+import Purchase from "../../order/purchase";
 import sampleImage from "../static/saladsample.jpg";
 import "../styles/detail.css";
 import "../styles/scrollcss.css";

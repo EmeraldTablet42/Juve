@@ -20,8 +20,6 @@ import Wihdetail from "../contentPage/categorypage/detail/wihdetail";
 import TokenRefresher from "./tokenRefresher";
 import { useSelector } from "react-redux";
 import Resign from "../contentPage/myPage/resign";
-import Purchase from "../contentPage/categorypage/purchase";
-import Purchasecheck from "../contentPage/categorypage/purchasecheck";
 import NoticeListGet from "../contentPage/bbs/notice/noticeListGet";
 import NoticeReg from "../contentPage/bbs/notice/noticeReg";
 import NoticeUpdate from "../contentPage/bbs/notice/noticeUpdate";
@@ -32,6 +30,8 @@ import ConsultReg from "../contentPage/bbs/consult/consultReg";
 import ConsultUpdate from "../contentPage/bbs/consult/consultUpdate";
 import Cart from "../contentPage/categorypage/cart/cart";
 import AdminMain from "../contentPage/admin/adminMain";
+import Purchase from "../contentPage/order/purchase";
+import PurchaseCheck from "../contentPage/order/purchasecheck";
 const PageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
   return (
@@ -62,7 +62,7 @@ const PageContentAreaRoutes = () => {
           }
         />
         <Route path="/purchase" element={<Purchase />} />
-        <Route path="/purchasecheck" element={<Purchasecheck />} />
+        <Route path="/purchasecheck" element={<PurchaseCheck />} />
         <Route path="/product/reg" element={<ProductReg />} />
         <Route path="/product/get" element={<ProductGet />} />
         <Route path="/product/update" element={<ProductUpdate />} />
@@ -78,7 +78,13 @@ const PageContentAreaRoutes = () => {
         <Route path="/cart" element={<Cart />} />
         <Route
           path="/admin/main"
-          element={auth.memberId==="adminjuve" ? <AdminMain /> : <Navigate to={"/"} />}
+          element={
+            auth.memberId === "adminjuve" ? (
+              <AdminMain />
+            ) : (
+              <Navigate to={"/"} />
+            )
+          }
         />
       </Routes>
     </div>

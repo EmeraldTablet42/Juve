@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import DaumPostcodeAPI from "../member/daumPostcodeAPI";
 import { validateEmail } from "../member/validation";
 import { useDispatch, useSelector } from "react-redux";
-import { addMenuData, clearCart } from "./components/cartSlice";
+import { addMenuData, clearCart } from "../categorypage/components/cartSlice";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./styles/purchase.css";
+import "../categorypage/styles/purchase.css";
 import { useNavigate } from "react-router";
 import { removeFromCart } from "../categorypage/components/cartSlice";
+import { setOrder } from "./purchaseSlice";
 const Purchase = () => {
   useEffect(() => {
     getMemberInfoByLoginToken();
@@ -51,8 +52,8 @@ const Purchase = () => {
     destination: "",
     name: "",
     addr: { addr1: "", addr2: "", addr3: "" },
-    phone: { phone1: "", phone2: "", phone3: "" },
-    tel: { tel1: "", tel2: "", tel3: "" },
+    phone: { phone1: "010", phone2: "", phone3: "" },
+    tel: { tel1: "02", tel2: "", tel3: "" },
     message: "",
   });
   const getMemberShipment = () => {
@@ -384,7 +385,9 @@ const Purchase = () => {
     alert(finalPrice);
     const order = {
       sender: memberInfo.name,
-      senderAddress: `${memberInfo.addr.addr1}^${memberInfo.addr.addr2}^${memberInfo.addr.addr3}`,
+      senderAddress: `${memberInfo.addr.addr1}^${memberInfo.addr.addr2}^${
+        memberInfo.addr.addr3 ? memberInfo.addr.addr3 : ""
+      }`,
       senderPhone: `${memberInfo.phone.phone1}-${memberInfo.phone.phone2}-${memberInfo.phone.phone3}`,
       senderTel:
         memberInfo.tel.tel2 && memberInfo.tel.tel3
@@ -393,7 +396,13 @@ const Purchase = () => {
       senderEmail: memberInfo.email,
       destination: selectedShipment.destination,
       recipient: selectedShipment.name,
-      recipientAddress: `${selectedShipment.addr.addr1}^${selectedShipment.addr.addr2}^${selectedShipment.addr.addr3}`,
+      recipientAddress: `${selectedShipment.addr.addr1}^${
+        selectedShipment.addr.addr2
+      }^${
+        selectedShipment.addr.addr3
+          ? selectedShipment.addr.addr3
+          : selectedShipment.addr.addr3
+      }`,
       recipientPhone: `${selectedShipment.phone.phone1}-${selectedShipment.phone.phone2}-${selectedShipment.phone.phone3}`,
       recipientTel:
         selectedShipment.tel.tel2 && selectedShipment.tel.tel3
@@ -420,6 +429,8 @@ const Purchase = () => {
         if (!auth.isLogined) {
           dispatch(clearCart());
         }
+        dispatch(setOrder(res.data));
+        navi("/purchasecheck");
       })
       .catch((error) => {
         alert("등록오류");
@@ -888,7 +899,7 @@ const Purchase = () => {
       </div>
       <div className="purchase-margin">
         <div className="purchase-calculate">
-          <h2>적립마일리지:{point}</h2>
+          {auth.isLogined && <h2>예상 적립 마일리지:{point}</h2>}
           <table className="purchase-price">
             <tr>
               <td>총 상품 가격</td>

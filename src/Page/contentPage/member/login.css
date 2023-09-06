@@ -106,7 +106,7 @@
 .login-join button {
   color: hsl(41, 85%, 54%);
   background-color: white;
-  border: 1 solid hsl(41, 85%, 54%);
+  border: 1px solid hsl(41, 85%, 54%);
   width: 280px;
   height: 40px;
   display: flex;

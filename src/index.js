@@ -17,6 +17,7 @@ import cartSlice from "./Page/contentPage/categorypage/components/cartSlice";
 import codeToNameSlice from "./Page/contentPage/product/codeToNameSlice";
 import ScrollToTop from "./Page/index/scrollToTop";
 import popUpSlice from "./Page/system/popUpSlice";
+import purchaseSlice from "./Page/contentPage/order/purchaseSlice";
 
 const persistConfig = {
   key: "root",
@@ -52,6 +53,7 @@ const storee = configureStore({
     rsntView: persistedResentViewReducer,
     codeToName: persistedCodeToNameReducer,
     popUp: popUpSlice,
+    order: purchaseSlice,
   },
 });
 
