@@ -16,7 +16,6 @@ const Login = () => {
   const handleLoginInput = (e) => {
     setLoginInput({ ...loginInput, [e.target.name]: e.target.value });
   };
-
   const fd = new FormData();
   fd.append("id", loginInput.id);
   fd.append("password", loginInput.password);
@@ -62,95 +61,92 @@ const Login = () => {
   };
 
   return (
-    <>
-      <table className="loginTbl" border={1}>
-        <tr>
-          <td>회원 로그인</td>
-          <td>
-            <Link to="/loginUnsigned">비회원 주문조회</Link>
-          </td>
-        </tr>
-        <tr>
-          <td colSpan={2}>
-            <input
-              name="id"
-              value={loginInput.id}
-              placeholder="아이디"
-              onChange={handleLoginInput}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td colSpan={2}>
-            <input
-              name="password"
-              value={loginInput.password}
-              placeholder="비밀번호"
-              onChange={handleLoginInput}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  getLoginToken();
-                }
-              }}
-              type="password"
-            />
-          </td>
-        </tr>
-        <tr>
-          <td colSpan={2}>
-            <input type="checkbox" />
-            아이디저장
-          </td>
-        </tr>
-        <tr>
-          <td align="center" colSpan={2}>
-            <button onClick={getLoginToken}>로그인</button>
-            <button
-              onClick={() => {
-                alert(localStorage.getItem("loginToken"));
-              }}
-            >
-              조회
-            </button>
-            <button
-              onClick={() => {
-                alert(JSON.stringify(auth));
-              }}
-            >
-              토큰값 확인
-            </button>
-          </td>
-        </tr>
-        <tr>
-          <td align="center" colSpan={2}>
-            <Link to="/signin">회원가입</Link>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
-            <a>아이디 찾기</a>
-          </td>
-          <td align="center">
-            <a>비밀번호 찾기</a>
-          </td>
-        </tr>
-        <tr>
-          <td align="center" colSpan={2}>
-            ----간편하게 로그인----
-          </td>
-        </tr>
-        <tr>
-          <td align="center" colSpan={2}>
+    <div className="login-wrapper">
+      <div className="login-case">
+        <div className="login-box">
+          <h1>로 그 인</h1>
+          <div className="login-type">
+            <div style={{backgroundColor:"greenyellow"}}>회원 로그인</div>
+            <div>
+              <Link to="/loginUnsigned">비회원 주문조회</Link>
+            </div>
+          </div>
+          <div className="login-input-box">
+            <div className="login-input">
+              <input
+                name="id"
+                value={loginInput.id}
+                placeholder="아이디"
+                onChange={handleLoginInput}
+              />
+            </div>
+            <div className="login-input">
+              <input
+                name="password"
+                value={loginInput.password}
+                placeholder="비밀번호"
+                onChange={handleLoginInput}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    getLoginToken();
+                  }
+                }}
+                type="password"
+              />
+            </div>
+          </div>
+          <div className="login-save">
+            <div className="login-save-check">
+              <input type="checkbox" />
+              아이디저장
+            </div>
+            <div className="find-id">
+              <span>아이디 찾기</span>
+            </div>
+            <div className="find-pw">
+              <span>비밀번호 찾기</span>
+            </div>
+          </div>
+          <div className="login-btn">
+            <div>
+              <button onClick={getLoginToken}>로그인</button>
+            </div>
+            {/*<div>
+              <button
+                onClick={() => {
+                  alert(localStorage.getItem("loginToken"));
+                }}
+              >
+                조회
+              </button>
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  alert(JSON.stringify(auth));
+                }}
+              >
+                토큰값 확인
+              </button>
+              </div>*/}
+          </div>
+          <div className="login-join">
+            <Link to={"/join"}>
+              <button>회원가입</button>
+            </Link>
+          </div>
+          <div className="login-text">
+            <p>------------간편하게 로그인------------</p>
+          </div>
+          <div className="naver">
             <button>네이버로 로그인</button>
-          </td>
-        </tr>
-        <tr>
-          <td align="center" colSpan={2}>
+          </div>
+          <div className="kakao">
             <button>카카오로 로그인</button>
-          </td>
-        </tr>
-      </table>
-    </>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 export default Login;

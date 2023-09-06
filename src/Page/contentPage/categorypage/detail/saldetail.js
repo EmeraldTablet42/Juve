@@ -300,8 +300,8 @@ const Saldetail = () => {
         </div>
         <div className="product-view">
           <div className="product-data">
-            <p>{salData.productName}</p>
-            <p>{salData.productPrice}</p>
+            <p>상 품 : {salData.productName}</p>
+            <p>가 격 : {salData.productPrice}</p>
             <div className="sdrOption">
               <select
                 className="selectsize"
@@ -497,8 +497,7 @@ const Saldetail = () => {
                 </div>
               </div>
               <div>
-                <button onClick={addMenu}>메뉴 추가</button>
-                <br />
+                <button onClick={addMenu}>메뉴 담기</button>
                 <button
                   onClick={() => {
                     const hasCheckedOption = Object.values(check).some(

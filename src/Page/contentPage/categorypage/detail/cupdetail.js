@@ -9,6 +9,7 @@ import sampleImage from "../static/cup.jpg";
 import "../styles/scrollcss.css";
 import "../styles/detail.css";
 import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
+import Review from "../components/review";
 
 const Cupdetail = (detailData) => {
   const [cupData, setCupData] = useState([]);
@@ -203,9 +204,11 @@ const Cupdetail = (detailData) => {
         </div>
 
         <div ref={productTabs[1].element}>
-          <h1>리뷰</h1>
+        <h1 style={{ display: "none" }}>리뷰</h1>
         </div>
-
+        <div>
+          <Review />
+        </div>
         <div ref={productTabs[2].element}>
           <h1>상품 문의</h1>
         </div>

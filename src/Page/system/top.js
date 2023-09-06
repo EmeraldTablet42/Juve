@@ -1,22 +1,42 @@
-import React from 'react'
-import sampleimage from "../imagefile/topbutton.png"
-import Background from './background'
+import React, { useEffect, useState } from "react";
+import sampleimage from "../imagefile/topbutton.png";
+import "./top.css"
 const Top = () => {
+  const [showButton, setShowButton] = useState(false);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  const handleScroll = () => {
+    const scrollDistance = 300;
+    if (window.scrollY >= scrollDistance) {
+      setShowButton(true);
+    } else {
+      setShowButton(false);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
 
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        })
-}
-    return(
-        <div className='scroll'>
-            <button id="top" onClick={scrollToTop} type='button' style={{border:"none",backgroundColor:"transparent"}}>
-                <img src={sampleimage} alt="top" style={{width:"65px"}}></img>
-            </button>
-        </div>
-    )
-}
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  return (
+    <div className="scroll">
+        {showButton &&(
+      <button
+        className="top"
+        onClick={scrollToTop}
+        type="button"
+      >
+        <img src={sampleimage} alt="top" style={{ width: "65px" }}></img>
+      </button>
+      )}
+    </div>
+  );
+};
 
-
-export default Top
+export default Top;

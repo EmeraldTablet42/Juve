@@ -1,6 +1,172 @@
-.loginTbl{
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 100px;
-    margin-bottom: 100px;
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 900px;
+  width: 1200px;
+}
+.login-case {
+  width: 400px;
+  height: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.login-box {
+  width: 350px;
+  height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 0;
+}
+.login-box h1{
+    margin-bottom: 20px;
+}
+.login-type {
+  width: 350px;
+  height: 60px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.login-input-box {
+  width: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.login-input input {
+  width: 280px;
+  height: 40px;
+  margin-top: 10px;
+}
+.unlogin-input input {
+  width: 280px;
+  height: 40px;
+  margin-top: 10px;
+}
+.login-type div {
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid hsla(41, 100%, 62%, 0.918);
+  height: 60px;
+  width: 50%;
+}
+.login-save {
+  width: 280px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+.login-save-check {
+  width: 155px;
+  font-size: 8pt;
+}
+.find-id {
+  width: 65px;
+  font-size: 8pt;
+  margin: 0;
+}
+.find-pw {
+  width: 70px;
+  font-size: 8pt;
+  margin: 0;
+}
+.login-btn {
+  width: 280px;
+}
+.login-btn button {
+  border: none;
+  color: white;
+  font-weight: bold;
+  background-color: hsl(41, 85%, 54%);
+  width: 280px;
+  height: 40px;
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-join {
+  width: 280px;
+}
+.login-join button {
+  color: hsl(41, 85%, 54%);
+  background-color: white;
+  border: 1 solid hsl(41, 85%, 54%);
+  width: 280px;
+  height: 40px;
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.login-text {
+  width: 280px;
+  margin-bottom: 20px;
+}
+.naver {
+  border: none;
+  width: 280px;
+  height: 40px;
+  margin-bottom: 10px;
+}
+.kakao {
+  border: none;
+  width: 280px;
+  height: 40px;
+}
+.naver button {
+  color: white;
+  font-weight: bolder;
+  border: none;
+  border-radius: 5px;
+  background-color:#15b815;
+  width: 280px;
+  height: 40px;
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.kakao button {
+  color: black;
+  font-weight: bolder;
+  border: none;
+  border-radius: 5px;
+  background-color: yellow;
+  width: 280px;
+  height: 40px;
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.unlogin-btn{
+    width: 280px;
+    height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.unlogin-btn button{
+    width: 280px;
+    height: 40px;
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
 }

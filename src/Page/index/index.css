@@ -35,8 +35,8 @@
 }
 .sideMenu {
   position: fixed;
-  top: 200px;
-  right: 0px;
+  top: 300px;
+  right:200px;
   z-index: 9;
 }
 
