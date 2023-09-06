@@ -1,0 +1,32 @@
+.scroll{
+    position: fixed;
+    bottom: 50px;
+    right: 200px;
+}
+.scroll button{
+    border: none;
+    background-color: transparent;
+}
+
+@keyframes slideFromBottom {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .top {
+    position: fixed;
+    bottom: 20px;
+    right: 200px;
+    border: none;
+    background-color: transparent;
+    animation: slideFromBottom 0.5s ease forwards;
+  }
+  .top :hover{
+    transform: scale(1.1);
+  }

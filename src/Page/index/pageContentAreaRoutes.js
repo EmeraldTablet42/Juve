@@ -54,6 +54,7 @@ const PageContentAreaRoutes = () => {
         <Route path="/wihdetail" element={<Wihdetail />} />
         <Route path="/cupdetail" element={<Cupdetail />} />
         <Route path="/member/mypage/*" element={<MyPage />} />
+        <Route path="/join" element={<Join />} />
         <Route
           path="/member/resign"
           element={

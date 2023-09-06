@@ -9,6 +9,7 @@ import sampleImage from "../static/bev.jpg";
 import "../styles/scrollcss.css";
 import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
 import "../styles/detail.css";
+import Review from "../components/review";
 
 const Bevdetail = (detailData) => {
   const [bevData, setBevData] = useState([]);
@@ -198,7 +199,10 @@ const Bevdetail = (detailData) => {
         </div>
 
         <div ref={productTabs[1].element}>
-          <h1>리뷰</h1>
+        <h1 style={{ display: "none" }}>리뷰</h1>
+        </div>
+        <div>
+          <Review />
         </div>
 
         <div ref={productTabs[2].element}>

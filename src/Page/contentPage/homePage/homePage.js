@@ -7,7 +7,7 @@ import "../categorypage/styles/homepage.css"
 const HomePage = () => {
   return (
     <div className="home">
-      <div className="Slider">
+      <div className="Slider" style={{margin:"0"}}>
         <Imageslider />
       </div>
       <div className="home-title">
