@@ -1,6 +1,15 @@
 package com.juve.order;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.juve.member.Member;
@@ -18,6 +27,8 @@ public class OrderDAO {
 	private RecommendationDAO rDAO;
 	@Autowired
 	private CartDAO cDAO;
+
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 
 	public Order regOrder(String loginToken, Order order) {
 		try {
@@ -61,6 +72,13 @@ public class OrderDAO {
 			if (!m.getId().equals("unsigned")) {
 				cDAO.delAllcarts(order.getCarts());
 			}
+			char productInitial = order.getCarts().get(0).getProductCode().charAt(0);
+			String date = sdf.format(order.getOrderDate());
+			String uuid = UUID.randomUUID().toString().substring(0, 4);
+			String orderCode = productInitial + date + uuid;
+			System.out.println(orderCode);
+			order.setOrderCode(orderCode);
+			System.out.println(order.getOrderCode());
 			return or.save(order);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -111,6 +129,41 @@ public class OrderDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "DB통신에러";
+		}
+	}
+
+	public Order getOrderFromUnsigned(String orderCode, String sender, String phone) {
+		try {
+			return or.findByOrderCodeAndSenderAndSenderPhone(orderCode, sender, phone);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Orders getOrdersFromLoginTokenAndDateBeetween(String loginToken, Date startDate, Date endDate, Integer page,
+			Integer orderStatus) {
+		try {
+			String id = mDAO.getLoginedMember(loginToken).getId();
+			Sort s = null;
+			s = Sort.by(Sort.Order.desc("orderDate"));
+			Pageable p = PageRequest.of(page - 1, 10, s);
+			Page<Order> pagee = null;
+			if (orderStatus != 0) {
+				pagee = or.findAllByOrderIdAndOrderDateBetweenAndOrderStatus(id, startDate, endDate, orderStatus, p);
+			} else {
+				pagee = or.findAllByOrderIdAndOrderDateBetween(id, startDate, endDate, p);
+			}
+			int totalPage = pagee.getTotalPages();
+			List<Order> orders = pagee.getContent();
+			System.out.println(id);
+			System.out.println(startDate);
+			System.out.println(endDate);
+			System.out.println(orderStatus);
+			return new Orders(orders, totalPage);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

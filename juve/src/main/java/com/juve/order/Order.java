@@ -28,6 +28,8 @@ public class Order {
 	private Integer no;
 	@Column(name = "JO_ID")
 	private String orderId;
+	@Column(name = "JO_ORDERCODE")
+	private String orderCode;
 	@Column(name = "JO_SENDER")
 	private String sender;
 	@Column(name = "JO_SENDER_ADDRESS")

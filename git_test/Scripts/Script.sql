@@ -312,6 +312,7 @@ END;
 CREATE TABLE JUVE_ORDER(
 JO_NO number(7) PRIMARY KEY,
 JO_ID varchar2(16),
+JO_ORDERCODE varchar2(11 char) NOT NULL,
 JO_SENDER varchar2(4 char) NOT null,
 JO_SENDER_ADDRESS varchar2(100 char) NOT NULL,
 JO_SENDER_PHONE varchar2(13 char) NOT NULL,
