@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Pagination from "react-js-pagination";
 import { useSelector } from "react-redux";
-
+import "./consultlist.css";
 const ConsultListGet = () => {
   const [params, setParams] = useState({
     page: 1,
@@ -56,8 +56,7 @@ const ConsultListGet = () => {
       });
   };
 
-  const bbsTr = bbsDB.map((v, i) => 
-  (
+  const bbsTr = bbsDB.map((v, i) => (
     <tr>
       <td>{bbsDB.length - i}</td>
       <td
@@ -68,29 +67,38 @@ const ConsultListGet = () => {
         <a href={`/board/consult/get?id=${v.no}`}>{v.title}</a>
       </td>
       <td>{v.writerName}</td>
-      <td>{v.date.split('T')[0]}</td>
+      <td>{v.date.split("T")[0]}</td>
       <td>{v.hits}</td>
     </tr>
   ));
 
   return (
     <>
-      <h2>고객문의</h2>
-      <table className="BBSConsultTbl" border={1}>
-        <tr>
-          <th>번호</th>
-          <th>제목</th>
-          <th>작성자</th>
-          <th>작성일</th>
-          <th>조회</th>
-        </tr>
-        {bbsTr}
-        <tr>
-          <td colSpan={5}>
+      <div className="consult-title">
+        <div>
+          <h2>고객문의</h2>
+        </div>
+      </div>
+      <div className="tableset">
+        <div>
+          <table className="BBSConsultTbl" border={1}>
+            <tr>
+              <th>번호</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>작성일</th>
+              <th>조회</th>
+            </tr>
+            {bbsTr}
+            <tr>
+              <td colSpan={5}></td>
+            </tr>
+          </table>
+          </div>
+          <div className="consult-write">
             <button onClick={regConsult}>글쓰기</button>
-          </td>
-        </tr>
-      </table>
+          </div>
+      </div>
       <div>
         <Pagination
           activePage={params.page}

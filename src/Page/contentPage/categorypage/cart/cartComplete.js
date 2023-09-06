@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import Background from "../../../system/background";
 import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
 import { useNavigate } from "react-router-dom";
-
+import sampleimage from "../../../imagefile/carticon.png";
 const CartComplete = ({ popUp, setPopUp }) => {
   const dispatch = useDispatch();
   const navi = useNavigate();
@@ -29,24 +29,31 @@ const CartComplete = ({ popUp, setPopUp }) => {
   return (
     <>
       <Background />
-      <table border={1} className="cartCompletePopup">
-        <tr>
-          <th colSpan={3}>장바구니 담기</th>
-        </tr>
-        <tr>
-          <td colSpan={2}>그림</td>
-        </tr>
-        <tr>
-          <td colSpan={2}>상품이 장바구니에 담겼습니다.</td>
-        </tr>
-        <tr>
-          <td colSpan={2}>장바구니를 확인하시겠습니까?</td>
-        </tr>
-        <tr>
-          <td onClick={closePopup}>쇼핑계속하기</td>
-          <td onClick={goCart}>확인</td>
-        </tr>
-      </table>
+      <div className="cartCompletePopup">
+        <div className="cartComplete-head">장바구니 담기</div>
+        <div className="cartComplete-image">
+          <img
+            src={sampleimage}
+            alt="장바구니"
+            style={{ width: "70", height: "70px" }}
+          />
+        </div>
+
+        <div className="cartComplete-check">
+          <div>상품이 장바구니에 담겼습니다.</div>
+          <div>
+            <h5>장바구니를 확인하시겠습니까?</h5>
+          </div>
+        </div>
+        <div className="cartComplete-button">
+          <div className="close">
+            <button onClick={closePopup}>쇼핑계속하기</button>
+          </div>
+          <div className="move">
+            <button onClick={goCart}>장바구니 이동</button>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

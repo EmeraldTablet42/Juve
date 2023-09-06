@@ -29,11 +29,13 @@ const SideMenu = () => {
         </div>
         <div className="sidmenu-cart">
           <button>
-            <img
-              src={sampleimage}
-              alt="장바구니"
-              style={{ width: "70", height: "70px" }}
-            />
+            <Link to="/cart">
+              <img
+                src={sampleimage}
+                alt="장바구니"
+                style={{ width: "70px", height: "70px" }}
+              />
+            </Link>
           </button>
         </div>
         <div className="recently-product">

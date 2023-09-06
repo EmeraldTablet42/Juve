@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Pagination from "react-js-pagination";
 import { useSelector } from "react-redux";
-
+import "./noticelist.css";
 const NoticeListGet = () => {
   const [params, setParams] = useState({
     page: 1,
@@ -74,24 +74,32 @@ const NoticeListGet = () => {
 
   return (
     <>
-      <h2>공지사항</h2>
-      <table className="BBSNoticeTbl" border={1}>
-        <tr>
-          <th>번호</th>
-          <th>제목</th>
-          <th>작성자</th>
-          <th>작성일</th>
-          <th>조회</th>
-        </tr>
-        {bbsTr}
-        {auth.memberId === "adminjuve" && (
-          <tr>
-            <td colSpan={5}>
-              <button onClick={regNotice}>공지사항 등록</button>
-            </td>
-          </tr>
-        )}
-      </table>
+      <div className="notice-title">
+        <div>
+          <h2>공지사항</h2>
+        </div>
+      </div>
+      <div className="tableset">
+        <div>
+          <table className="BBSNoticeTbl" border={1}>
+            <tr>
+              <th>번호</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>작성일</th>
+              <th>조회</th>
+            </tr>
+            {bbsTr}
+            {auth.memberId === "adminjuve" && (
+              <tr>
+                <td colSpan={5}>
+                  <button onClick={regNotice}>공지사항 등록</button>
+                </td>
+              </tr>
+            )}
+          </table>
+        </div>
+      </div>
       <div>
         <Pagination
           activePage={params.page}
