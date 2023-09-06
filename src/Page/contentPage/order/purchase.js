@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import DaumPostcodeAPI from "../member/daumPostcodeAPI";
 import { validateEmail } from "../member/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { addMenuData, clearCart } from "../categorypage/components/cartSlice";
@@ -9,6 +8,7 @@ import "../categorypage/styles/purchase.css";
 import { useNavigate } from "react-router";
 import { removeFromCart } from "../categorypage/components/cartSlice";
 import { setOrder } from "./purchaseSlice";
+import DaumPostcodeApiOrder from "./daumPostcodeApiOrder";
 const Purchase = () => {
   useEffect(() => {
     getMemberInfoByLoginToken();
@@ -44,6 +44,30 @@ const Purchase = () => {
           });
         });
     }
+  };
+
+  // 주소창 팝업 state - 기존값 false//
+  const [addrPopupMember, setAddrPopupMember] = useState(false);
+  const handleAddrPopupMember = () => {
+    setAddrPopupMember(!addrPopupMember);
+  };
+
+  const setAddrMember = (addr) => {
+    setMemberInfo((prevState) => ({
+      ...prevState,
+      addr: addr,
+    }));
+  };
+  const [addrPopupShipment, setAddrPopupShipment] = useState(false);
+  const handleAddrPopupShipment = () => {
+    setAddrPopupShipment(!addrPopupShipment);
+  };
+
+  const setAddrShipment = (addr) => {
+    setSelectedShipment((prevState) => ({
+      ...prevState,
+      addr: addr,
+    }));
   };
 
   // 회원의 배송지 정보 가져오기
@@ -533,6 +557,17 @@ const Purchase = () => {
                       value={memberInfo.addr.addr1}
                       onChange={handleMemberInfo}
                     />
+                    <button name="popUpMember" onClick={handleAddrPopupMember}>
+                      주소 검색
+                    </button>
+                    {addrPopupMember && (
+                      <DaumPostcodeApiOrder
+                        addr={memberInfo.addr}
+                        setAddr={setAddrMember}
+                        addrPopup={addrPopupMember}
+                        setAddrPopup={setAddrPopupMember}
+                      />
+                    )}
                   </td>
                 </tr>
                 <tr>
@@ -672,7 +707,7 @@ const Purchase = () => {
                     value={selectedShipment.destination}
                     onChange={handleShipment}
                   />
-                  {shipmentType == "resent" &&
+                  {shipmentType === "resent" &&
                     memberShipment.length !== 0 &&
                     memberShipment.map((v, i) => (
                       <ul
@@ -723,6 +758,20 @@ const Purchase = () => {
                     value={selectedShipment.addr.addr1}
                     onChange={handleShipment}
                   />
+                  <button
+                    name="popUpShipment"
+                    onClick={handleAddrPopupShipment}
+                  >
+                    주소 검색
+                  </button>
+                  {addrPopupShipment && (
+                    <DaumPostcodeApiOrder
+                      addr={selectedShipment.addr}
+                      setAddr={setAddrShipment}
+                      addrPopup={addrPopupShipment}
+                      setAddrPopup={setAddrPopupShipment}
+                    />
+                  )}
                 </td>
               </tr>
               <tr>
