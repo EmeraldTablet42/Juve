@@ -40,7 +40,7 @@ public class ProductDAO {
 		try {
 			if (mf != null) {
 				String file = makeFileName(mf);
-				mf.transferTo(new File(folder + "/" + file));
+				mf.transferTo(new File(folder + "/product/photo/" + file));
 				p.setProductPhoto(file);
 			}
 		} catch (Exception e) {
@@ -151,7 +151,7 @@ public class ProductDAO {
 
 	public Resource getPhoto(String name) {
 		try {
-			return new UrlResource("file:" + folder + "/" + name);
+			return new UrlResource("file:" + folder + "/product/photo/" + name);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

@@ -38,6 +38,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 	// jackson-mapper-asl 대신 써도됨 동일한기능
+	
+	// https://mvnrepository.com/artifact/com.oracle.database.xml/xdb6
+	implementation group: 'com.oracle.database.xml', name: 'xdb6', version: '18.3.0.0'
+	
+	
+	
 }
 
 tasks.named('test') {

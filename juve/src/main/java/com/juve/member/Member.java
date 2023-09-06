@@ -39,4 +39,6 @@ public class Member {
 	private Date birthDate;
 	@Column(name = "JM_MILEAGE")
 	private Integer mileage;
+	@Column(name = "JM_AGE")
+	private Integer age;
 }

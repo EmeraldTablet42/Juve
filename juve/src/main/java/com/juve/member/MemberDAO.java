@@ -73,7 +73,8 @@ public class MemberDAO {
 			m.setId(id);
 			return m;
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("토큰없음");
 			return null;
 		}
 	}
@@ -157,6 +158,16 @@ public class MemberDAO {
 	public Member getById(Member m) {
 		try {
 			return mr.findById(m.getId()).get();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Member getMemberByLoginToken(String loginToken) {
+		try {
+			String id = getLoginedMember(loginToken).getId();
+			return mr.findById(id).get();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

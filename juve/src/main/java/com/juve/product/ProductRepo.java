@@ -23,4 +23,5 @@ public interface ProductRepo extends CrudRepository<Product, String> {
 			Pageable p);
 
 	public abstract List<Product> findByCategory(String n);
+	
 }

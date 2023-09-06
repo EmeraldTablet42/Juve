@@ -18,7 +18,8 @@ public class ProductController {
 	@Autowired
 	private ProductDAO pDAO;
 
-	@CrossOrigin(origins = {"http://localhost", "http://121.188.14.80"})
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171", "http://juve.co.kr",
+			"https://juve.co.kr" })
 	@RequestMapping(value = "/product.upload", produces = "application/json;charset=utf-8")
 	public @ResponseBody Product productUpload(
 			@RequestParam(name = "productPhotoFile", required = false) MultipartFile mf, Product p,
@@ -33,7 +34,8 @@ public class ProductController {
 		return pDAO.upload(mf, p);
 	}
 
-	@CrossOrigin(origins = {"http://localhost", "http://121.188.14.80"})
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171", "http://juve.co.kr",
+			"https://juve.co.kr" })
 	@RequestMapping(value = "/product.delete", produces = "application/json;charset=utf-8")
 	public @ResponseBody String productDelete(Product p, HttpServletResponse response) {
 //		response.addHeader("Access-Control-Allow-Origin", "http://121.188.14.114");
@@ -41,33 +43,34 @@ public class ProductController {
 		return "deleteComplite";
 	}
 
-	@CrossOrigin(origins = {"http://localhost", "http://121.188.14.80"})
+//	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171", "http://juve.co.kr",
+//			"https://juve.co.kr","https://juve.co.kr/api" })
 	@RequestMapping(value = "/product.get", produces = "application/json;charset=utf-8")
 	public @ResponseBody Products productGet(MultipartFile mf, Products p, HttpServletResponse response) {
-//		response.addHeader("Access-Control-Allow-Origin", "http://121.188.14.114");
+		response.addHeader("Access-Control-Allow-Origin", "*");
 		return pDAO.get();
 	}
 
-	@CrossOrigin(origins = {"http://localhost", "http://121.188.14.80"})
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171", "http://juve.co.kr",
+			"https://juve.co.kr" })
 	@RequestMapping(value = "/product.getByPage", produces = "application/json;charset=utf-8")
-	public @ResponseBody Products productGetByPage(
-			@RequestParam(name = "page") Integer page,
-			@RequestParam(name = "category") Integer category,
-			@RequestParam(name = "price") String price,
-			@RequestParam(name = "search") String search,
-			HttpServletResponse response) {
+	public @ResponseBody Products productGetByPage(@RequestParam(name = "page") Integer page,
+			@RequestParam(name = "category") Integer category, @RequestParam(name = "price") String price,
+			@RequestParam(name = "search") String search, HttpServletResponse response) {
 //		response.addHeader("Access-Control-Allow-Origin", "http://121.188.14.114");
 		return pDAO.getByPage(category, price, search, page);
 	}
 
-	@CrossOrigin(origins = {"http://localhost", "http://121.188.14.80"})
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171", "http://juve.co.kr",
+			"https://juve.co.kr" })
 	@RequestMapping(value = "/product.getById")
 	public @ResponseBody Product productGetByID(@RequestParam(name = "id") String id, HttpServletResponse response) {
 //		response.addHeader("Access-Control-Allow-Origin", "http://121.188.14.114");
 		return pDAO.getByID(id);
 	}
 
-	@CrossOrigin(origins = {"http://localhost", "http://121.188.14.80"})
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171", "http://juve.co.kr",
+			"https://juve.co.kr" })
 	@RequestMapping(value = "/product.getByCategory")
 	public @ResponseBody Products productGetByCategory(@RequestParam(name = "category") String category,
 			HttpServletResponse response) {
@@ -75,7 +78,8 @@ public class ProductController {
 		return pDAO.getByCategory(category);
 	}
 
-	
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171", "http://juve.co.kr",
+			"https://juve.co.kr" })
 	@RequestMapping(value = "/product/photo/{name}")
 	public @ResponseBody Resource getPhoto(@PathVariable("name") String name) {
 		return pDAO.getPhoto(name);
