@@ -69,7 +69,6 @@ const Cartlist = () => {
 
   //카트 DB에서 삭제
   const delCartDB = (index) => {
-    alert(JSON.stringify(cartList[index]));
     axios
       .post("http://localhost:8090/order/del.cart", cartList[index], {
         headers: {
@@ -78,7 +77,6 @@ const Cartlist = () => {
         },
       })
       .then((res) => {
-        alert(res.data);
         getCartByLoginToken();
       });
   };

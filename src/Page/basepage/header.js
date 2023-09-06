@@ -29,8 +29,8 @@ const Header = () => {
         </div>
       </div>
       <div className="middle">
-        <div>
-        <input />
+        <div className="middle-search">
+        <input maxLength={10} placeholder="         키워드 검색"></input>
         </div>
       </div>
       <div className="right">

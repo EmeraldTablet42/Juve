@@ -1,0 +1,144 @@
+.myoreder-wrapper{
+    width: 962px;
+    height: 800px;
+}
+.myorder-text{
+ display: flex;
+ flex-direction: column;
+ height: 160px;
+}
+.test1{
+    height: 80px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+.test1 h2 {
+    margin-left: 20px;
+}
+.test2{
+    height: 80px;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.order{
+    height: 80px;
+    display: flex;
+    flex-direction: low;
+    margin-bottom: 30px;
+}
+.order div{
+    display: flex;
+    width: 20%;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #ffa928;
+    border-radius: 10px;
+}
+.get-list{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.get-list h3{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+.order-control{
+    width: 100%;
+    height: 550px;
+}
+.selectController{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    border-bottom: 1px solid black;
+}
+.control-tag{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 96px;
+    height: 40px;
+}
+.control-input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 384px;
+}
+.control-input input{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.selectedList{
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+.orderListTbl{
+    width: 96%;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+}
+.orderListTbl tr{
+    text-align: center;
+}
+.top-tr{
+    background-color: beige;
+    border-collapse: collapse;
+    border-bottom: 1px solid black;
+}
+.orderListTbl th{
+    height: 50px;
+    border-collapse: collapse;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+}
+.orderListTbl th:nth-child(1){
+    width: 200px;
+}
+.orderListTbl th:nth-child(2){
+    width: 200px;
+}
+.orderListTbl th:nth-child(3){
+    width: 200px;
+}
+.orderListTbl th:nth-child(4){
+    width: 200px;
+}
+.orderListTbl th:nth-child(5){
+    width: 100px;
+}
+
+.orderListTbl td{
+    height: 40px;
+    border-bottom: 1px solid black;
+}
+.orderListTbl td:nth-child(1){
+    width: 200px;
+}
+.orderListTbl td:nth-child(2){
+    width: 200px;
+}
+.orderListTbl td:nth-child(3){
+    width: 200px;
+}
+.orderListTbl td:nth-child(4){
+    width: 200px;
+}
+.orderListTbl td:nth-child(5){
+    width: 100px;
+}

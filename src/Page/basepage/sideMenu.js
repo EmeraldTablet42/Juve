@@ -65,9 +65,9 @@ const SideMenu = () => {
               </div>
             )}
           </div>
-        </div>
-        <div className="sidemenu-top">
-          <Top />
+          <div className="sidemenu-top">
+            <Top />
+          </div>
         </div>
       </div>
     </div>

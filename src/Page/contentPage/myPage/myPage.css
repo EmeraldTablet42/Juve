@@ -16,9 +16,10 @@ ul{
 .myPageContentArea {
   max-width: 960px;
   width: 80%;
+  height: 800px;
   float: right;
-  margin-top: 45px;
-  border: 1px solid black;
+  margin-top: 20px;
+  border: none;
 }
 
 .orderState {
@@ -41,4 +42,8 @@ ul{
   width: 15%;
   border: 1px solid black;
   text-align: center;
+}
+.myPage_layout{
+  width: 1200px;
+  height: 800px;
 }

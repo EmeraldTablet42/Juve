@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import "./css/myshipment.css";
 const MyShipment = () => {
   const navi = useNavigate();
   const [shipmentDB, setShipmentDB] = useState([]);
@@ -57,6 +57,7 @@ const MyShipment = () => {
   const shipmentTr = shipmentDB.map((v, i) => {
     const addr = v.address.split("^");
     return (
+      <div className="shipment-list">
       <tr>
         <td>
           {v.isDefault === "Y" ? "[기본]" : ""}
@@ -83,6 +84,7 @@ const MyShipment = () => {
           </button>
         </td>
       </tr>
+      </div>
     );
   });
 
@@ -99,11 +101,13 @@ const MyShipment = () => {
   }, []);
 
   return (
-    <>
+    <div className="shipment-wrapper">
+    <div className="shipment-table">
       <div className="titleArea">
         <h2 style={{ display: "inline-block" }}>배송지관리</h2>
+        &nbsp; &nbsp;
         <p style={{ display: "inline-block" }}>
-          최대 5개의 배송지를 등록하실 수 있습니다.
+          (최대 5개의 배송지를 등록하실 수 있습니다.)
         </p>
       </div>
       <div className="shipmentTblDiv">
@@ -116,11 +120,12 @@ const MyShipment = () => {
             <th>일반전화</th>
             <th>수정</th>
           </tr>
-          {shipmentTr}
         </table>
+        {shipmentTr}
         <button onClick={regShipment}>배송지 등록</button>
       </div>
-    </>
+    </div>
+    </div>
   );
 };
 

@@ -36,13 +36,6 @@ const PurchaseCheck = () => {
             <p>주문이 완료되었습니다</p>
             <p>고객님의 주문번호는</p>
             <p>{order.orderCode}입니다.</p>
-            <button
-              onClick={() => {
-                alert(JSON.stringify(order));
-              }}
-            >
-              redux 조회
-            </button>
           </div>
         </div>
         <div className="purchase-wrapper">

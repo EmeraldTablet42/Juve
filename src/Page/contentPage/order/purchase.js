@@ -26,7 +26,6 @@ const Purchase = () => {
           )}`
         )
         .then((res) => {
-          alert(JSON.stringify(res.data));
           const dbInfo = res.data;
           const addr = dbInfo.address.split("^");
           const phone = dbInfo.phone.split("-");
@@ -89,7 +88,6 @@ const Purchase = () => {
           )}`
         )
         .then((res) => {
-          alert(JSON.stringify(res.data));
           const shipments = res.data.shipments;
           const defaultShipment = shipments[0];
           const defaultAddress = defaultShipment.address.split("^");
@@ -231,7 +229,6 @@ const Purchase = () => {
 
   //카트 DB에서 삭제
   const delCartDB = (index) => {
-    alert(JSON.stringify(cartList[index]));
     axios
       .post("http://localhost:8090/order/del.cart", cartList[index], {
         headers: {
@@ -240,7 +237,6 @@ const Purchase = () => {
         },
       })
       .then((res) => {
-        alert(res.data);
         getCartByLoginToken();
       });
   };
@@ -404,9 +400,6 @@ const Purchase = () => {
 
   const regOrder = () => {
     // alert(JSON.stringify(cartList));
-    alert(totalCartPrice);
-    alert(shipfee);
-    alert(finalPrice);
     const order = {
       sender: memberInfo.name,
       senderAddress: `${memberInfo.addr.addr1}^${memberInfo.addr.addr2}^${
@@ -449,7 +442,6 @@ const Purchase = () => {
         },
       })
       .then((res) => {
-        alert(JSON.stringify(res.data));
         if (!auth.isLogined) {
           dispatch(clearCart());
         }

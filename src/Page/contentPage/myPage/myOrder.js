@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
+import "./css/myorder.css";
 const MyOrder = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -29,7 +29,6 @@ const MyOrder = () => {
         },
       })
       .then((res) => {
-        alert(JSON.stringify(res.data.orders));
         setSelectedOrder(res.data.orders);
         console.log(JSON.stringify(res.data.orders));
         setDataLoaded(true);
@@ -41,7 +40,10 @@ const MyOrder = () => {
   }, [params]);
 
   const orderTr = selectedOrder.map((d, i) => {
-    const datePart = d.orderDate.split(" ")[0]+d.orderDate.split(" ")[1]+d.orderDate.split(" ")[2];
+    const datePart =
+      d.orderDate.split(" ")[0] +
+      d.orderDate.split(" ")[1] +
+      d.orderDate.split(" ")[2];
     return (
       <tr key={i}>
         <td>{d.orderCode}</td>
@@ -56,61 +58,86 @@ const MyOrder = () => {
   return (
     dataLoaded && (
       <>
-        <h2>주문/예약 내역</h2>
-        <h3>주문처리 현황</h3>
-        <div className="orderState">
-          <ul className="order" style={{ listStyle: "none" }}>
-            <li>
+        <div className="myorder-wrapper">
+          <div className="myorder-text">
+            <div className="test1">
+              <h2>주문/예약 내역</h2>
+            </div>
+            <div className="test2">
+              <h3>주문처리 현황</h3>
+            </div>
+          </div>
+          <div className="order">
+            <div>
               <strong>예약대기</strong>
+              &nbsp;
               <a href="orderList">
                 <span>0</span>
               </a>
-            </li>
-            <li>
+            </div>
+            <div>
               <strong>예약확인</strong>
+              &nbsp;
               <a href="orderList">0</a>
-            </li>
-            <li>
+            </div>
+            <div>
               <strong>배송준비중</strong>
+              &nbsp;
               <a href="orderList">0</a>
-            </li>
-            <li>
+            </div>
+            <div>
               <strong>배송중</strong>
+              &nbsp;
               <a href="orderList">0</a>
-            </li>
-            <li>
+            </div>
+            <div>
               <strong>배송완료</strong>
+              &nbsp;
               <a href="orderList">0</a>
-            </li>
-          </ul>
-        </div>
-        <h3>주문 목록</h3>
-        <hr />
-        <div className="selectController">
-          <div className="controlSet">
-            <span>조회기간</span>
-            <a href="/order/list">오늘</a>
-            <a href="/order/list">일주일</a>
-            <a href="/order/list">1개월</a>
-            <a href="/order/list">3개월</a>
-            <a href="/order/list">6개월</a>
-            <input />
-            ~
-            <input />
+            </div>
           </div>
-        </div>
-        <div className="selectedList">
-          주문내역 조회한 값 들어오는곳
-          <table className="orderListTbl">
-            <tr>
-              <th>주문번호</th>
-              <th>주문날짜</th>
-              <th>주문상품</th>
-              <th>금액</th>
-              <th>상태</th>
-            </tr>
-            {orderTr}
-          </table>
+          <div className="get-list">
+            <h3>주문 목록</h3>
+          </div>
+          <div className="order-control">
+            <div className="selectController">
+              <div className="control-tag">
+                <span>조회기간</span>
+              </div>
+              <div className="control-tag">
+                <a href="/order/list">오늘</a>
+              </div>
+              <div className="control-tag">
+                <a href="/order/list">일주일</a>
+              </div >
+              <div className="control-tag">
+                <a href="/order/list">1개월</a>
+              </div>
+              <div className="control-tag">
+                <a href="/order/list">3개월</a>
+              </div>
+              <div className="control-tag">
+                <a href="/order/list">6개월</a>
+              </div>
+              <div className="control-input">
+                <input />
+                ~
+                <input />
+              </div>
+            </div>
+            <div className="selectedList">
+              <table className="orderListTbl">
+                <tr className="top-tr">
+                  <th>주문번호</th>
+                  <th>주문날짜</th>
+                  <th>주문상품</th>
+                  <th>금액</th>
+                  <th>상태</th>
+                </tr>
+                {orderTr}
+              </table>
+            </div>
+          </div>
         </div>
       </>
     )
