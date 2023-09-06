@@ -156,11 +156,18 @@
   align-items: center;
 }
 
-.unlogin-btn{
-    width: 280px;
-    height: 40px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+.unlogin-btn button{
+  border: none;
+  color: white;
+  font-weight: bold;
+  background-color: hsl(41, 85%, 54%);
+  width: 280px;
+  height: 40px;
+  display: flex;
+  margin-bottom: 20px;
+  margin-top:  20px;
+  justify-content: center;
+  align-items: center;
 }
 .unlogin-btn button{
     width: 280px;

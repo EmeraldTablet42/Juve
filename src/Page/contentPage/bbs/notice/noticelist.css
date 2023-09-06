@@ -1,0 +1,42 @@
+.h2 {
+  height: 30px;
+}
+.notice-title {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 45px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.tableset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.BBSNoticeTbl {
+  border-collapse: collapse;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  border-left: none;
+  border-right: none;
+  margin-top: 20px;
+  width: 1100px;
+}
+.BBSNoticeTbl tr {
+  height: 50px;
+}
+.BBSNoticeTbl th {
+  border-bottom: 2px solid black;
+  border-left: none;
+  border-right: none;
+}
+.BBSNoticeTbl td {
+  border-left: none;
+  border-right: none;
+  text-align: center;
+}
+.pg_Search {
+  margin-left: 20px;
+}

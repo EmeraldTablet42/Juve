@@ -25,10 +25,11 @@
   .dropdown-content a {
     display: block;
     text-decoration: none;
-    text-align: center;
+    text-align: end;
     font-size: 12pt;
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-right: 20px;
   }
   
   /* 드롭다운 메뉴 항목에 호버 스타일 추가 (선택 사항) */

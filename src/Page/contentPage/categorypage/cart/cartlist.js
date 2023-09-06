@@ -174,8 +174,6 @@ const Cartlist = () => {
               </div>
               <div className="delete">
                 <button onClick={() => delCart(i)}>X</button>
-                <button onClick={() => alert(cart.cart)}>조회</button>
-                <button onClick={() => alert(cartList)}>조회</button>
               </div>
             </div>
           );
