@@ -105,3 +105,16 @@
   align-items: center;
   border-radius: 5px;
 }
+
+.purchase-shipSelector {
+  margin-bottom: -1%;
+  display: flex;
+}
+
+.purchase-shipSelector-radio{
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  accent-color: green;
+}

@@ -169,6 +169,8 @@ const MyShipmentAdd = () => {
   fd.append("phone", phone.phone1 + "-" + phone.phone2 + "-" + phone.phone3);
   if (tel.tel2 && tel.tel3) {
     fd.append("tel", tel.tel1 + "-" + tel.tel2 + "-" + tel.tel3);
+  } else {
+    fd.append("tel", "02--");
   }
   fd.append("regDate", new Date());
   fd.append("isDefault", isDefault);

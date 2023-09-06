@@ -43,7 +43,8 @@ const Cartlist = () => {
     if (!auth.isLogined) {
       setCartList(cart.cart);
     }
-  }, [cartList, cart.cart]);
+  }, []);
+  // }, [cartList, cart.cart]);
 
   //DB에서 카트 받아오기
   const getCartByLoginToken = () => {
@@ -85,6 +86,7 @@ const Cartlist = () => {
   //// 카트 redux에서 삭제
   const delCartRedux = (index) => {
     dispatch(removeFromCart(index));
+    window.location.reload();
   };
 
   const delCart = (index) => {

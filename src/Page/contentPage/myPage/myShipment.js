@@ -65,7 +65,7 @@ const MyShipment = () => {
         <td>{v.name}</td>
         <td>{`[${addr[0]}] ${addr[1]} ${addr[2]}`}</td>
         <td>{v.phone}</td>
-        <td>{v.tel}</td>
+        <td>{v.tel.split("-")[1] && v.tel.split("-")[2] ? v.tel : ""}</td>
         <td>
           <button
             onClick={() => {

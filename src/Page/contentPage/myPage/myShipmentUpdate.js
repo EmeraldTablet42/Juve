@@ -226,6 +226,8 @@ const MyShipmentUpdate = () => {
         );
         if (tel.tel2 && tel.tel3) {
           fddd.set("tel", tel.tel1 + "-" + tel.tel2 + "-" + tel.tel3);
+        }else{
+          fddd.set("tel", "02--");
         }
         fddd.set("isDefault", isDefault.value);
         fddd.set("regDate", new Date());
