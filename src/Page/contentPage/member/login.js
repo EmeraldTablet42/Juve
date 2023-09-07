@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
 import { setAuth } from "./authSlice";
+import { setRecoms } from "../../index/recomSlice";
 
 const Login = () => {
   const navi = useNavigate();
@@ -33,6 +34,7 @@ const Login = () => {
         // alert(response.data.token);
         sessionStorage.setItem("loginToken", response.data.token);
         await checkIsLogined(sessionStorage.getItem("loginToken")); // checkIsLogined 함수 호출 추가
+        getGenAgeAndSetRecom();
         navi(-1);
       }
     } catch (error) {
@@ -60,13 +62,37 @@ const Login = () => {
     }
   };
 
+  const getGenAgeAndSetRecom = () => {
+    if (sessionStorage.getItem("loginToken") !== null) {
+      axios
+        .get(
+          `http://localhost:8090/member.get.loginedMemberGenAge?token=${sessionStorage.getItem(
+            "loginToken"
+          )}`
+        )
+        .then((res) => {
+          // alert(JSON.stringify(res.data));
+          axios
+            .get(
+              `http://localhost:42424/get_scores?age=${
+                Math.floor(res.data.age / 10) * 10
+              }&gender=${res.data.gender}`
+            )
+            .then((res) => {
+              // alert(JSON.stringify(res.data));
+              myDispatch(setRecoms(res.data));
+            });
+        });
+    }
+  };
+
   return (
     <div className="login-wrapper">
       <div className="login-case">
         <div className="login-box">
           <h1>로 그 인</h1>
           <div className="login-type">
-            <div style={{backgroundColor:"greenyellow"}}>회원 로그인</div>
+            <div style={{ backgroundColor: "greenyellow" }}>회원 로그인</div>
             <div>
               <Link to="/loginUnsigned">비회원 주문조회</Link>
             </div>
