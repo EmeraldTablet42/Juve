@@ -253,10 +253,7 @@ const Wihdetail = () => {
         <div className="product-view">
           <div className="product-data">
             <div className="product-data-view">
-              <div
-                className="product-data-header"
-                style={{ marginBottom: '30px' }}
-              >
+              <div className="product-data-header">
                 <div className="product-data-Name">
                   <p>상 품 : {wihData.productName} </p>
                   <p>가 격 : {wihData.productPrice} </p>
@@ -316,7 +313,6 @@ const Wihdetail = () => {
                   </div>
                 </div>
               </div>
-
               <div className="item-box">
                 {
                   <div className="menu-item">
@@ -400,34 +396,34 @@ const Wihdetail = () => {
             </div>
           </div>
         </div>
-        <div className="scroll-buttons">
-          {Array.from(Array(productTabs.length).keys()).map((index) => (
-            <div
-              className="scrollMove"
-              style={{ display: 'grid' }}
-              key={index}
-              onClick={productTabs[index].moveToElement}
-            >
-              {productTabs[index].element.current &&
-                productTabs[index].element.current.textContent}
-            </div>
-          ))}
+      </div>
+      <div className="scroll-buttons">
+        {Array.from(Array(productTabs.length).keys()).map((index) => (
+          <div
+            className="scrollMove"
+            style={{ display: 'grid' }}
+            key={index}
+            onClick={productTabs[index].moveToElement}
+          >
+            {productTabs[index].element.current &&
+              productTabs[index].element.current.textContent}
+          </div>
+        ))}
+      </div>
+      <div>
+        <div ref={productTabs[0].element}>
+          <h1 style={{ display: 'none' }}>상품상세</h1>
+          <img src={sampleImage} style={{ width: '100%' }} alt="상품이미지" />
+        </div>
+
+        <div ref={productTabs[1].element}>
+          <h1 style={{ display: 'none' }}>리뷰</h1>
         </div>
         <div>
-          <div ref={productTabs[0].element}>
-            <h1 style={{ display: 'none' }}>상품상세</h1>
-            <img src={sampleImage} style={{ width: '100%' }} alt="상품이미지" />
-          </div>
-
-          <div ref={productTabs[1].element}>
-            <h1 style={{ display: 'none' }}>리뷰</h1>
-          </div>
-          <div>
-            <Review />
-          </div>
-          <div ref={productTabs[2].element}>
-            <h1>상품 문의</h1>
-          </div>
+          <Review />
+        </div>
+        <div ref={productTabs[2].element}>
+          <h1>상품 문의</h1>
         </div>
       </div>
     </div>
