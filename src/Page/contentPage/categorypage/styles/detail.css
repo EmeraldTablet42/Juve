@@ -28,6 +28,10 @@
 .product-data-Name {
   margin-right: 10px;
 }
+.product-data-view {
+  min-width: 600px;
+  min-height: 400px;
+}
 .sdrOption {
   margin-left: 10px;
   min-height: 70px;

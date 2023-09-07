@@ -152,10 +152,7 @@ const Bevdetail = (detailData) => {
         <div className="product-view">
           <div className="product-data">
             <div className="product-data-view">
-              <div
-                className="product-data-header"
-                style={{ marginBottom: '30px' }}
-              >
+              <div className="product-data-header">
                 <div className="product-data-Name">
                   <p>상 품 : {bevData.productName}</p>
                   <p>가 격 : {bevData.productPrice}</p>
@@ -197,61 +194,61 @@ const Bevdetail = (detailData) => {
                     </div>
                   ))}
                 </div>
-              </div>
-              <div className="purchase-btn">
-                <div className="added-btn">
-                  <button
-                    className="reverse-button"
-                    onClick={addMenu}
-                    style={{ width: '97%', height: '50px' }}
-                  >
-                    메뉴 담기
-                  </button>
-                </div>
-                <div className="go-to-purchase">
-                  <div>
-                    <button className="default-button" onClick={goOrder}>
-                      구매예약
+                <div className="purchase-btn">
+                  <div className="added-btn">
+                    <button
+                      className="reverse-button"
+                      onClick={addMenu}
+                      style={{ width: '97%', height: '50px' }}
+                    >
+                      메뉴 담기
                     </button>
                   </div>
-                  <div>
-                    <button className="default-button" onClick={goCart}>
-                      장바구니에 담기
-                    </button>
+                  <div className="go-to-purchase">
+                    <div>
+                      <button className="default-button" onClick={goOrder}>
+                        구매예약
+                      </button>
+                    </div>
+                    <div>
+                      <button className="default-button" onClick={goCart}>
+                        장바구니에 담기
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="scroll-buttons">
-          {Array.from(Array(productTabs.length).keys()).map((index) => (
-            <div
-              className="scrollMove"
-              style={{ display: 'grid' }}
-              key={index}
-              onClick={productTabs[index].moveToElement}
-            >
-              {productTabs[index].element.current &&
-                productTabs[index].element.current.textContent}
-            </div>
-          ))}
+      </div>
+      <div className="scroll-buttons">
+        {Array.from(Array(productTabs.length).keys()).map((index) => (
+          <div
+            className="scrollMove"
+            style={{ display: 'grid' }}
+            key={index}
+            onClick={productTabs[index].moveToElement}
+          >
+            {productTabs[index].element.current &&
+              productTabs[index].element.current.textContent}
+          </div>
+        ))}
+      </div>
+      <div>
+        <div ref={productTabs[0].element}>
+          <h1 style={{ display: 'none' }}>상품상세</h1>
+          <img src={sampleImage} style={{ width: '100%' }} alt="상품이미지" />
+        </div>
+
+        <div ref={productTabs[1].element}>
+          <h1 style={{ display: 'none' }}>리뷰</h1>
         </div>
         <div>
-          <div ref={productTabs[0].element}>
-            <h1 style={{ display: 'none' }}>상품상세</h1>
-            <img src={sampleImage} style={{ width: '100%' }} alt="상품이미지" />
-          </div>
-
-          <div ref={productTabs[1].element}>
-            <h1 style={{ display: 'none' }}>리뷰</h1>
-          </div>
-          <div>
-            <Review />
-          </div>
-          <div ref={productTabs[2].element}>
-            <h1>상품 문의</h1>
-          </div>
+          <Review />
+        </div>
+        <div ref={productTabs[2].element}>
+          <h1>상품 문의</h1>
         </div>
       </div>
     </div>

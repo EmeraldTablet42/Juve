@@ -1,9 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
-import sampleimage from "../../../imagefile/carticon.png";
+import { createSlice } from '@reduxjs/toolkit';
 const initialState = [];
 
 const favoriteSlice = createSlice({
-  name: "fav",
+  name: 'fav',
   initialState,
   reducers: {
     setFavorite: (state, action) => {
