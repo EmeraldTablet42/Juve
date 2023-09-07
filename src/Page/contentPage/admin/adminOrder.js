@@ -100,7 +100,8 @@ const AdminOrder = () => {
         key={i}
         onClick={(e) => {
           // status 클래스를 가진 td에서의 클릭 이벤트를 막음
-          if (e.target.className === "status" || "orderStatus") {
+          // alert(e.target.className);
+          if (e.target.className !== "") {
             return null;
           } else {
             getOrder(d.orderCode);
