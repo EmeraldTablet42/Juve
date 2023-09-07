@@ -28,6 +28,13 @@ const PurchaseCheck = () => {
 
   const auth = useSelector((state) => state.authindex);
 
+  /// 주문상태 변경용 state
+  const [orderStatus, setOrderStatus] = useState(order.orderStatus);
+
+  const handleOrderStatus = (e) => {
+    setOrderStatus(e.target.value);
+  };
+
   return (
     order && (
       <div>
@@ -41,7 +48,9 @@ const PurchaseCheck = () => {
         <div className="purchase-wrapper">
           <div className="purchase-margin-check">
             <div className="purchase-addr">
-            <div className="purchase-addr-h2"><h2>주 문 정 보</h2></div>
+              <div className="purchase-addr-h2">
+                <h2>주 문 정 보</h2>
+              </div>
               <div className="purchase-table">
                 <table id="basicInfo" className="joinTbl">
                   <tr>
@@ -78,7 +87,9 @@ const PurchaseCheck = () => {
           </div>
           <div className="purchase-margin-check">
             <div className="purchase-get">
-            <div className="purchase-get-h2"><h2>배송지</h2></div>
+              <div className="purchase-get-h2">
+                <h2>배송지</h2>
+              </div>
               <div className="purchase-table">
                 <table id="resentShipment" className="joinTbl">
                   <tr>
@@ -201,11 +212,28 @@ const PurchaseCheck = () => {
           </div>
           <div className="purchase-margin-button"></div>
         </div>
-        <div className="purchase-main">
-          <button className="purchase-main-button">
-            <Link to="/">메인 화면으로</Link>
-          </button>
-        </div>
+        {auth.memberId === "adminjuve" ? (
+          <div className="purchase-main">
+            <select
+              className="purchase-status"
+              value={orderStatus}
+              onChange={handleOrderStatus}
+            >
+              <option value={1}>예약대기</option>
+              <option value={2}>예약확인</option>
+              <option value={3}>배송준비중</option>
+              <option value={4}>배송중</option>
+              <option value={5}>배송완료</option>
+            </select>
+            <button id="statusChange">변경</button>
+          </div>
+        ) : (
+          <div className="purchase-main">
+            <button className="purchase-main-button">
+              <Link to="/">메인 화면으로</Link>
+            </button>
+          </div>
+        )}
       </div>
     )
   );
