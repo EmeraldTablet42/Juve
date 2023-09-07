@@ -1,13 +1,17 @@
 @font-face {
-  font-family: "sCore";
-  src: url(/src/font/SCDream3.otf);
+  font-family: 'elice';
+  src: url('./font/EliceDigitalBaeumOTF_Regular.otf');
+}
+@font-face {
+  font-family: 'ramche';
+  src: url('./font/Ramche.otf');
 }
 
 body {
   overflow-x: hidden;
   padding: 0;
   margin: 0;
-  font-family: "sCore";
+  font-family: 'alice';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -59,6 +63,6 @@ img {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
