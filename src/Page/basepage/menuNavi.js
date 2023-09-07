@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import "../css/menuNavi.css";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import '../css/menuNavi.css';
+import { Link } from 'react-router-dom';
 
 const MenuNavi = () => {
   const [isNaviFixed, setIsNaviFixed] = useState(false);
@@ -12,19 +12,17 @@ const MenuNavi = () => {
         setIsNaviFixed(false);
       }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
   return (
     <div className="naviBackground">
-      <div className={!isNaviFixed ? "naviMenu" : "naviMenu naviMenu_fixed"}>
+      <div className={!isNaviFixed ? 'naviMenu' : 'naviMenu naviMenu_fixed'}>
         <span>
-          <Link className="wholeCategory" to="/category">
-            전체카테고리
-          </Link>
+          <Link to="/how">주문 방법</Link>
         </span>
         {/* <span><Link  to='/salad'>샐러드</Link></span> */}
         <span>

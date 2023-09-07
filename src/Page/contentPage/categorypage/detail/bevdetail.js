@@ -242,7 +242,7 @@ const Bevdetail = (detailData) => {
         </div>
 
         <div ref={productTabs[1].element}>
-          <h1 style={{ display: 'none' }}>리뷰</h1>
+          <h1 style={{ display: 'none', height: '50px' }}>리뷰</h1>
         </div>
         <div>
           <Review />
