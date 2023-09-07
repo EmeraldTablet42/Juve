@@ -25,7 +25,7 @@ const MyPage = () => {
             <li>
               <Link to="/member/mypage/order">1:1 문의</Link>
             </li>
-            <li>
+            <li style={{ border: 'none' }}>
               <a href="/member/mypage/myinfo">개인정보 변경</a>
             </li>
             {/* <li><Link to="/member/mypage/myInfo">개인정보 변경</Link></li> */}

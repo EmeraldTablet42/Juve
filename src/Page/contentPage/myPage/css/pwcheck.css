@@ -20,6 +20,9 @@
   align-items: flex-end;
   margin-left: 20px;
 }
+.check-text h2 {
+  margin-bottom: 2%;
+}
 .check-pw {
   width: 100%;
   height: 300px;

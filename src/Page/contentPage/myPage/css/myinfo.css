@@ -35,3 +35,20 @@
 .added-info h3 {
   margin-left: 30px;
 }
+.modifyButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 100%;
+  text-align: right;
+}
+.modifyButton div {
+  margin-right: 15px;
+}
+.set-btn {
+  display: flex;
+  flex-direction: row;
+  left: 0;
+  width: 50%;
+}

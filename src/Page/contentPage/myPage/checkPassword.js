@@ -50,13 +50,12 @@ const CheckPassword = () => {
               />
             </div>
             <div className="check-button">
-              <button onClick={confimPassword}>확인</button>
               <button
-                onClick={() => {
-                  alert(sessionStorage.getItem('passwordCheck'));
-                }}
+                className="default-button"
+                style={{ width: '200px', height: '50px' }}
+                onClick={confimPassword}
               >
-                세션조회
+                확인
               </button>
             </div>
           </div>

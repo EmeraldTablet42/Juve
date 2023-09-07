@@ -38,30 +38,37 @@ const Resign = () => {
   };
 
   return (
-    <>
-      <div>
-        <h3>회원 탈퇴</h3>
-        <div>
-          <p>
-            {auth.memberId}님의 회원정보를 안전하게 보호하기 위해
-            <br />
-            비밀번호를 한번 더 확인해 주세요.
-          </p>
-          <p>
-            <label>비밀번호</label>
-            <input
-              name="passwordConfirm"
-              value={password}
-              type="password"
-              onChange={handlePassword}
-            />
-          </p>
-          <div>
-            <button onClick={resinMember}>탈퇴</button>
+    <div className="fullpage">
+      <div className="resignPasswordCheck-wrapper">
+        <div className="check-box">
+          <div className="check-text">
+            <h2>회원 탈퇴</h2>
+          </div>
+          <div className="check-pw">
+            <p>{auth.memberId}님의 회원정보를 안전하게 보호하기 위해</p>
+            <p>비밀번호를 한번 더 확인해 주세요.</p>
+            <div className="password-box">
+              <label>비밀번호 : </label>
+              <input
+                name="passwordConfirm"
+                value={password}
+                type="password"
+                onChange={handlePassword}
+              />
+            </div>
+            <div className="check-button">
+              <button
+                className="reverse-button"
+                style={{ width: '200px', height: '50px' }}
+                onClick={resinMember}
+              >
+                탈퇴
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
