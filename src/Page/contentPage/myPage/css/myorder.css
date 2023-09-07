@@ -29,6 +29,13 @@
   flex-direction: row;
   margin-bottom: 30px;
 }
+.order div{
+  display: flex;
+  flex-direction: column;
+}
+.order span{
+  font-size: 25px;
+}
 .order div {
   display: flex;
   width: 20%;
