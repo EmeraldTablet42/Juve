@@ -48,7 +48,7 @@ const AdminOrder = () => {
     // alert(orderCode);
     // alert(sessionStorage.getItem("loginToken"));
     axios
-      .post("http://localhost:8090/order/get.order.loginToken.detail", fd)
+      .post("http://localhost:8090/order/get.order.admin.detail", fd)
       .then((res) => {
         // alert(JSON.stringify(res.data));
         dispatch(setOrder(res.data));
