@@ -7,6 +7,7 @@ import MyOrder from "./myOrder";
 import MyShipment from "./myShipment";
 import MyShipmentAdd from "./myShipmentAdd";
 import MyShipmentUpdate from "./myShipmentUpdate";
+import MyFavorite from "./myFavorite";
 
 const MyPageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
@@ -53,13 +54,27 @@ const MyPageContentAreaRoutes = () => {
         <Route
           path="/myshipment/add"
           element={
-            auth.isLogined ? <MyShipmentAdd /> : <Navigate to={"/member/login"} />
+            auth.isLogined ? (
+              <MyShipmentAdd />
+            ) : (
+              <Navigate to={"/member/login"} />
+            )
           }
         />
         <Route
           path="/myshipment/update"
           element={
-            auth.isLogined ? <MyShipmentUpdate /> : <Navigate to={"/member/login"} />
+            auth.isLogined ? (
+              <MyShipmentUpdate />
+            ) : (
+              <Navigate to={"/member/login"} />
+            )
+          }
+        />
+        <Route
+          path="/myfavorite"
+          element={
+            auth.isLogined ? <MyFavorite /> : <Navigate to={"/member/login"} />
           }
         />
       </Routes>

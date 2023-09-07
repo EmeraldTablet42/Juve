@@ -17,7 +17,7 @@ const MyPage = () => {
               <Link to="/member/mypage/myshipment">배송지 관리</Link>
             </li>
             <li>
-              <Link to="/member/mypage/order">찜 상품</Link>
+              <Link to="/member/mypage/myfavorite">찜 상품</Link>
             </li>
             <li>
               <Link to="/member/mypage/order">마일리지</Link>
