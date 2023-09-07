@@ -1,0 +1,18 @@
+.myinfo-wrapper {
+  width: 80%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.join-title {
+  height: 50px;
+}
+.join-title h2 {
+  margin-left: 30px;
+}
+.subtitle {
+  height: 50px;
+}
+.subtitle h3 {
+  margin-left: 30px;
+}

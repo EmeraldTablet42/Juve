@@ -1,16 +1,21 @@
-ul{
-    margin: 0;
-    padding: 0;
-    list-style: none;
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .myPage_left {
   max-width: 204px;
   width: 13%;
+  height: 800px;
   float: left;
   margin-right: 5%;
   margin-top: 45px;
-  border: 1px solid black;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .myPageContentArea {
@@ -43,8 +48,24 @@ ul{
   border: 1px solid black;
   text-align: center;
 }
-.myPage_layout{
-  display: inline-block;
+.myPage_layout {
+  display: flex;
+  justify-content: center;
+  margin-left: 20px;
   width: 1200px;
-  height: auto;
+  height: 800px;
+  align-items: center;
+}
+.left-ul li {
+  margin-top: 30px;
+  width: 120px;
+  text-align: center;
+  height: 50px;
+}
+.left_title {
+  width: 120px;
+  height: 60;
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 40px;
 }
