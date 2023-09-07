@@ -32,6 +32,7 @@ import Cart from "../contentPage/categorypage/cart/cart";
 import AdminMain from "../contentPage/admin/adminMain";
 import Purchase from "../contentPage/order/purchase";
 import PurchaseCheck from "../contentPage/order/purchasecheck";
+import AdminPage from "../contentPage/admin/adminPage";
 const PageContentAreaRoutes = () => {
   const auth = useSelector((state) => state.authindex);
   return (
@@ -77,10 +78,10 @@ const PageContentAreaRoutes = () => {
         <Route path="/board/consult/update" element={<ConsultUpdate />} />
         <Route path="/cart" element={<Cart />} />
         <Route
-          path="/admin/main"
+          path="/admin/*"
           element={
             auth.memberId === "adminjuve" ? (
-              <AdminMain />
+              <AdminPage />
             ) : (
               <Navigate to={"/"} />
             )

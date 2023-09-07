@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "./css/myorder.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setOrder } from "../order/purchaseSlice";
 import { useNavigate } from "react-router-dom";
-const MyOrder = () => {
+import { setOrder } from "../order/purchaseSlice";
+import "../myPage/css/myorder.css";
+
+const AdminOrder = () => {
   const dispatch = useDispatch();
   const navi = useNavigate();
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -26,7 +27,7 @@ const MyOrder = () => {
 
   const getOrderListFromDB = () => {
     axios
-      .get("http://localhost:8090/order/get.order.loginToken", {
+      .get("http://localhost:8090/order/get.order.admin", {
         params: {
           ...params,
           startDate: params.startDate.toISOString(),
@@ -77,6 +78,11 @@ const MyOrder = () => {
       d.orderDate.split(" ")[0] +
       d.orderDate.split(" ")[1] +
       d.orderDate.split(" ")[2];
+    const addrPart =
+      "["+d.recipientAddress.split("^")[0]+"]"+
+      d.recipientAddress.split("^")[1]+
+      d.recipientAddress.split("^")[2]
+
     return (
       <tr
         key={i}
@@ -86,9 +92,11 @@ const MyOrder = () => {
       >
         <td>{d.orderCode}</td>
         <td>{datePart}</td>
+        <td>{addrPart}</td>
         <td>{cTn[d.carts[0].productCode]}</td>
         <td>{d.finalPrice}</td>
         <td>{orderStatusDetail[d.orderStatus]}</td>
+        <td><button>적용</button></td>
       </tr>
     );
   });
@@ -219,13 +227,15 @@ const MyOrder = () => {
               </div>
             </div>
             <div className="selectedList">
-              <table className="orderListTbl">
+              <table border={1} className="orderListTbl2">
                 <tr className="top-tr">
                   <th>주문번호</th>
                   <th>날짜</th>
+                  <th>주소</th>
                   <th>상품명</th>
                   <th>금액</th>
                   <th>상태</th>
+                  <th>변경</th>
                 </tr>
                 {orderTr}
               </table>
@@ -237,4 +247,4 @@ const MyOrder = () => {
   );
 };
 
-export default MyOrder;
+export default AdminOrder;

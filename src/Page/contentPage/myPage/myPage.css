@@ -44,6 +44,7 @@ ul{
   text-align: center;
 }
 .myPage_layout{
+  display: inline-block;
   width: 1200px;
-  height: 800px;
+  height: auto;
 }
