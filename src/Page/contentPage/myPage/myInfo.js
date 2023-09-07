@@ -760,7 +760,9 @@ const MyInfo = () => {
         </table>
       </div>
       <div className="tabble2">
-        <h3>추가정보</h3>
+        <div className="added-info">
+          <h3>추가정보</h3>
+        </div>
         <table className={'addInfo joinTbl'} onKeyDown={handleKeyEvent}>
           <tr>
             <th>성별</th>
