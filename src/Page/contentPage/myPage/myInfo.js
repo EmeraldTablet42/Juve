@@ -827,16 +827,42 @@ const MyInfo = () => {
           </tr>
         </table>
       </div>
-      <div id="modifyButton">
-        <button onClick={reg}>회원정보수정</button>
-        <button
-          onClick={() => {
-            navi('/');
-          }}
-        >
-          취소
-        </button>
-        <button onClick={resign}>회원 탈퇴</button>
+      <div className="modifyButton">
+        <div className="set-btn">
+          <div>
+            <button
+              className="default-button"
+              style={{ width: '150px', height: '50px' }}
+              onClick={reg}
+            >
+              회원정보수정
+            </button>
+          </div>
+          <div>
+            <button
+              style={{ width: '80px', height: '50px' }}
+              className="reverse-button"
+              onClick={() => {
+                navi('/');
+              }}
+            >
+              취소
+            </button>
+          </div>
+        </div>
+        <div style={{ width: '50%' }}>
+          <button
+            className="default-button"
+            style={{
+              width: '120px',
+              height: '50px',
+              backgroundColor: 'red',
+            }}
+            onClick={resign}
+          >
+            회원 탈퇴
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -73,11 +73,8 @@
 }
 
 .popup-image {
-  
   width: 400px;
 }
-
-
 
 .checkbox-list {
   text-align: left;
@@ -95,13 +92,14 @@
   font-size: 16px;
   line-height: 1.5;
 }
-.menu-item{
+.menu-item {
   display: flex;
   text-align: left;
 }
-.menu-item .menu-product{
+.menu-item .menu-product {
   width: 95%;
 }
-.menu-item .menu-price{
-  
+.delete {
+  position: fixed;
+  right: 60px;
 }

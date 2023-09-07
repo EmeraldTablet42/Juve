@@ -24,7 +24,7 @@
   margin-left: auto;
   margin-right: auto;
   width: 1200px;
-  }
+}
 .pageFooterArea {
   margin-left: auto;
   margin-right: auto;
@@ -36,7 +36,7 @@
 .sideMenu {
   position: fixed;
   top: 300px;
-  right:10%;
+  right: 10%;
   z-index: 2;
 }
 
@@ -48,7 +48,7 @@
   z-index: 3;
 }
 
-.cartCompletePopup{
+.cartCompletePopup {
   border: 4mm ridge rgba(76, 248, 70, 0.87);
   background-color: #faa928;
   color: white;
@@ -57,14 +57,14 @@
   width: 250px;
   margin-left: auto;
   margin-right: auto;
-  top:25%;
+  top: 25%;
   left: 45%;
   z-index: 10;
   display: flex;
   flex-direction: column;
   text-align: center;
 }
-.cartComplete-head{
+.cartComplete-head {
   height: 50px;
   display: flex;
   justify-content: center;
@@ -74,48 +74,72 @@
   border-radius: 2px;
 }
 .cartComplete-image {
-  border-top: 2px solid rgba(76, 248, 70, 0.87);;
+  border-top: 2px solid rgba(76, 248, 70, 0.87);
   border-radius: 2px;
   height: 80px;
 }
-.cartComplete-image img{
+.cartComplete-image img {
   margin-top: 10px;
 }
 .cartComplete-check {
- margin-top: 10px;
- height: 80px;
+  margin-top: 10px;
+  height: 80px;
 }
-.cartComplete-check div{
+.cartComplete-check div {
   height: 50px;
 }
-.cartComplete-button{
+.cartComplete-button {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   height: 60px;
 }
-.close{
+.close {
   display: flex;
   justify-content: flex-end;
   width: 125px;
   margin-right: 5px;
 }
-.move{
+.move {
   display: flex;
   justify-content: flex-start;
   width: 125px;
   margin-left: 5px;
 }
-.close button{
+.close button {
   border: none;
   border-radius: 2px;
   width: 100px;
   height: 40px;
 }
-.move button{
+.move button {
   border: none;
   border-radius: 2px;
   width: 100px;
   height: 40px;
+}
+
+.default-button {
+  display: inline-block;
+  background-color: #ffa928;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 18pt;
+}
+
+.reverse-button {
+  display: inline-block;
+  background-color: white;
+  color: #ffa928;
+  text-decoration: none;
+  border: 1px solid #ffa928;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 18pt;
 }
