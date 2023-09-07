@@ -1,15 +1,15 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { setCart } from "../components/cartSlice";
-import Count from "../components/count";
-import Movescroll from "../components/movescroll";
-import sampleImage from "../static/bev.jpg";
-import "../styles/scrollcss.css";
-import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
-import "../styles/detail.css";
-import Review from "../components/review";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { setCart } from '../components/cartSlice';
+import Count from '../components/count';
+import Movescroll from '../components/movescroll';
+import sampleImage from '../static/bev.jpg';
+import '../styles/scrollcss.css';
+import popUpSlice, { setPopUpSlice } from '../../../system/popUpSlice';
+import '../styles/detail.css';
+import Review from '../components/review';
 
 const Bevdetail = (detailData) => {
   const [bevData, setBevData] = useState([]);
@@ -39,7 +39,7 @@ const Bevdetail = (detailData) => {
   const auth = useSelector((state) => state.authindex);
   const goCart = (e) => {
     if (added.length === 0) {
-      alert("메뉴를 추가해주세요.");
+      alert('메뉴를 추가해주세요.');
       return null;
     }
     regCartDB();
@@ -47,14 +47,14 @@ const Bevdetail = (detailData) => {
 
   const goOrder = () => {
     if (added.length === 0) {
-      alert("메뉴를 추가해주세요.");
+      alert('메뉴를 추가해주세요.');
       return null;
     }
     axios
-      .post("http://localhost:8090/order/reg.cart", added, {
+      .post('http://localhost:8090/order/reg.cart', added, {
         headers: {
-          "Content-Type": "application/json",
-          token: sessionStorage.getItem("loginToken"),
+          'Content-Type': 'application/json',
+          token: sessionStorage.getItem('loginToken'),
         },
       })
       .then((res) => {
@@ -62,21 +62,21 @@ const Bevdetail = (detailData) => {
         if (!auth.isLogined) {
           dispatch(setCart(added));
         }
-        navi("/purchase");
+        navi('/purchase');
       })
       .catch(() => {
-        alert("DB통신에러. 잠시 후 다시 시도해주세요.");
-        navi("/");
+        alert('DB통신에러. 잠시 후 다시 시도해주세요.');
+        navi('/');
       });
   };
 
   const regCartDB = () => {
     // alert(JSON.stringify(added));
     axios
-      .post("http://localhost:8090/order/reg.cart", added, {
+      .post('http://localhost:8090/order/reg.cart', added, {
         headers: {
-          "Content-Type": "application/json",
-          token: sessionStorage.getItem("loginToken"),
+          'Content-Type': 'application/json',
+          token: sessionStorage.getItem('loginToken'),
         },
       })
       .then((res) => {
@@ -87,7 +87,7 @@ const Bevdetail = (detailData) => {
         dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
       })
       .catch(() => {
-        navi("/");
+        navi('/');
       });
   };
 
@@ -112,7 +112,7 @@ const Bevdetail = (detailData) => {
           productCode: bevData.productCode,
           count: count,
           price: totalPrice * count,
-          date: new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" }),
+          date: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
         },
       ]);
     }
@@ -126,7 +126,7 @@ const Bevdetail = (detailData) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
+      .get(`http://localhost:8090/product.getById?id=${searchParam.get('id')}`)
       .then((res) => {
         setBevData(res.data);
         setTotalPrice(res.data.productPrice);
@@ -134,9 +134,9 @@ const Bevdetail = (detailData) => {
   }, []);
 
   const productTabs = {
-    0: Movescroll("상품 상세"),
-    1: Movescroll("리뷰"),
-    2: Movescroll("상품 문의"),
+    0: Movescroll('상품 상세'),
+    1: Movescroll('리뷰'),
+    2: Movescroll('상품 문의'),
     length: 3,
   };
   return (
@@ -151,12 +151,22 @@ const Bevdetail = (detailData) => {
         </div>
         <div className="product-view">
           <div className="product-data">
-            <div className="sdrOption">
-              <p>상 품 : {bevData.productName}</p>
-              <p>가 격 : {bevData.productPrice}</p>
-              <Count count={count} setCount={handleCountChange} />
-
-              <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+            <div className="product-data-view">
+              <div
+                className="product-data-header"
+                style={{ marginBottom: '30px' }}
+              >
+                <div className="product-data-Name">
+                  <p>상 품 : {bevData.productName}</p>
+                  <p>가 격 : {bevData.productPrice}</p>
+                </div>
+                <div className="sdrOption">
+                  <div className="purchase-count-button">
+                    <Count count={count} setCount={handleCountChange} />
+                  </div>
+                </div>
+              </div>
+              <div className="item-box">
                 {
                   <div className="menu-item">
                     {bevData.productName}
@@ -165,26 +175,21 @@ const Bevdetail = (detailData) => {
                     <br />총 가격 : {totalPrice * count}
                   </div>
                 }
-                <div
-                  style={{
-                    display: "block",
-                    textAlign: "left",
-                  }}
-                  className="addedMenus"
-                >
+                <div className="addedMenus">
                   {added.map((v, i) => (
                     <div className="menu-item" key={i}>
-                      {/* {JSON.stringify(v)} */}
-                      {cTn[v.productCode]}
-                      <br />
-                      {`수량 :${v.count}`}
-                      <br />
-                      {`총가격 :${v.price}`}
-                      <br />
+                      <div className="added-list">
+                        {/* {JSON.stringify(v)} */}
+                        {cTn[v.productCode]}
+                        {`수량 :${v.count}`}
+                        <br />
+                        {`총가격 :${v.price}`}
+                        <br />
+                      </div>
                       <div>
                         <button
                           onClick={() => handleRemoveItem(i)}
-                          style={{ width: "20px", height: "20px" }}
+                          style={{ width: '20px', height: '20px' }}
                         >
                           x
                         </button>
@@ -193,41 +198,60 @@ const Bevdetail = (detailData) => {
                   ))}
                 </div>
               </div>
-              <button onClick={addMenu}>메뉴담기</button>
-              <button onClick={goOrder}>구매예약</button>
-              <button onClick={goCart}>장바구니에 담기</button>
+              <div className="purchase-btn">
+                <div className="added-btn">
+                  <button
+                    className="reverse-button"
+                    onClick={addMenu}
+                    style={{ width: '97%', height: '50px' }}
+                  >
+                    메뉴 담기
+                  </button>
+                </div>
+                <div className="go-to-purchase">
+                  <div>
+                    <button className="default-button" onClick={goOrder}>
+                      구매예약
+                    </button>
+                  </div>
+                  <div>
+                    <button className="default-button" onClick={goCart}>
+                      장바구니에 담기
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="scroll-buttons">
-        {Array.from(Array(productTabs.length).keys()).map((index) => (
-          <div
-            className="scrollMove"
-            style={{ display: "grid" }}
-            key={index}
-            onClick={productTabs[index].moveToElement}
-          >
-            {productTabs[index].element.current &&
-              productTabs[index].element.current.textContent}
-          </div>
-        ))}
-      </div>
-      <div>
-        <div ref={productTabs[0].element}>
-          <h1 style={{ display: "none" }}>상품상세</h1>
-          <img src={sampleImage} style={{ width: "100%" }} alt="상품이미지" />
-        </div>
-
-        <div ref={productTabs[1].element}>
-          <h1 style={{ display: "none" }}>리뷰</h1>
+        <div className="scroll-buttons">
+          {Array.from(Array(productTabs.length).keys()).map((index) => (
+            <div
+              className="scrollMove"
+              style={{ display: 'grid' }}
+              key={index}
+              onClick={productTabs[index].moveToElement}
+            >
+              {productTabs[index].element.current &&
+                productTabs[index].element.current.textContent}
+            </div>
+          ))}
         </div>
         <div>
-          <Review />
-        </div>
+          <div ref={productTabs[0].element}>
+            <h1 style={{ display: 'none' }}>상품상세</h1>
+            <img src={sampleImage} style={{ width: '100%' }} alt="상품이미지" />
+          </div>
 
-        <div ref={productTabs[2].element}>
-          <h1>상품 문의</h1>
+          <div ref={productTabs[1].element}>
+            <h1 style={{ display: 'none' }}>리뷰</h1>
+          </div>
+          <div>
+            <Review />
+          </div>
+          <div ref={productTabs[2].element}>
+            <h1>상품 문의</h1>
+          </div>
         </div>
       </div>
     </div>

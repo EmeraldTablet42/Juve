@@ -30,6 +30,11 @@
 }
 .sdrOption {
   margin-left: 10px;
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .product-data-header {
   display: flex;

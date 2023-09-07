@@ -358,12 +358,7 @@ const Saldetail = () => {
                     )}
                   </select>
                   <div className="dropdown" ref={ref}>
-                    <div
-                      id="smtPopup"
-                      className="dropdown-header"
-                      // onClick={DropdownSmt}
-                      onClick={handlePopup}
-                    >
+                    <div className="dropdown-header" onClick={handlePopup}>
                       메인토핑 (복수선택)
                     </div>
                     {/* {isOpenSmt && ( */}
@@ -388,12 +383,7 @@ const Saldetail = () => {
                         )}
                       </ul>
                     )}
-                    <div
-                      id="sstPopup"
-                      className="dropdown-header"
-                      // onClick={DropdownSst}
-                      onClick={handlePopup}
-                    >
+                    <div className="dropdown-header" onClick={handlePopup}>
                       서브토핑 (복수선택)
                     </div>
                     {/* {isOpenSst && ( */}
