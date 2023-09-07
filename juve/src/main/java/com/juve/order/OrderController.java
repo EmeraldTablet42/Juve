@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.sym.Name;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -97,4 +99,58 @@ public class OrderController {
 		return oDAO.getOrdersFromLoginTokenAndDateBeetween(token, startDate, endDate, page, orderStatus);
 	}
 
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171",
+			"http://www.juve.co.kr", "http://juve.co.kr", "https://juve.co.kr" })
+	@RequestMapping(value = "/order/get.all.order.loginMember", produces = "application/json;charset=utf-8")
+	public @ResponseBody List<Order> getAllOrderFromMember(@RequestParam(name = "token") String loginToken,
+			HttpServletResponse response) {
+		return oDAO.getAllOrderMember(loginToken);
+	}
+
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171",
+			"http://www.juve.co.kr", "http://juve.co.kr", "https://juve.co.kr" })
+	@RequestMapping(value = "/order/get.order.loginToken.detail", produces = "application/json;charset=utf-8")
+	public @ResponseBody Order getOrderFromLoginedMember(@RequestParam(name = "token") String loginToken,
+			@RequestParam(name = "orderCode") String orderCode, HttpServletResponse response) {
+		return oDAO.getOrderFromLoginedMemberByToken(orderCode, loginToken);
+	}
+
+	// 관리자용
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171",
+			"http://www.juve.co.kr", "http://juve.co.kr", "https://juve.co.kr" })
+	@RequestMapping(value = "/order/get.order.admin", produces = "application/json;charset=utf-8")
+	public @ResponseBody Orders getOrderFromAdmin(@RequestParam(name = "token") String token,
+			@RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
+			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam(name = "endDate") Date endDate,
+			@RequestParam(name = "orderStatus") Integer orderStatus, @RequestParam(name = "page") Integer page,
+			HttpServletResponse response) {
+		System.out.println(startDate);
+		System.out.println(endDate);
+		return oDAO.getOrdersFromLoginTokenAndDateBeetweenAdmin(token, startDate, endDate, page, orderStatus);
+	}
+
+	// 관리자용
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171",
+			"http://www.juve.co.kr", "http://juve.co.kr", "https://juve.co.kr" })
+	@RequestMapping(value = "/order/get.all.order.admin", produces = "application/json;charset=utf-8")
+	public @ResponseBody List<Order> getAllOrderFromAdmin(HttpServletResponse response) {
+		return oDAO.getAllOrder();
+	}
+
+	// 관리자용
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171",
+			"http://www.juve.co.kr", "http://juve.co.kr", "https://juve.co.kr" })
+	@RequestMapping(value = "/order/get.order.admin.detail", produces = "application/json;charset=utf-8")
+	public @ResponseBody Order getOrderFromAdmin(@RequestParam(name = "token") String loginToken,
+			@RequestParam(name = "orderCode") String orderCode, HttpServletResponse response) {
+		return oDAO.getOrderFromAdminByToken(orderCode, loginToken);
+	}
+
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171",
+			"http://www.juve.co.kr", "http://juve.co.kr", "https://juve.co.kr" })
+	@RequestMapping(value = "/order/set.orderstatus", produces = "application/json;charset=utf-8")
+	public @ResponseBody void setOrderStatus(@RequestParam(name = "orderCode") String orderCode,
+			@RequestParam(name = "orderStatus") Integer status, HttpServletResponse response) {
+		oDAO.setOrderStatus(orderCode, status);
+	}
 }

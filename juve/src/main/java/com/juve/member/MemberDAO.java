@@ -202,4 +202,21 @@ public class MemberDAO {
 			return "DB통신 에러";
 		}
 	}
+
+	public Member getGenderAndAgebyLoginToken(String loginToken) {
+		try {
+			Member m = getMemberByLoginToken(loginToken);
+			Member genAge = new Member();
+			if (m.getGender() != null && m.getAge() != null) {
+				genAge.setGender(m.getGender());
+				genAge.setAge(m.getAge());
+				return genAge;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

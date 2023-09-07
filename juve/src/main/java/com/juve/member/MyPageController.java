@@ -15,6 +15,9 @@ public class MyPageController {
 	@Autowired
 	private ShipmentDAO sDAO;
 
+	@Autowired
+	private FavoriteDAO fDAO;
+
 	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171",
 			"http://www.juve.co.kr", "http://juve.co.kr", "https://juve.co.kr" })
 	@RequestMapping(value = "/member/mypage/reg.shipment", produces = "application/json;charset=utf-8")
@@ -81,5 +84,28 @@ public class MyPageController {
 		System.out.println("통신");
 //		return no + loginToken;
 		return sDAO.getShipmentByNoAndLoginToken(no, loginToken);
+	}
+
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171",
+			"http://www.juve.co.kr", "http://juve.co.kr", "https://juve.co.kr" })
+	@RequestMapping(value = "/member.add.favorites")
+	public @ResponseBody String addFavorite(@RequestParam(name = "token") String loginToken,
+			@RequestParam(name = "productCode") String productCode) {
+		return fDAO.addFavoriteByIdAndProductCode(loginToken, productCode);
+	}
+
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171",
+			"http://www.juve.co.kr", "http://juve.co.kr", "https://juve.co.kr" })
+	@RequestMapping(value = "/member.get.favorites")
+	public @ResponseBody Favorites getFavorites(@RequestParam(name = "token") String loginToken) {
+		return fDAO.getFavoritesById(loginToken);
+	}
+
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171",
+			"http://www.juve.co.kr", "http://juve.co.kr", "https://juve.co.kr" })
+	@RequestMapping(value = "/member.remove.favorite")
+	public @ResponseBody String delFavoritByLoginTokenAndProductCode(@RequestParam(name = "token") String loginToken,
+			@RequestParam(name = "productCode") String productCode) {
+		return fDAO.removeFavoriteByIdAndProductCode(loginToken, productCode);
 	}
 }

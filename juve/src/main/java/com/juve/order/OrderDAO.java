@@ -166,4 +166,85 @@ public class OrderDAO {
 			return null;
 		}
 	}
+
+	public Orders getOrdersFromLoginTokenAndDateBeetweenAdmin(String loginToken, Date startDate, Date endDate,
+			Integer page, Integer orderStatus) {
+		try {
+			String id = mDAO.getLoginedMember(loginToken).getId();
+			if (!id.equals("adminjuve")) {
+				return null;
+			}
+			Sort s = null;
+			s = Sort.by(Sort.Order.asc("orderStatus"), Sort.Order.asc("orderDate"));
+			Pageable p = PageRequest.of(page - 1, 10, s);
+			Page<Order> pagee = null;
+			if (orderStatus != 0) {
+				pagee = or.findAllByOrderDateBetweenAndOrderStatus(startDate, endDate, orderStatus, p);
+			} else {
+				pagee = or.findAllByOrderDateBetween(startDate, endDate, p);
+			}
+			int totalPage = pagee.getTotalPages();
+			List<Order> orders = pagee.getContent();
+			System.out.println(id);
+			System.out.println(startDate);
+			System.out.println(endDate);
+			System.out.println(orderStatus);
+			return new Orders(orders, totalPage);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public List<Order> getAllOrder() {
+		try {
+			return or.findAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public List<Order> getAllOrderMember(String loginToken) {
+		try {
+			String id = mDAO.getLoginedMember(loginToken).getId();
+			return or.findByOrderId(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Order getOrderFromLoginedMemberByToken(String orderCode, String LoginToken) {
+		try {
+			String id = mDAO.getLoginedMember(LoginToken).getId();
+			return or.findByOrderCodeAndOrderId(orderCode, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Order getOrderFromAdminByToken(String orderCode, String LoginToken) {
+		try {
+			String id = mDAO.getLoginedMember(LoginToken).getId();
+			if (id.equals("adminjuve"))
+				;
+			return or.findByOrderCode(orderCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public void setOrderStatus(String orderCode, Integer status) {
+		try {
+			Order order = or.findByOrderCode(orderCode);
+			order.setOrderStatus(status);
+			or.save(order);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+	}
 }

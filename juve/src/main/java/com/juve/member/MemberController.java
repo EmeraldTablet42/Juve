@@ -132,4 +132,12 @@ public class MemberController {
 		return mDAO.isPasswordCorrect(idToken, inputPw);
 	}
 
+	@CrossOrigin(origins = { "http://localhost", "http://121.188.14.80", "http://118.46.72.171",
+			"http://www.juve.co.kr", "http://juve.co.kr", "https://juve.co.kr" })
+	@RequestMapping(value = "/member.get.loginedMemberGenAge")
+	public @ResponseBody Member getLoginedMemberGenAge(@RequestParam(value = "token") String token,
+			HttpServletResponse response) {
+		return mDAO.getGenderAndAgebyLoginToken(token);
+	}
+
 }
