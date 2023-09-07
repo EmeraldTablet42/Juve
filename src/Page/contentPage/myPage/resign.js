@@ -1,34 +1,35 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { setAuth } from "../member/authSlice";
+import axios from 'axios';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setAuth } from '../member/authSlice';
+import './css/resign.css';
 
 const Resign = () => {
   const myDispatch = useDispatch();
   const navi = useNavigate();
   const auth = useSelector((state) => state.authindex);
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
 
   const fd = new FormData();
 
-  fd.append("idToken", sessionStorage.getItem("loginToken"));
-  fd.append("password", password);
+  fd.append('idToken', sessionStorage.getItem('loginToken'));
+  fd.append('password', password);
 
   const resinMember = async () => {
-    if (window.confirm("정말로 탈퇴하시겠습니까?")) {
+    if (window.confirm('정말로 탈퇴하시겠습니까?')) {
       await axios
-        .post("http://localhost:8090/member.resign", fd)
+        .post('http://localhost:8090/member.resign', fd)
         .then((res) => {
-          if (res.data === "resign") {
-            alert("탈퇴완료");
-            sessionStorage.removeItem("loginToken");
-            window.location.replace("/");
+          if (res.data === 'resign') {
+            alert('탈퇴완료');
+            sessionStorage.removeItem('loginToken');
+            window.location.replace('/');
           } else {
-            alert("비밀번호가 올바르지 않습니다.");
+            alert('비밀번호가 올바르지 않습니다.');
           }
         });
     } else {

@@ -1,14 +1,14 @@
-import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import redAsteriks from "../../../img/join/redAsteriks3.png";
-import { useNavigate } from "react-router-dom";
-import { isIdpresent, validatePw } from "../member/validation";
-import { validateAllModify } from "../member/validation";
-import { validateEmail } from "../member/validation";
-import { validateBirth } from "../member/validation";
-import DaumPostcodeAPI from "../member/daumPostcodeAPI";
-import { useSelector } from "react-redux";
-
+import axios from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
+import redAsteriks from '../../../img/join/redAsteriks3.png';
+import { useNavigate } from 'react-router-dom';
+import { isIdpresent, validatePw } from '../member/validation';
+import { validateAllModify } from '../member/validation';
+import { validateEmail } from '../member/validation';
+import { validateBirth } from '../member/validation';
+import DaumPostcodeAPI from '../member/daumPostcodeAPI';
+import { useSelector } from 'react-redux';
+import './css/myinfo.css';
 const MyInfo = () => {
   const auth = useSelector((state) => state.authindex);
   // 무언가 에러발생시 홈페이지로 리다이렉트//
@@ -16,15 +16,15 @@ const MyInfo = () => {
   //// IdList, EmailList State 설정///
   const [dbList, setDdList] = useState({
     idInfo: {
-      id: "",
-      oldPassword: "",
-      name: "",
-      addr: { addr1: "", addr2: "", addr3: "" },
-      phone: { phone1: "", phone2: "", phone3: "" },
-      tel: { tel1: "02", tel2: "", tel3: "" },
-      email: "",
-      gender: "",
-      birth: { birthYear: "", birthMonth: "", birthDay: "" },
+      id: '',
+      oldPassword: '',
+      name: '',
+      addr: { addr1: '', addr2: '', addr3: '' },
+      phone: { phone1: '', phone2: '', phone3: '' },
+      tel: { tel1: '02', tel2: '', tel3: '' },
+      email: '',
+      gender: '',
+      birth: { birthYear: '', birthMonth: '', birthDay: '' },
       mileage: 0,
     },
     emailList: [],
@@ -53,7 +53,7 @@ const MyInfo = () => {
   // };
 
   const getDbList = useCallback(() => {
-    if (auth.memberId !== "") {
+    if (auth.memberId !== '') {
       // 첫 번째 axios 요청(아이디)
       const getIdPromise = axios
         .get(`http://localhost:8090/member.getById?id=${auth.memberId}`)
@@ -65,25 +65,25 @@ const MyInfo = () => {
             ...prevList,
             idInfo: {
               id: res.data.id,
-              oldPassword: "",
+              oldPassword: '',
               name: res.data.name,
               addr: {
-                addr1: res.data.address.split("^")[0],
-                addr2: res.data.address.split("^")[1],
+                addr1: res.data.address.split('^')[0],
+                addr2: res.data.address.split('^')[1],
                 addr3:
-                  res.data.address.split("^")[2] !== null
-                    ? res.data.address.split("^")[2]
-                    : "",
+                  res.data.address.split('^')[2] !== null
+                    ? res.data.address.split('^')[2]
+                    : '',
               },
               phone: {
-                phone1: res.data.phone.split("-")[0],
-                phone2: res.data.phone.split("-")[1],
-                phone3: res.data.phone.split("-")[2],
+                phone1: res.data.phone.split('-')[0],
+                phone2: res.data.phone.split('-')[1],
+                phone3: res.data.phone.split('-')[2],
               },
               tel: {
-                tel1: res.data.tel !== null ? res.data.tel.split("-")[0] : "02",
-                tel2: res.data.tel !== null ? res.data.tel.split("-")[1] : "",
-                tel3: res.data.tel !== null ? res.data.tel.split("-")[2] : "",
+                tel1: res.data.tel !== null ? res.data.tel.split('-')[0] : '02',
+                tel2: res.data.tel !== null ? res.data.tel.split('-')[1] : '',
+                tel3: res.data.tel !== null ? res.data.tel.split('-')[2] : '',
               },
               email: res.data.email,
               gender: res.data.gender,
@@ -98,25 +98,25 @@ const MyInfo = () => {
           setMemberInfo({
             ...memberInfo,
             id: res.data.id,
-            oldPassword: "",
+            oldPassword: '',
             name: res.data.name,
             addr: {
-              addr1: res.data.address.split("^")[0],
-              addr2: res.data.address.split("^")[1],
+              addr1: res.data.address.split('^')[0],
+              addr2: res.data.address.split('^')[1],
               addr3:
-                res.data.address.split("^")[2] !== null
-                  ? res.data.address.split("^")[2]
-                  : "",
+                res.data.address.split('^')[2] !== null
+                  ? res.data.address.split('^')[2]
+                  : '',
             },
             phone: {
-              phone1: res.data.phone.split("-")[0],
-              phone2: res.data.phone.split("-")[1],
-              phone3: res.data.phone.split("-")[2],
+              phone1: res.data.phone.split('-')[0],
+              phone2: res.data.phone.split('-')[1],
+              phone3: res.data.phone.split('-')[2],
             },
             tel: {
-              tel1: res.data.tel !== null ? res.data.tel.split("-")[0] : "02",
-              tel2: res.data.tel !== null ? res.data.tel.split("-")[1] : "",
-              tel3: res.data.tel !== null ? res.data.tel.split("-")[2] : "",
+              tel1: res.data.tel !== null ? res.data.tel.split('-')[0] : '02',
+              tel2: res.data.tel !== null ? res.data.tel.split('-')[1] : '',
+              tel3: res.data.tel !== null ? res.data.tel.split('-')[2] : '',
             },
             email: res.data.email,
             gender: res.data.gender,
@@ -131,15 +131,15 @@ const MyInfo = () => {
 
       // 두 번째 axios 요청(이메일)
       const getEmailsPromise = axios
-        .get("http://localhost:8090/member/getEmails")
+        .get('http://localhost:8090/member/getEmails')
         .then((res2) => {
           setDdList((prevList) => ({ ...prevList, emailList: res2.data }));
         });
 
       // 두 개의 axios 요청을 병렬로 실행하고 에러 처리
       Promise.all([getIdPromise, getEmailsPromise]).catch(() => {
-        alert("DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요");
-        navi("/");
+        alert('DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요');
+        navi('/');
       });
     }
   }, [navi, auth.memberId]);
@@ -150,65 +150,65 @@ const MyInfo = () => {
       src={redAsteriks}
       alt="redAsteriks"
       width={8}
-      style={{ verticalAlign: "middle" }}
+      style={{ verticalAlign: 'middle' }}
     ></img>
   );
   ///////////////////////////////////////////////////////////////
 
   const [memberInfo, setMemberInfo] = useState({
-    id: "",
-    oldPassword: "",
-    newPassword: "",
-    newPasswordConfim: "",
-    name: "",
-    addr: { addr1: "", addr2: "", addr3: "" },
-    phone: { phone1: "", phone2: "", phone3: "" },
-    tel: { tel1: "02", tel2: "", tel3: "" },
-    email: "",
-    gender: "",
+    id: '',
+    oldPassword: '',
+    newPassword: '',
+    newPasswordConfim: '',
+    name: '',
+    addr: { addr1: '', addr2: '', addr3: '' },
+    phone: { phone1: '', phone2: '', phone3: '' },
+    tel: { tel1: '02', tel2: '', tel3: '' },
+    email: '',
+    gender: '',
     // birth: { birthYear: "", birthMonth: "", birthDay: "" },
   });
   const [birth, setBirth] = useState({
-    birthYear: "",
-    birthMonth: "",
-    birthDay: "",
+    birthYear: '',
+    birthMonth: '',
+    birthDay: '',
   });
 
   const telPhoneArr = {
     tel: [
-      "02",
-      "031",
-      "032",
-      "033",
-      "041",
-      "042",
-      "043",
-      "044",
-      "051",
-      "052",
-      "053",
-      "054",
-      "055",
-      "061",
-      "062",
-      "063",
-      "064",
-      "0502",
-      "0503",
-      "0504",
-      "0505",
-      "0506",
-      "0507",
-      "05 08",
-      "070",
-      "010",
-      "011",
-      "016",
-      "017",
-      "018",
-      "019",
+      '02',
+      '031',
+      '032',
+      '033',
+      '041',
+      '042',
+      '043',
+      '044',
+      '051',
+      '052',
+      '053',
+      '054',
+      '055',
+      '061',
+      '062',
+      '063',
+      '064',
+      '0502',
+      '0503',
+      '0504',
+      '0505',
+      '0506',
+      '0507',
+      '05 08',
+      '070',
+      '010',
+      '011',
+      '016',
+      '017',
+      '018',
+      '019',
     ],
-    phone: ["010", "016", "017", "018", "019"],
+    phone: ['010', '016', '017', '018', '019'],
   };
   // 주소창 팝업 state - 기존값 false//
   const [addrPopup, setAddrPopup] = useState(false);
@@ -219,14 +219,14 @@ const MyInfo = () => {
 
   // 유효성검사 메시지를 담는 state////////////////////////////////////////////
   const [verifuMsg, setVerifuMsg] = useState({
-    pwMsg: "",
-    emailMsg: "",
-    birthMsg: "",
+    pwMsg: '',
+    emailMsg: '',
+    birthMsg: '',
   });
   /////////////////////////////////////////////////////////////////////////////
 
   // 테이블 전체에 대한 키보드 이벤트 핸들러(숫자/한글 입력 구분용)//////////////////////
-  const [keyEvent, setKeyEvent] = useState("");
+  const [keyEvent, setKeyEvent] = useState('');
   const handleKeyEvent = (e) => {
     const key = e.key;
     setKeyEvent(key);
@@ -246,8 +246,8 @@ const MyInfo = () => {
   const handleNewPassword = (e) => {
     const newPassword = e.target.value;
     setMemberInfo({ ...memberInfo, newPassword: newPassword });
-    if (newPassword === "" && memberInfo.newPasswordConfim === "") {
-      setVerifuMsg({ ...verifuMsg, pwMsg: "" });
+    if (newPassword === '' && memberInfo.newPasswordConfim === '') {
+      setVerifuMsg({ ...verifuMsg, pwMsg: '' });
       setIsAllValidate({ ...isAllValidate, newPassword: true });
     }
   };
@@ -255,8 +255,8 @@ const MyInfo = () => {
     const newPasswordConfim = e.target.value;
     setMemberInfo({ ...memberInfo, newPasswordConfim: newPasswordConfim });
     const validationPw = validatePw(memberInfo.newPassword, newPasswordConfim);
-    if (memberInfo.newPassword === "" && newPasswordConfim === "") {
-      setVerifuMsg({ ...verifuMsg, pwMsg: "" });
+    if (memberInfo.newPassword === '' && newPasswordConfim === '') {
+      setVerifuMsg({ ...verifuMsg, pwMsg: '' });
       setIsAllValidate({ ...isAllValidate, newPassword: true });
     } else {
       setVerifuMsg({ ...verifuMsg, pwMsg: validationPw.msg });
@@ -286,7 +286,7 @@ const MyInfo = () => {
     });
   };
   const handlePhone = (e) => {
-    if (e.target.name === "phone1") {
+    if (e.target.name === 'phone1') {
       //   const newPhone = { ...phone, [e.target.name]: e.target.value };
       const newPhone = {
         ...memberInfo,
@@ -295,8 +295,8 @@ const MyInfo = () => {
       setMemberInfo(newPhone);
     } else if (
       /^[0-9]$/.test(keyEvent) ||
-      keyEvent === "Backspace" ||
-      keyEvent === "Delete"
+      keyEvent === 'Backspace' ||
+      keyEvent === 'Delete'
     ) {
       const newPhone = {
         ...memberInfo,
@@ -310,7 +310,7 @@ const MyInfo = () => {
     }
   };
   const handleTel = (e) => {
-    if (e.target.name === "tel1") {
+    if (e.target.name === 'tel1') {
       //   setPhone({ ...phone, [e.target.name]: e.target.value });
       setMemberInfo({
         ...memberInfo,
@@ -318,8 +318,8 @@ const MyInfo = () => {
       });
     } else if (
       /^[0-9]$/.test(keyEvent) ||
-      keyEvent === "Backspace" ||
-      keyEvent === "Delete"
+      keyEvent === 'Backspace' ||
+      keyEvent === 'Delete'
     ) {
       setMemberInfo({
         ...memberInfo,
@@ -331,7 +331,7 @@ const MyInfo = () => {
     const newEmail = e.target.value;
     setMemberInfo({ ...memberInfo, email: newEmail });
     if (newEmail === dbList.idInfo.email) {
-      setVerifuMsg({ ...verifuMsg, emailMsg: "" });
+      setVerifuMsg({ ...verifuMsg, emailMsg: '' });
       setIsAllValidate({ ...isAllValidate, email: true });
     } else {
       const validationEmail = validateEmail(newEmail, dbList.emailList);
@@ -368,8 +368,8 @@ const MyInfo = () => {
   const handleBirth = (e) => {
     if (
       /^[0-9]$/.test(keyEvent) ||
-      keyEvent === "Backspace" ||
-      keyEvent === "Delete"
+      keyEvent === 'Backspace' ||
+      keyEvent === 'Delete'
     ) {
       const name = e.target.name;
       const value = e.target.value;
@@ -386,7 +386,7 @@ const MyInfo = () => {
       getDbList();
     }
     return () => {
-      sessionStorage.removeItem("passwordCheck");
+      sessionStorage.removeItem('passwordCheck');
     };
   }, [getDbList, auth.memberId]);
   ///////////////////////////////////////////////////////////////////////////////////////
@@ -409,61 +409,61 @@ const MyInfo = () => {
 
   // 폼데이터 객체 만들고 input값 폼데이터에 추가
   const fd = new FormData();
-  fd.append("id", memberInfo.id.toLowerCase());
-  if (memberInfo.newPassword !== "") {
-    fd.append("password", memberInfo.newPassword);
+  fd.append('id', memberInfo.id.toLowerCase());
+  if (memberInfo.newPassword !== '') {
+    fd.append('password', memberInfo.newPassword);
   } else {
-    fd.append("password", memberInfo.oldPassword);
+    fd.append('password', memberInfo.oldPassword);
   }
-  fd.append("name", memberInfo.name);
+  fd.append('name', memberInfo.name);
   fd.append(
-    "address",
+    'address',
     memberInfo.addr.addr1 +
-      "^" +
+      '^' +
       memberInfo.addr.addr2 +
-      "^" +
+      '^' +
       memberInfo.addr.addr3
   );
   fd.append(
-    "phone",
+    'phone',
     memberInfo.phone.phone1 +
-      "-" +
+      '-' +
       memberInfo.phone.phone2 +
-      "-" +
+      '-' +
       memberInfo.phone.phone3
   );
   if (memberInfo.tel.tel2 && memberInfo.tel.tel3) {
     fd.append(
-      "tel",
+      'tel',
       memberInfo.tel.tel1 +
-        "-" +
+        '-' +
         memberInfo.tel.tel2 +
-        "-" +
+        '-' +
         memberInfo.tel.tel3
     );
   }
-  fd.append("email", memberInfo.email.toLowerCase());
-  fd.append("gender", memberInfo.gender);
+  fd.append('email', memberInfo.email.toLowerCase());
+  fd.append('gender', memberInfo.gender);
   if (String(birth.birthYear).length === 4) {
     fd.append(
-      "birth",
+      'birth',
       String(birth.birthYear) +
-        "-" +
-        String(birth.birthMonth).padStart(2, "0") +
-        "-" +
-        String(birth.birthDay).padStart(2, "0")
+        '-' +
+        String(birth.birthMonth).padStart(2, '0') +
+        '-' +
+        String(birth.birthDay).padStart(2, '0')
     );
   }
-  fd.append("mileage", dbList.idInfo.mileage);
+  fd.append('mileage', dbList.idInfo.mileage);
 
   // axios를 통한 폼데이터 백엔드에 전송
   const reg = async () => {
     const validAll = validateAllModify(isAllValidate);
     if (validAll.validation) {
       // alert("유효성 검사 통과");
-      axios.post("http://localhost:8090/member/update", fd).then((res) => {
-        alert("회원정보 수정 성공");
-        navi("/");
+      axios.post('http://localhost:8090/member/update', fd).then((res) => {
+        alert('회원정보 수정 성공');
+        navi('/');
       });
     } else {
       alert(validAll.msg);
@@ -472,8 +472,8 @@ const MyInfo = () => {
 
   const fd2 = new FormData();
 
-  fd2.append("idToken", sessionStorage.getItem("loginToken"));
-  fd2.append("password", memberInfo.oldPassword);
+  fd2.append('idToken', sessionStorage.getItem('loginToken'));
+  fd2.append('password', memberInfo.oldPassword);
 
   /// 아이디 검사 //
   const isIdCorrect = () => {
@@ -488,7 +488,7 @@ const MyInfo = () => {
     await axios
       .post(`http://localhost:8090/member.checkPassword`, fd2)
       .then((res) => {
-        if (res.data === "Correct") {
+        if (res.data === 'Correct') {
           // alert("통과");
           setIsAllValidate((prevIsAllValidate) => ({
             ...prevIsAllValidate,
@@ -506,324 +506,337 @@ const MyInfo = () => {
 
   // 탈퇴//
   const resign = () => {
-    navi("/member/resign");
+    navi('/member/resign');
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
-    <>
-      <h2 className="joinTitle">회원정보 수정</h2>
-      <h3>기본정보</h3>
-      <p className="required">
-        <RedAs /> 필수입력사항
-      </p>
-      <table className={"basicInfo joinTbl"} onKeyDown={handleKeyEvent}>
-        <tr>
-          <th className="col1">
-            아이디
-            <RedAs />
-          </th>
-          <td>
-            <input
-              name="id"
-              maxLength={16}
-              value={memberInfo.id}
-              onChange={handleId}
-              readOnly
-            />
-          </td>
-        </tr>
-        <tr>
-          <th className="col1">
-            기존 비밀번호
-            <RedAs />
-          </th>
-          <td>
-            <input
-              name="oldPassword"
-              type="password"
-              maxLength={16}
-              value={memberInfo.oldPassword}
-              onChange={handleOldPassword}
-              onBlur={isOldPasswordCorrect}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th className="col1">신규 비밀번호</th>
-          <td>
-            <input
-              name="newPassword"
-              type="password"
-              maxLength={16}
-              value={memberInfo.newPassword}
-              onChange={handleNewPassword}
-            />
-            <span className="pwDetail">
-              {" "}
-              (영문 대소문자 조합 + 숫자/특수문자 중 2가지 이상 조합, 10자~16자)
-            </span>
-          </td>
-        </tr>
-        <tr>
-          <th className="col1">신규 비밀번호 확인</th>
-          <td>
-            <input
-              name="newPasswodConfirm"
-              type="password"
-              maxLength={16}
-              value={memberInfo.newPasswordConfim}
-              onChange={handleNewPasswordConfirm}
-            />
-            <span
-              className={`verifyMsg ${
-                isAllValidate.newPassword ? "verifyMsg_valid" : ""
-              }`}
-            >
-              {" "}
-              {verifuMsg.pwMsg}
-            </span>
-          </td>
-        </tr>
-        <tr>
-          <th className="col1">
-            이름
-            <RedAs />
-          </th>
-          <td>
-            <input name="name" value={memberInfo.name} onChange={handleName} />
-          </td>
-        </tr>
-        <tr>
-          <th className="col1" rowSpan={3} valign="top">
-            주소
-            <RedAs />
-          </th>
-          <td>
-            <input
-              name="addr1"
-              placeholder="우편번호"
-              value={memberInfo.addr.addr1}
-              onChange={handleAddr}
-              readOnly
-            />
-            <button onClick={handleAddrPopup}>주소 검색</button>
-            {addrPopup && (
-              <DaumPostcodeAPI
-                addr={memberInfo.addr}
-                setAddr={(newAddr) =>
-                  setMemberInfo({ ...memberInfo, addr: newAddr })
-                }
-                addrPopup={addrPopup}
-                setAddrPopup={setAddrPopup}
-                isAllValidate={isAllValidate}
-                setIsAllValidate={setIsAllValidate}
+    <div className="myinfo-wrapper">
+      <div className="join-title">
+        <h2>회원정보 수정</h2>
+      </div>
+      <div className="subtitle">
+        <h3>기본정보</h3>
+      </div>
+      <div className="table1">
+        <p className="required">
+          <RedAs /> 필수입력사항
+        </p>
+        <table className={'basicInfo joinTbl'} onKeyDown={handleKeyEvent}>
+          <tr>
+            <th className="col1">
+              아이디
+              <RedAs />
+            </th>
+            <td>
+              <input
+                name="id"
+                maxLength={16}
+                value={memberInfo.id}
+                onChange={handleId}
+                readOnly
               />
-            )}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input
-              name="addr2"
-              placeholder="기본주소"
-              value={memberInfo.addr.addr2}
-              onChange={handleAddr}
-              readOnly
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input
-              name="addr3"
-              placeholder="상세주소"
-              value={memberInfo.addr.addr3}
-              onChange={handleAddr}
-            />
-            {/* <button
+            </td>
+          </tr>
+          <tr>
+            <th className="col1">
+              기존 비밀번호
+              <RedAs />
+            </th>
+            <td>
+              <input
+                name="oldPassword"
+                type="password"
+                maxLength={16}
+                value={memberInfo.oldPassword}
+                onChange={handleOldPassword}
+                onBlur={isOldPasswordCorrect}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th className="col1">신규 비밀번호</th>
+            <td>
+              <input
+                name="newPassword"
+                type="password"
+                maxLength={16}
+                value={memberInfo.newPassword}
+                onChange={handleNewPassword}
+              />
+              <span className="pwDetail">
+                {' '}
+                (영문 대소문자 조합 + 숫자/특수문자 중 2가지 이상 조합,
+                10자~16자)
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th className="col1">신규 비밀번호 확인</th>
+            <td>
+              <input
+                name="newPasswodConfirm"
+                type="password"
+                maxLength={16}
+                value={memberInfo.newPasswordConfim}
+                onChange={handleNewPasswordConfirm}
+              />
+              <span
+                className={`verifyMsg ${
+                  isAllValidate.newPassword ? 'verifyMsg_valid' : ''
+                }`}
+              >
+                {' '}
+                {verifuMsg.pwMsg}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th className="col1">
+              이름
+              <RedAs />
+            </th>
+            <td>
+              <input
+                name="name"
+                value={memberInfo.name}
+                onChange={handleName}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th className="col1" rowSpan={3} valign="top">
+              주소
+              <RedAs />
+            </th>
+            <td>
+              <input
+                name="addr1"
+                placeholder="우편번호"
+                value={memberInfo.addr.addr1}
+                onChange={handleAddr}
+                readOnly
+              />
+              <button onClick={handleAddrPopup}>주소 검색</button>
+              {addrPopup && (
+                <DaumPostcodeAPI
+                  addr={memberInfo.addr}
+                  setAddr={(newAddr) =>
+                    setMemberInfo({ ...memberInfo, addr: newAddr })
+                  }
+                  addrPopup={addrPopup}
+                  setAddrPopup={setAddrPopup}
+                  isAllValidate={isAllValidate}
+                  setIsAllValidate={setIsAllValidate}
+                />
+              )}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                name="addr2"
+                placeholder="기본주소"
+                value={memberInfo.addr.addr2}
+                onChange={handleAddr}
+                readOnly
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input
+                name="addr3"
+                placeholder="상세주소"
+                value={memberInfo.addr.addr3}
+                onChange={handleAddr}
+              />
+              {/* <button
               onClick={() => {
                 alert(JSON.stringify(addr));
               }}
             >
               조회
             </button> */}
-          </td>
-        </tr>
-        <tr>
-          <th className="col1">
-            휴대전화
-            <RedAs />
-          </th>
-          <td>
-            {/* <input name="phone1" value={phone.phone1} onChange={handlePhone} /> */}
-            <select
-              name="phone1"
-              value={memberInfo.phone.phone1}
-              onChange={handlePhone}
-            >
-              {telPhoneArr.phone.map((item) => (
-                <option value={item} key={item}>
-                  {item}
-                </option>
-              ))}
-            </select>{" "}
-            -{" "}
-            <input
-              name="phone2"
-              maxLength={4}
-              value={memberInfo.phone.phone2}
-              onChange={handlePhone}
-            />{" "}
-            -{" "}
-            <input
-              name="phone3"
-              maxLength={4}
-              value={memberInfo.phone.phone3}
-              onChange={handlePhone}
-            />
-            {/* <div>
+            </td>
+          </tr>
+          <tr>
+            <th className="col1">
+              휴대전화
+              <RedAs />
+            </th>
+            <td>
+              {/* <input name="phone1" value={phone.phone1} onChange={handlePhone} /> */}
+              <select
+                name="phone1"
+                value={memberInfo.phone.phone1}
+                onChange={handlePhone}
+              >
+                {telPhoneArr.phone.map((item) => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>{' '}
+              -{' '}
+              <input
+                name="phone2"
+                maxLength={4}
+                value={memberInfo.phone.phone2}
+                onChange={handlePhone}
+              />{' '}
+              -{' '}
+              <input
+                name="phone3"
+                maxLength={4}
+                value={memberInfo.phone.phone3}
+                onChange={handlePhone}
+              />
+              {/* <div>
               {phone.phone1}-{phone.phone2}-{phone.phone3}
             </div> */}
-          </td>
-        </tr>
-        <tr>
-          <th className="col1">일반전화</th>
-          <td>
-            {/* <input name="tel1" value={tel.tel1} onChange={handleTel} /> */}
-            <select
-              name="tel1"
-              value={memberInfo.tel.tel1}
-              onChange={handleTel}
-            >
-              {telPhoneArr.tel.map((item) => (
-                <option value={item} key={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-            -{" "}
-            <input
-              name="tel2"
-              maxLength={4}
-              value={memberInfo.tel.tel2}
-              onChange={handleTel}
-            />{" "}
-            -{" "}
-            <input
-              name="tel3"
-              maxLength={4}
-              value={memberInfo.tel.tel3}
-              onChange={handleTel}
-            />
-          </td>
-        </tr>
-        <tr>
-          <th className="col1">
-            이메일
-            <RedAs />
-          </th>
-          <td>
-            <input
-              name="email"
-              value={memberInfo.email}
-              onChange={handleEmail}
-            />
-            <span
-              className={`verifyMsg ${
-                isAllValidate.email ? "verifyMsg_valid" : ""
-              }`}
-            >
-              {" "}
-              {verifuMsg.emailMsg}
-            </span>
-            {/* <button
+            </td>
+          </tr>
+          <tr>
+            <th className="col1">일반전화</th>
+            <td>
+              {/* <input name="tel1" value={tel.tel1} onChange={handleTel} /> */}
+              <select
+                name="tel1"
+                value={memberInfo.tel.tel1}
+                onChange={handleTel}
+              >
+                {telPhoneArr.tel.map((item) => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+              -{' '}
+              <input
+                name="tel2"
+                maxLength={4}
+                value={memberInfo.tel.tel2}
+                onChange={handleTel}
+              />{' '}
+              -{' '}
+              <input
+                name="tel3"
+                maxLength={4}
+                value={memberInfo.tel.tel3}
+                onChange={handleTel}
+              />
+            </td>
+          </tr>
+          <tr>
+            <th className="col1">
+              이메일
+              <RedAs />
+            </th>
+            <td>
+              <input
+                name="email"
+                value={memberInfo.email}
+                onChange={handleEmail}
+              />
+              <span
+                className={`verifyMsg ${
+                  isAllValidate.email ? 'verifyMsg_valid' : ''
+                }`}
+              >
+                {' '}
+                {verifuMsg.emailMsg}
+              </span>
+              {/* <button
               onClick={() => {
                 alert(JSON.stringify(dbList));
               }}
             >
               조회
             </button> */}
-          </td>
-        </tr>
-      </table>
-      <h3>추가정보</h3>
-      <table className={"addInfo joinTbl"} onKeyDown={handleKeyEvent}>
-        <tr>
-          <th>성별</th>
-          <td>
-            <label>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div className="tabble2">
+        <h3>추가정보</h3>
+        <table className={'addInfo joinTbl'} onKeyDown={handleKeyEvent}>
+          <tr>
+            <th>성별</th>
+            <td>
+              <label>
+                <input
+                  name="gender"
+                  type="radio"
+                  checked={memberInfo.gender === '1'}
+                  value={1}
+                  onChange={handleGender}
+                />
+                남성
+              </label>
+              <label>
+                <input
+                  name="gender"
+                  type="radio"
+                  checked={memberInfo.gender === '2'}
+                  value={2}
+                  onChange={handleGender}
+                />
+                여성
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th>생년월일</th>
+            <td>
               <input
-                name="gender"
-                type="radio"
-                checked={memberInfo.gender === "1"}
-                value={1}
-                onChange={handleGender}
-              />
-              남성
-            </label>
-            <label>
+                name="birthYear"
+                className="birthYear"
+                value={birth.birthYear}
+                onChange={handleBirth}
+                maxLength={4}
+              />{' '}
+              년{' '}
               <input
-                name="gender"
-                type="radio"
-                checked={memberInfo.gender === "2"}
-                value={2}
-                onChange={handleGender}
-              />
-              여성
-            </label>
-          </td>
-        </tr>
-        <tr>
-          <th>생년월일</th>
-          <td>
-            <input
-              name="birthYear"
-              className="birthYear"
-              value={birth.birthYear}
-              onChange={handleBirth}
-              maxLength={4}
-            />{" "}
-            년{" "}
-            <input
-              name="birthMonth"
-              value={birth.birthMonth}
-              className="birthMonth"
-              onChange={handleBirth}
-              maxLength={2}
-            />{" "}
-            월{" "}
-            <input
-              name="birthDay"
-              value={birth.birthDay}
-              className="birthDay"
-              onChange={handleBirth}
-              maxLength={2}
-            />{" "}
-            일{" "}
-            <span
-              className={`verifyMsg ${
-                isAllValidate.birth ? "verifyMsg_valid" : ""
-              }`}
-            >
-              {verifuMsg.birthMsg}
-            </span>
-          </td>
-        </tr>
-      </table>
+                name="birthMonth"
+                value={birth.birthMonth}
+                className="birthMonth"
+                onChange={handleBirth}
+                maxLength={2}
+              />{' '}
+              월{' '}
+              <input
+                name="birthDay"
+                value={birth.birthDay}
+                className="birthDay"
+                onChange={handleBirth}
+                maxLength={2}
+              />{' '}
+              일{' '}
+              <span
+                className={`verifyMsg ${
+                  isAllValidate.birth ? 'verifyMsg_valid' : ''
+                }`}
+              >
+                {verifuMsg.birthMsg}
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
       <div id="modifyButton">
         <button onClick={reg}>회원정보수정</button>
         <button
           onClick={() => {
-            navi("/");
+            navi('/');
           }}
         >
           취소
         </button>
         <button onClick={resign}>회원 탈퇴</button>
       </div>
-    </>
+    </div>
   );
 };
 
