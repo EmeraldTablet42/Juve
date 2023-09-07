@@ -4,7 +4,6 @@
 }
 
 .required {
-  margin-top: -40px;
   text-align: right;
   font-size: 12px;
 }
@@ -12,14 +11,14 @@
 .joinTbl {
   border-spacing: 0px;
   width: 100%;
-  margin-top: 2%;
   margin-bottom: 2%;
   /* margin-left: 2%; */
   border-top: 3px solid #ffa928;
   border-bottom: 3px solid #ffa928;
 }
 
-.joinTbl td, .joinTbl th {
+.joinTbl td,
+.joinTbl th {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 15px;
@@ -93,7 +92,7 @@
   color: red;
   font-weight: bold;
 }
-.verifyMsg_valid{
+.verifyMsg_valid {
   color: rgba(0, 128, 0, 0.823);
   font-weight: bold;
 }

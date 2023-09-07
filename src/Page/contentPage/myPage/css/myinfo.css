@@ -6,13 +6,32 @@
 }
 .join-title {
   height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 .join-title h2 {
   margin-left: 30px;
 }
 .subtitle {
   height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 .subtitle h3 {
+  margin-left: 30px;
+}
+.added-info {
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 2%;
+}
+.added-info h3 {
   margin-left: 30px;
 }
