@@ -308,9 +308,9 @@ const Salpopup = (props) => {
   }, [isOpenSsm]);
 
   ///////////////////
-
   return (
     <>
+      {/* 배경 어둡게 */}
       <Background />
       <div className="popupcart-wrapper">
         <button
@@ -319,177 +319,169 @@ const Salpopup = (props) => {
         >
           x
         </button>
-        <div className="popupcart-header">
-          <div className="popupcart-image">
-            <img
-              src={`http://localhost:8090/product/photo/${salData.productPhoto}`}
-              alt="상품 이미지"
-              style={{ width: '300px' }}
-            />
-          </div>
-          <div className="popupcart-option-wrapper">
-            <div className="popupcart-list">
-              <div className="popupcart-text">
-                <h2 className="popupcart-productname">{salData.productName}</h2>
-                <h2 className="popupcart-productname">
-                  {salData.productPrice}
-                </h2>
+        <div className="popup-image">
+          <img
+            src={`http://localhost:8090/product/photo/${salData.productPhoto}`}
+            alt="상품 이미지"
+            style={{ width: '300px' }}
+          />
+        </div>
+        <div className="popupcart-option-wrapper">
+          <h2>{salData.productName}</h2>
+          <hr style={{ margin: '10px 0', border: '1px solid #ccc' }} />
+          <h2>{salData.productPrice}</h2>
+          <hr style={{ margin: '10px 0', border: '1px solid #ccc' }} />
+          <div className="sdrOption" style={{ marginTop: '20px' }}>
+            <select
+              className="selectsize"
+              value={sdrValue}
+              onChange={(e) => {
+                handleSdrChange(e);
+              }}
+            >
+              <option value="" hidden>
+                샐러드 드레싱을 선택하세요
+              </option>
+              {sdrData.map(({ productCode, productName, productPrice }) => (
+                <option
+                  key={`sdr-${productCode}`}
+                  value={productCode}
+                  data-price={productPrice}
+                >
+                  {productName}
+                </option>
+              ))}
+            </select>
+            <div className="dropdown" ref={ref}>
+              <div
+                id="smtPopup"
+                className="dropdown-header"
+                onClick={handlePopup}
+              >
+                메인토핑 (복수선택)
               </div>
-              <div className="popupcart-info-wrapper">
-                <div className="sdrOption">
-                  <select
-                    className="selectsize"
-                    value={sdrValue}
-                    onChange={(e) => {
-                      handleSdrChange(e);
-                    }}
-                  >
-                    <option value="" hidden>
-                      샐러드 드레싱을 선택하세요
-                    </option>
-                    {sdrData.map(
-                      ({ productCode, productName, productPrice }) => (
-                        <option
-                          key={`sdr-${productCode}`}
+              {/* {isOpenSmt && ( */}
+              {popUp.smtPopup && (
+                <ul className="checkbox-list">
+                  {smtData.map(({ productCode, productName, productPrice }) => (
+                    <li key={`smt-${productCode}`}>
+                      <label>
+                        <input
+                          name={productName}
+                          checked={check[productCode] || false}
+                          type="checkbox"
                           value={productCode}
                           data-price={productPrice}
-                        >
-                          {productName}
-                        </option>
-                      )
-                    )}
-                  </select>
-                  <div className="dropdown" ref={ref}>
-                    <div
-                      id="smtPopup"
-                      className="dropdown-header"
-                      onClick={handlePopup}
-                    >
-                      메인토핑 (복수선택)
-                    </div>
-                    {/* {isOpenSmt && ( */}
-                    {popUp.smtPopup && (
-                      <ul className="checkbox-list">
-                        {smtData.map(
-                          ({ productCode, productName, productPrice }) => (
-                            <li key={`smt-${productCode}`}>
-                              <label>
-                                <input
-                                  name={productName}
-                                  checked={check[productCode] || false}
-                                  type="checkbox"
-                                  value={productCode}
-                                  data-price={productPrice}
-                                  onChange={handleSmtChange}
-                                />
-                                {productName} + {` (+${productPrice})`}
-                              </label>
-                            </li>
-                          )
-                        )}
-                      </ul>
-                    )}
-                    <div
-                      id="sstPopup"
-                      className="dropdown-header"
-                      onClick={handlePopup}
-                    >
-                      서브토핑 (복수선택)
-                    </div>
-                    {/* {isOpenSst && ( */}
-                    {popUp.sstPopup && (
-                      <ul className="checkbox-list">
-                        {sstData.map(
-                          ({ productCode, productName, productPrice }) => (
-                            <li key={`sst-${productCode}`}>
-                              <label>
-                                <input
-                                  type="checkbox"
-                                  name={productName}
-                                  checked={check[productCode] || false}
-                                  value={productCode}
-                                  data-price={productPrice}
-                                  onChange={handleSstChange}
-                                />
-                                {productName} + {` (+${productPrice})`}
-                              </label>
-                            </li>
-                          )
-                        )}
-                      </ul>
-                    )}
-                    <div
-                      id="ssmPopup"
-                      className="dropdown-header"
-                      // onClick={DropdownSsm}
-                      onClick={handlePopup}
-                    >
-                      보조메뉴 (복수선택)
-                    </div>
-                    {/* {isOpenSsm && ( */}
-                    {popUp.ssmPopup && (
-                      <ul className="checkbox-list">
-                        {ssmData.map(
-                          ({ productCode, productName, productPrice }) => (
-                            <li key={`ssm-${productCode}`}>
-                              <label>
-                                <input
-                                  type="checkbox"
-                                  name={productName}
-                                  checked={check[productCode] || false}
-                                  value={productCode}
-                                  data-price={productPrice}
-                                  onChange={handleSsmChange}
-                                />
-                                {productName} + {` (+${productPrice})`}
-                              </label>
-                            </li>
-                          )
-                        )}
-                      </ul>
-                    )}
-                    <Count count={count} setCount={handleCountChange} />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="popupcart-addedMenus">
-              {sdrValue && (
-                <div className="menu-item-view">
-                  {salData.productName}
-                  {sdrValue && (
-                    <>
-                      <br />
-                      드레싱 : {cTn[sdrValue]}
-                    </>
-                  )}
-                  {smtValue.length !== 0 && (
-                    <>
-                      <br />
-                      메인토핑 : {smtValue.map((code) => cTn[code]).join(', ')}
-                    </>
-                  )}
-                  {sstValue.length !== 0 && (
-                    <>
-                      <br />
-                      서브토핑 : {sstValue.map((code) => cTn[code]).join(', ')}
-                    </>
-                  )}
-                  {ssmValue.length !== 0 && (
-                    <>
-                      <br />
-                      보조메뉴 : {ssmValue.map((code) => cTn[code]).join(', ')}
-                    </>
-                  )}
-                  <br />
-                  수량 : {count}
-                  <br />총 가격 : {totalPrice * count}
-                </div>
+                          onChange={handleSmtChange}
+                        />
+                        {productName} + {` (+${productPrice})`}
+                      </label>
+                    </li>
+                  ))}
+                </ul>
               )}
+              <div
+                id="sstPopup"
+                className="dropdown-header"
+                onClick={handlePopup}
+              >
+                서브토핑 (복수선택)
+              </div>
+              {/* {isOpenSst && ( */}
+              {popUp.sstPopup && (
+                <ul className="checkbox-list">
+                  {sstData.map(({ productCode, productName, productPrice }) => (
+                    <li key={`sst-${productCode}`}>
+                      <label>
+                        <input
+                          type="checkbox"
+                          name={productName}
+                          checked={check[productCode] || false}
+                          value={productCode}
+                          data-price={productPrice}
+                          onChange={handleSstChange}
+                        />
+                        {productName} + {` (+${productPrice})`}
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <div
+                id="ssmPopup"
+                className="dropdown-header"
+                // onClick={DropdownSsm}
+                onClick={handlePopup}
+              >
+                보조메뉴 (복수선택)
+              </div>
+              {/* {isOpenSsm && ( */}
+              {popUp.ssmPopup && (
+                <ul className="checkbox-list">
+                  {ssmData.map(({ productCode, productName, productPrice }) => (
+                    <li key={`ssm-${productCode}`}>
+                      <label>
+                        <input
+                          type="checkbox"
+                          name={productName}
+                          checked={check[productCode] || false}
+                          value={productCode}
+                          data-price={productPrice}
+                          onChange={handleSsmChange}
+                        />
+                        {productName} + {` (+${productPrice})`}
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <Count count={count} setCount={handleCountChange} />
+            </div>
+          </div>
+          <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+            {sdrValue && (
+              <div className="menu-item">
+                {salData.productName}
+                {sdrValue && (
+                  <>
+                    <br />
+                    드레싱 : {cTn[sdrValue]}
+                  </>
+                )}
+                {smtValue.length !== 0 && (
+                  <>
+                    <br />
+                    메인토핑 : {smtValue.map((code) => cTn[code]).join(', ')}
+                  </>
+                )}
+                {sstValue.length !== 0 && (
+                  <>
+                    <br />
+                    서브토핑 : {sstValue.map((code) => cTn[code]).join(', ')}
+                  </>
+                )}
+                {ssmValue.length !== 0 && (
+                  <>
+                    <br />
+                    보조메뉴 : {ssmValue.map((code) => cTn[code]).join(', ')}
+                  </>
+                )}
+                <br />
+                수량 : {count}
+                <br />총 가격 : {totalPrice * count}
+              </div>
+            )}
+            <div
+              style={{
+                display: 'block',
+                textAlign: 'left',
+              }}
+              className="addedMenus"
+            >
               {added.map((v, i) => (
                 <div className="menu-item" key={i}>
                   <div className="menu-product">
-                    <div className="menu-list">
+                    <div className="menu-detail">
                       {/* {JSON.stringify(v)} */}
                       {cTn[v.productCode]}
                       <br />
@@ -522,29 +514,17 @@ const Salpopup = (props) => {
               ))}
             </div>
           </div>
-        </div>
-        <div className="purchase-btn">
-          <div className="added-btn">
-            <button
-              className="reverse-button"
-              onClick={addMenu}
-              style={{ width: '90%', height: '50px' }}
-            >
-              메뉴 담기
-            </button>
-          </div>
-          <div className="go-to-purchase">
-            <div>
-              <button className="default-button" onClick={goOrder}>
-                구매예약
-              </button>
-            </div>
-            <div>
-              <button className="default-button" onClick={goCart}>
-                장바구니에 담기
-              </button>
-            </div>
-          </div>
+          {/*} <button
+            onClick={() => {
+              alert(JSON.stringify(added));
+            }}
+          >
+            조회
+          </button>*/}
+          <button onClick={addMenu}>메뉴 추가</button>
+          <br />
+          <button onClick={goOrder}>구매예약</button>
+          <button onClick={goCart}>장바구니에 담기</button>
         </div>
       </div>
     </>
