@@ -26,13 +26,14 @@
   text-align: center;
   margin-top: 40px;
 }
-.home-allmenu h4{
+.home-allmenu h4 {
   text-align: center;
   margin-top: 15px;
   margin-bottom: 40px;
 }
 .image-hover {
-  transition: transform 0.3s ease; 
+  transition: transform 0.3s ease;
+  cursor: pointer;
 }
 .image-hover:hover {
   transform: scale(1.1);

@@ -5,13 +5,12 @@
 .submenu {
   display: flex;
 }
-.detail-high{
+.detail-high {
   display: flex;
   justify-content: center;
   align-items: center;
-;
 }
-.detail-image{
+.detail-image {
   display: flex;
   flex-direction: column;
   width: 600px;
@@ -19,15 +18,34 @@
   align-items: center;
   justify-content: center;
 }
-.product-data{
+.product-data {
   width: 600px;
-  height: 600px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.product-data-Name {
+  margin-right: 10px;
+}
+.sdrOption {
+  margin-left: 10px;
+  min-height: 70px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.product-item{
+.product-data-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+.product-data-Name p {
+  margin-bottom: 10px;
+}
+.product-item {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,19 +60,61 @@
   transform: scale(1.1);
 }
 
-.menu-item{
+.menu-item {
   font-size: 12pt;
 }
-.menu-view{
-max-height: 300px;
-overflow-y: auto;
+.menu-view {
+  max-height: 300px;
+  overflow-y: 150px;
 }
 
-
-.dropdown{
+.dropdown {
   align-items: center;
   text-align: center;
 }
-.dropdown .purchase-count-button{
+.dropdown .purchase-count-button {
   align-items: end;
+}
+.purchase-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.go-to-purchase {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.go-to-purchase div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.go-to-purchase div button {
+  height: 50px;
+  width: 200px;
+}
+.addedMenus {
+  overflow-y: scroll;
+  max-height: 400px;
+}
+.purchase-btn div {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.added-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.added-list {
+  width: 90%;
+}
+.delete-btn {
+  width: 10%;
 }

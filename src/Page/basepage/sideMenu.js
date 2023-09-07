@@ -46,7 +46,7 @@ const SideMenu = () => {
           </button>
         </div>
         <div className="recently-product">
-          <p>최근 본 상품</p>
+          <p style={{ fontSize: '12pt', marginBottom: '15px' }}>최근 본 상품</p>
           <div className="resently-images">
             {resentView.resentViewCodeUp && (
               <div className="recently-image">

@@ -11,95 +11,88 @@
   left: 50%; /* 가로 중앙 정렬 */
   transform: translate(-50%, -50%);
   z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
 .popupcart-close {
   position: absolute;
   top: 10px;
   right: 10px;
 }
-.popupcart-productname {
-  height: 20px;
-  font-weight: 600;
-  text-align: left;
-  align-items: center;
-}
 
-.popupcart-info {
-  width: 100%;
-  height: 50%;
+.popupcart-header {
+  width: 1000px;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
 }
-
-.popupcart-info .popupcart-image {
-  width: 300px;
+.popupcart-image {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
-
-.popupcart-info .popupcart-image image {
-  width: 300px;
-  height: 300px;
-}
-
-.popupcart-info .popupcart-option {
-  width: 800px;
+.popupcart-option-wrapper {
+  width: 50%;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  gap: 10px;
 }
-
-.popupcart-info .popupcart-option select {
+.popupcart-list {
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+}
+.popupcart-text {
   width: 50%;
 }
-.popupcart-count {
-  width: 100%;
-  height: 150px;
+.popupcart-info-wrapper {
+  width: 50%;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-right: 400%;
-}
-.added-text p {
-  display: inline-block;
-  margin-right: 10px;
-}
-
-.popup-image,
-.popupcart-option-wrapper {
-  display: inline-block;
-  vertical-align: top;
-  text-align: center;
-  width: 600px;
-}
-
-.popup-image {
-  width: 400px;
-}
-
-.checkbox-list {
-  text-align: left;
-}
-
-.menu-item {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.menu-item div {
-  font-size: 16px;
-  line-height: 1.5;
 }
 .menu-item {
+  width: 100%;
   display: flex;
-  text-align: left;
+  justify-content: center;
+  align-items: center;
 }
-.menu-item .menu-product {
-  width: 95%;
+.menu-item-view {
+  margin-bottom: 15px;
 }
-.delete {
-  position: fixed;
-  right: 60px;
+.popupcart-addedMenus {
+  overflow-y: 200px;
+  min-height: 200px;
+  width: 100%;
+  margin-top: 10%;
+}
+
+.purchase-btn {
+  width: 100%;
+}
+.go-to-purchase div {
+  text-align: center;
+}
+.go-to-purchase div button {
+  width: 80%;
+}
+
+.menu-item-list {
+  width: 90%;
+  font-size: 24px;
+}
+.delte-btn {
+  width: 10%;
 }
