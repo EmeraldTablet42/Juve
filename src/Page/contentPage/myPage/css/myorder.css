@@ -166,7 +166,7 @@
     border-top: 1px solid black;
   }
   .orderListTbl2 th:nth-child(1) {
-    width: 100px;
+    width: 110px;
   }
   .orderListTbl2 th:nth-child(2) {
     width: 100px;
@@ -175,10 +175,10 @@
     width: 300px;
   }
   .orderListTbl2 th:nth-child(4) {
-    width: 200px;
+    width: 150px;
   }
   .orderListTbl2 th:nth-child(5) {
-    width: 100px;
+    width: 80px;
   }
   
   
@@ -187,7 +187,7 @@
     border-bottom: 1px solid black;
   }
   .orderListTbl2 td:nth-child(1) {
-    width: 100px;
+    width: 110px;
   }
   .orderListTbl2 td:nth-child(2) {
     width: 100px;
@@ -198,8 +198,8 @@
     width: 300px;
   }
   .orderListTbl2 td:nth-child(4) {
-    width: 200px;
+    width: 150px;
   }
   .orderListTbl2 td:nth-child(5) {
-    width: 100px;
+    width: 80px;
   }

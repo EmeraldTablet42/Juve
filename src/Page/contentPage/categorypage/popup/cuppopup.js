@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import popUpSlice, { setPopUpSlice } from '../../../system/popUpSlice';
-import { setCart } from '../components/cartSlice';
-import Count from '../components/count';
-import '../styles/popupcart.css';
-import axios from 'axios';
-import Background from '../../../system/background';
-import '../../../index/index.css';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
+import { setCart } from "../components/cartSlice";
+import Count from "../components/count";
+import "../styles/popupcart.css";
+import axios from "axios";
+import Background from "../../../system/background";
+import "../../../index/index.css";
 const Cuppopup = (props) => {
   const { productId, setPopupState, cupData = {} } = props;
   const [count, setCount] = useState(1);
@@ -18,11 +18,11 @@ const Cuppopup = (props) => {
   /// 팝업 열릴때 스크롤 금지
   useEffect(() => {
     // 팝업이 열릴 때 스크롤 금지
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
 
     // 컴포넌트가 언마운트될 때 스크롤 허용
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     };
   }, []);
 
@@ -55,7 +55,7 @@ const Cuppopup = (props) => {
           productCode: cupData.productCode,
           count: count,
           price: totalPrice * count,
-          date: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
+          date: new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" }),
         },
       ]);
     }
@@ -77,19 +77,44 @@ const Cuppopup = (props) => {
   const auth = useSelector((state) => state.authindex);
   const goCart = (e) => {
     if (added.length === 0) {
-      alert('메뉴를 추가해주세요.');
+      alert("메뉴를 추가해주세요.");
       return null;
     }
     regCartDB();
   };
 
+  const goOrder = () => {
+    if (added.length === 0) {
+      alert("메뉴를 추가해주세요.");
+      return null;
+    }
+    axios
+      .post("http://localhost:8090/order/reg.cart", added, {
+        headers: {
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("loginToken"),
+        },
+      })
+      .then((res) => {
+        // alert(res.data);
+        if (!auth.isLogined) {
+          dispatch(setCart(added));
+        }
+        navi("/purchase");
+      })
+      .catch(() => {
+        alert("DB통신에러. 잠시 후 다시 시도해주세요.");
+        navi("/");
+      });
+  };
+
   const regCartDB = () => {
     // alert(JSON.stringify(added));
     axios
-      .post('http://localhost:8090/order/reg.cart', added, {
+      .post("http://localhost:8090/order/reg.cart", added, {
         headers: {
-          'Content-Type': 'application/json',
-          token: sessionStorage.getItem('loginToken'),
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("loginToken"),
         },
       })
       .then((res) => {
@@ -101,7 +126,7 @@ const Cuppopup = (props) => {
         dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
       })
       .catch(() => {
-        navi('/');
+        navi("/");
       });
   };
 
@@ -119,7 +144,7 @@ const Cuppopup = (props) => {
           <img
             src={`http://localhost:8090/product/photo/${cupData.productPhoto}`}
             alt="상품 이미지"
-            style={{ width: '300px' }}
+            style={{ width: "300px" }}
           />
         </div>
         <div className="popupcart-option-wrapper">
@@ -127,7 +152,7 @@ const Cuppopup = (props) => {
           <h2 className="popupcart-productname">{cupData.productPrice}</h2>
           <Count count={count} setCount={handleCountChange} />
 
-          <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+          <div style={{ maxHeight: "200px", overflowY: "auto" }}>
             {
               <div className="menu-item">
                 {cupData.productName}
@@ -138,8 +163,8 @@ const Cuppopup = (props) => {
             }
             <div
               style={{
-                display: 'block',
-                textAlign: 'left',
+                display: "block",
+                textAlign: "left",
               }}
               className="addedMenus"
             >
@@ -163,13 +188,7 @@ const Cuppopup = (props) => {
             <div />
           </div>
           <button onClick={addMenu}>메뉴담기</button>
-          <button
-            className="default-button"
-            onClick={() => {
-              dispatch(setCart(added));
-              navi('/purchase');
-            }}
-          >
+          <button className="default-button" onClick={goOrder}>
             구매예약
           </button>
           <button onClick={goCart}>장바구니에 담기</button>

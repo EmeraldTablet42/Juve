@@ -199,6 +199,31 @@ const Salpopup = (props) => {
     regCartDB();
   };
 
+  const goOrder = () => {
+    if (added.length === 0) {
+      alert("메뉴를 추가해주세요.");
+      return null;
+    }
+    axios
+      .post("http://localhost:8090/order/reg.cart", added, {
+        headers: {
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("loginToken"),
+        },
+      })
+      .then((res) => {
+        // alert(res.data);
+        if (!auth.isLogined) {
+          dispatch(setCart(added));
+        }
+        navi("/purchase");
+      })
+      .catch(() => {
+        alert("DB통신에러. 잠시 후 다시 시도해주세요.");
+        navi("/");
+      });
+  };
+
   const regCartDB = () => {
     // alert(JSON.stringify(added));
     axios
@@ -217,6 +242,7 @@ const Salpopup = (props) => {
         dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
       })
       .catch(() => {
+        alert("DB통신에러. 잠시 후 다시 시도해주세요.");
         navi("/");
       });
   };
@@ -497,21 +523,7 @@ const Salpopup = (props) => {
           </button>*/}
           <button onClick={addMenu}>메뉴 추가</button>
           <br />
-          <button
-            onClick={() => {
-              const hasCheckedOption = Object.values(check).some(
-                (isChecked) => isChecked
-              );
-              if (hasCheckedOption || Object.keys(added).length !== 0) {
-                dispatch(setCart(added));
-                navi("/purchase");
-              } else {
-                alert("옵션을 선택하세요");
-              }
-            }}
-          >
-            구매예약
-          </button>
+          <button onClick={goOrder}>구매예약</button>
           <button onClick={goCart}>장바구니에 담기</button>
         </div>
       </div>

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { setCart } from '../components/cartSlice';
-import Count from '../components/count';
-import '../styles/popupcart.css';
-import popUpSlice, { setPopUpSlice } from '../../../system/popUpSlice';
-import axios from 'axios';
-import Background from '../../../system/background';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setCart } from "../components/cartSlice";
+import Count from "../components/count";
+import "../styles/popupcart.css";
+import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
+import axios from "axios";
+import Background from "../../../system/background";
 const Bevpopup = (props) => {
   const { productId, setPopupState, bevData = {} } = props;
   const [count, setCount] = useState(1);
@@ -16,11 +16,11 @@ const Bevpopup = (props) => {
   /// 팝업 열릴때 스크롤 금지
   useEffect(() => {
     // 팝업이 열릴 때 스크롤 금지
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
 
     // 컴포넌트가 언마운트될 때 스크롤 허용
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     };
   }, []);
 
@@ -55,7 +55,7 @@ const Bevpopup = (props) => {
           productCode: bevData.productCode,
           count: count,
           price: totalPrice * count,
-          date: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
+          date: new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" }),
         },
       ]);
     }
@@ -76,19 +76,44 @@ const Bevpopup = (props) => {
   const auth = useSelector((state) => state.authindex);
   const goCart = (e) => {
     if (added.length === 0) {
-      alert('메뉴를 추가해주세요.');
+      alert("메뉴를 추가해주세요.");
       return null;
     }
     regCartDB();
   };
 
+  const goOrder = () => {
+    if (added.length === 0) {
+      alert("메뉴를 추가해주세요.");
+      return null;
+    }
+    axios
+      .post("http://localhost:8090/order/reg.cart", added, {
+        headers: {
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("loginToken"),
+        },
+      })
+      .then((res) => {
+        // alert(res.data);
+        if (!auth.isLogined) {
+          dispatch(setCart(added));
+        }
+        navi("/purchase");
+      })
+      .catch(() => {
+        alert("DB통신에러. 잠시 후 다시 시도해주세요.");
+        navi("/");
+      });
+  };
+
   const regCartDB = () => {
     // alert(JSON.stringify(added));
     axios
-      .post('http://localhost:8090/order/reg.cart', added, {
+      .post("http://localhost:8090/order/reg.cart", added, {
         headers: {
-          'Content-Type': 'application/json',
-          token: sessionStorage.getItem('loginToken'),
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("loginToken"),
         },
       })
       .then((res) => {
@@ -100,7 +125,7 @@ const Bevpopup = (props) => {
         dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
       })
       .catch(() => {
-        navi('/');
+        navi("/");
       });
   };
 
@@ -118,7 +143,7 @@ const Bevpopup = (props) => {
           <img
             src={`http://localhost:8090/product/photo/${bevData.productPhoto}`}
             alt="상품 이미지"
-            style={{ width: '300px' }}
+            style={{ width: "300px" }}
           />
         </div>
         <div className="popupcart-option-wrapper">
@@ -127,7 +152,7 @@ const Bevpopup = (props) => {
           <div>
             <Count count={count} setCount={handleCountChange} />
 
-            <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+            <div style={{ maxHeight: "200px", overflowY: "auto" }}>
               {
                 <div className="menu-item">
                   {bevData.productName}
@@ -138,8 +163,8 @@ const Bevpopup = (props) => {
               }
               <div
                 style={{
-                  display: 'block',
-                  textAlign: 'left',
+                  display: "block",
+                  textAlign: "left",
                 }}
                 className="addedMenus"
               >
@@ -160,14 +185,7 @@ const Bevpopup = (props) => {
 
             <button onClick={addMenu}>메뉴담기</button>
             <button onClick={initialize}>메뉴 초기화</button>
-            <button
-              onClick={() => {
-                dispatch(setCart(added));
-                navi('/purchase');
-              }}
-            >
-              구매예약
-            </button>
+            <button onClick={goOrder}>구매예약</button>
             <button onClick={goCart}>장바구니에 담기</button>
           </div>
         </div>

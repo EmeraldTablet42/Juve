@@ -458,7 +458,9 @@ const Purchase = () => {
     <div className="purchase-wrapper">
       <div className="purchase-margin">
         <div className="purchase-addr">
-          <div className="purchase-addr-h2"><h2>주 문 정 보</h2></div>
+          <div className="purchase-addr-h2">
+            <h2>주 문 정 보</h2>
+          </div>
           <div className="purchase-table">
             {auth.isLogined && (
               <table
@@ -653,7 +655,9 @@ const Purchase = () => {
       </div>
       <div className="purchase-margin">
         <div className="purchase-get">
-          <div className="purchase-get-h2"><h2>배송지</h2></div>
+          <div className="purchase-get-h2">
+            <h2>배송지</h2>
+          </div>
           <div className="purchase-table">
             <div className="purchase-shipSelector">
               <input

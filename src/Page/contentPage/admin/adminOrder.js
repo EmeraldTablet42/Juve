@@ -9,6 +9,24 @@ const AdminOrder = () => {
   const dispatch = useDispatch();
   const navi = useNavigate();
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [statusByCode, setStatusByCode] = useState({});
+
+  const handleStatus = (e, orderCode) => {
+    const newStatusByCode = { ...statusByCode };
+    newStatusByCode[orderCode] = e.target.value;
+    setStatusByCode(newStatusByCode);
+  };
+
+  const handleApply = (orderCode) => {
+    const newStatus = statusByCode[orderCode];
+    if (newStatus !== undefined) {
+      alert(orderCode);
+      alert(newStatus);
+      console.log(
+        `주문 번호 ${orderCode}의 상태를 ${newStatus}로 업데이트합니다.`
+      );
+    }
+  };
 
   const startDate = new Date();
   startDate.setMonth(startDate.getMonth() - 3);
@@ -59,14 +77,6 @@ const AdminOrder = () => {
       });
   };
 
-  const orderStatusDetail = {
-    1: "예약대기",
-    2: "예약확인",
-    3: "배송준비중",
-    4: "배송중",
-    5: "배송완료",
-  };
-
   const cTn = useSelector((state) => state.codeToName).productCodeToName;
 
   useEffect(() => {
@@ -79,15 +89,22 @@ const AdminOrder = () => {
       d.orderDate.split(" ")[1] +
       d.orderDate.split(" ")[2];
     const addrPart =
-      "["+d.recipientAddress.split("^")[0]+"]"+
-      d.recipientAddress.split("^")[1]+
-      d.recipientAddress.split("^")[2]
+      d.recipientAddress.split("^")[1] +
+      d.recipientAddress.split("^")[2] +
+      "[" +
+      d.recipientAddress.split("^")[0] +
+      "]";
 
     return (
       <tr
         key={i}
-        onClick={() => {
-          getOrder(d.orderCode);
+        onClick={(e) => {
+          // status 클래스를 가진 td에서의 클릭 이벤트를 막음
+          if (e.target.className === "status" || "orderStatus") {
+            return null;
+          } else {
+            getOrder(d.orderCode);
+          }
         }}
       >
         <td>{d.orderCode}</td>
@@ -95,8 +112,30 @@ const AdminOrder = () => {
         <td>{addrPart}</td>
         <td>{cTn[d.carts[0].productCode]}</td>
         <td>{d.finalPrice}</td>
-        <td>{orderStatusDetail[d.orderStatus]}</td>
-        <td><button>적용</button></td>
+        <td className="status">
+          <select
+            onChange={(e) => {
+              handleStatus(e, d.orderCode);
+            }}
+            className="orderStatus"
+            value={statusByCode[d.orderCode] || d.orderStatus}
+          >
+            <option value={1}>예약대기</option>
+            <option value={2}>예약확인</option>
+            <option value={3}>배송준비</option>
+            <option value={4}>배송중</option>
+            <option value={5}>배송완료</option>
+          </select>
+        </td>
+        <td>
+          <button
+            onClick={() => {
+              handleApply(d.orderCode);
+            }}
+          >
+            적용
+          </button>
+        </td>
       </tr>
     );
   });
