@@ -93,8 +93,9 @@
   height: 50px;
   width: 200px;
 }
-.item-box {
+.addedMenus {
   overflow-y: scroll;
+  max-height: 400px;
 }
 .purchase-btn div {
   width: 100%;
@@ -105,4 +106,10 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.added-list {
+  width: 90%;
+}
+.delete-btn {
+  width: 10%;
 }

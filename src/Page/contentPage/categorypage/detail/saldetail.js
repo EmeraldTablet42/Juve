@@ -454,10 +454,7 @@ const Saldetail = () => {
                   </div>
                 </div>
               </div>
-              <div
-                className="item-box"
-                style={{ maxHeight: '200px', overflowY: 'auto' }}
-              >
+              <div className="item-box">
                 {sdrValue && (
                   <div className="menu-item">
                     {salData.productName}
@@ -494,46 +491,44 @@ const Saldetail = () => {
                   </div>
                 )}
               </div>
-              <div
-                style={{
-                  display: 'block',
-                  textAlign: 'left',
-                }}
-                className="addedMenus"
-              >
-                {added.map((v, i) => (
-                  <div className="menu-item" key={i}>
-                    {/* {JSON.stringify(v)} */}
-                    {cTn[v.productCode]}
-                    <br />
-                    {`드레싱 :${cTn[v.sdrValue]}`}
-                    <br />
-                    {`메인토핑 :${v.smtValue
-                      .map((code) => cTn[code])
-                      .join(', ')}`}
-                    <br />
-                    {`서브토핑 :${v.sstValue
-                      .map((code) => cTn[code])
-                      .join(', ')}`}
-                    <br />
-                    {`보조메뉴 :${v.ssmValue
-                      .map((code) => cTn[code])
-                      .join(', ')}`}
-                    <br />
-                    {`수량 :${v.count}`}
-                    <br />
-                    {`총가격 :${v.price}`}
-                    <br />
-                    <div>
-                      <button
-                        onClick={() => handleRemoveItem(i)}
-                        style={{ width: '20px', height: '20px' }}
-                      >
-                        x
-                      </button>
+              <div className="addedMenus">
+                <div>
+                  {added.map((v, i) => (
+                    <div className="menu-item" key={i}>
+                      <div className="added-list">
+                        {/* {JSON.stringify(v)} */}
+                        {cTn[v.productCode]}
+                        <br />
+                        {`드레싱 :${cTn[v.sdrValue]}`}
+                        <br />
+                        {`메인토핑 :${v.smtValue
+                          .map((code) => cTn[code])
+                          .join(', ')}`}
+                        <br />
+                        {`서브토핑 :${v.sstValue
+                          .map((code) => cTn[code])
+                          .join(', ')}`}
+                        <br />
+                        {`보조메뉴 :${v.ssmValue
+                          .map((code) => cTn[code])
+                          .join(', ')}`}
+                        <br />
+                        {`수량 :${v.count}`}
+                        <br />
+                        {`총가격 :${v.price}`}
+                        <br />
+                      </div>
+                      <div>
+                        <button
+                          onClick={() => handleRemoveItem(i)}
+                          style={{ width: '20px', height: '20px' }}
+                        >
+                          x
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
               <div className="purchase-btn">
                 <div className="added-btn">
