@@ -8,7 +8,6 @@ const MyPage = () => {
     <>
       <div className="myPage_layout">
         <div className="myPage_left">
-          <p className="left_title">마이페이지</p>
           <ul className="left-ul" style={{ listStyle: 'none' }}>
             {/* <li><a href="/member/mypage/myOrder">주문 내역</a></li> */}
             <li>

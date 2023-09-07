@@ -337,13 +337,19 @@ const ProductGet = () => {
 
   return (
     <>
-      <h1>상품관리</h1>
-      <h3>상품목록</h3>
-      <hr />
+      <div className="myorder-text">
+        <div className="test1">
+          <h2>상품관리</h2>
+        </div>
+        <div className="test2">
+          <h3>상품목록</h3>
+        </div>
+      </div>
       {popUp.pg_category && categorySelector}
       {popUp.pg_price && priceSelector}
-      <table border={1}>
-        <tr>
+      <div className="selectedList">
+      <table className="orderListTbl" border={1}>
+        <tr className="top-tr">
           <th id="pg_category" onClick={handlePopup}>
             품목
           </th>
@@ -356,6 +362,7 @@ const ProductGet = () => {
         </tr>
         {productTr}
       </table>
+      </div>
       <div>
         <Pagination
           activePage={params.page}

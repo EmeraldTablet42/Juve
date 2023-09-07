@@ -8,8 +8,7 @@ const AdminPage = () => {
     <>
      <div className="myPage_layout">
         <div className="myPage_left">
-          <p className="left_title">관리자페이지</p>
-          <ul style={{listStyle:"none"}}>
+          <ul className='left-ul' style={{listStyle:"none"}}>
             <li><Link to="/admin/order">주문 관리</Link></li>
             <li><Link to="/admin/product">상품 관리</Link></li>
             <li><Link to="/admin/sales">매출 관리</Link></li>
