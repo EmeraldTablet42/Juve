@@ -5,10 +5,12 @@
 }
 .sidemenu-object {
   border: 2px solid #ffa928;
+  border-radius: 10px;
   box-shadow: 3px 2px 2px 1px #ffa928;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 5px;
 }
 .sidemenu-object button {
   width: 80px;

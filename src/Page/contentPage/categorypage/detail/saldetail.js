@@ -1,16 +1,16 @@
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { setCart } from "../components/cartSlice";
-import Count from "../components/count";
-import Movescroll from "../components/movescroll";
-import Review from "../components/review";
-import Purchase from "../../order/purchase";
-import sampleImage from "../static/saladsample.jpg";
-import "../styles/detail.css";
-import "../styles/scrollcss.css";
-import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { setCart } from '../components/cartSlice';
+import Count from '../components/count';
+import Movescroll from '../components/movescroll';
+import Review from '../components/review';
+import Purchase from '../../order/purchase';
+import sampleImage from '../static/saladsample.jpg';
+import '../styles/detail.css';
+import '../styles/scrollcss.css';
+import popUpSlice, { setPopUpSlice } from '../../../system/popUpSlice';
 
 const Saldetail = () => {
   const [salData, setSalData] = useState([]);
@@ -35,7 +35,7 @@ const Saldetail = () => {
   //데이터관련
   useEffect(() => {
     axios
-      .get(`http://localhost:8090/product.getById?id=${searchParam.get("id")}`)
+      .get(`http://localhost:8090/product.getById?id=${searchParam.get('id')}`)
       .then((res) => {
         setSalData(res.data);
         setTotalPrice(res.data.productPrice);
@@ -43,22 +43,22 @@ const Saldetail = () => {
   }, [searchParam]);
 
   useEffect(() => {
-    axios.get("http://localhost:8090/product.get").then((res) => {
+    axios.get('http://localhost:8090/product.get').then((res) => {
       const allProduct = res.data.products;
       const sdFilterData = allProduct.filter(
-        (product) => product.category === "SDR"
+        (product) => product.category === 'SDR'
       );
       setSdrData(sdFilterData);
       const smFilterData = allProduct.filter(
-        (product) => product.category === "SMT"
+        (product) => product.category === 'SMT'
       );
       setSmtData(smFilterData);
       const sstFilterData = allProduct.filter(
-        (product) => product.category === "SST"
+        (product) => product.category === 'SST'
       );
       setSstData(sstFilterData);
       const ssmFilterData = allProduct.filter(
-        (product) => product.category === "SSM"
+        (product) => product.category === 'SSM'
       );
       setSsmData(ssmFilterData);
     });
@@ -68,7 +68,7 @@ const Saldetail = () => {
   //add menu
   const [check, setCheck] = useState({});
 
-  const [sdrValue, setSdrValue] = useState("");
+  const [sdrValue, setSdrValue] = useState('');
   const [smtValue, setSmtValue] = useState([]);
   const [sstValue, setSstValue] = useState([]);
   const [ssmValue, setSsmValue] = useState([]);
@@ -77,8 +77,8 @@ const Saldetail = () => {
   const [added, setAdded] = useState([]);
 
   const addMenu = () => {
-    if (sdrValue === "") {
-      alert("샐러드 드레싱을 선택해주세요");
+    if (sdrValue === '') {
+      alert('샐러드 드레싱을 선택해주세요');
       return;
     }
     const existingIndex = added.findIndex((item) => {
@@ -111,7 +111,7 @@ const Saldetail = () => {
           ssmValue: ssmValue,
           count: count,
           price: totalPrice * count,
-          date: new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" }),
+          date: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
         },
       ]);
     }
@@ -120,7 +120,7 @@ const Saldetail = () => {
 
   const initialize = () => {
     setCheck({});
-    setSdrValue("");
+    setSdrValue('');
     setSmtValue([]);
     setSstValue([]);
     setSsmValue([]);
@@ -130,8 +130,8 @@ const Saldetail = () => {
 
   //////////// 핸들러
   const handleSmtChange = (e) => {
-    if (sdrValue === "") {
-      alert("샐러드 드레싱을 선택해주세요");
+    if (sdrValue === '') {
+      alert('샐러드 드레싱을 선택해주세요');
       return;
     }
     const price = parseInt(e.target.dataset.price, 10); // 문자열을 숫자로 변환
@@ -148,8 +148,8 @@ const Saldetail = () => {
   };
 
   const handleSstChange = (e) => {
-    if (sdrValue === "") {
-      alert("샐러드 드레싱을 선택해주세요");
+    if (sdrValue === '') {
+      alert('샐러드 드레싱을 선택해주세요');
       return;
     }
     const price = parseInt(e.target.dataset.price, 10); // 문자열을 숫자로 변환
@@ -166,8 +166,8 @@ const Saldetail = () => {
   };
 
   const handleSsmChange = (e) => {
-    if (sdrValue === "") {
-      alert("샐러드 드레싱을 선택해주세요");
+    if (sdrValue === '') {
+      alert('샐러드 드레싱을 선택해주세요');
       return;
     }
     const price = parseInt(e.target.dataset.price, 10); // 문자열을 숫자로 변환
@@ -197,7 +197,7 @@ const Saldetail = () => {
   const auth = useSelector((state) => state.authindex);
   const goCart = (e) => {
     if (added.length === 0) {
-      alert("메뉴를 추가해주세요.");
+      alert('메뉴를 추가해주세요.');
       return null;
     }
     regCartDB();
@@ -205,14 +205,14 @@ const Saldetail = () => {
 
   const goOrder = () => {
     if (added.length === 0) {
-      alert("메뉴를 추가해주세요.");
+      alert('메뉴를 추가해주세요.');
       return null;
     }
     axios
-      .post("http://localhost:8090/order/reg.cart", added, {
+      .post('http://localhost:8090/order/reg.cart', added, {
         headers: {
-          "Content-Type": "application/json",
-          token: sessionStorage.getItem("loginToken"),
+          'Content-Type': 'application/json',
+          token: sessionStorage.getItem('loginToken'),
         },
       })
       .then((res) => {
@@ -220,21 +220,21 @@ const Saldetail = () => {
         if (!auth.isLogined) {
           dispatch(setCart(added));
         }
-        navi("/purchase");
+        navi('/purchase');
       })
       .catch(() => {
-        alert("DB통신에러. 잠시 후 다시 시도해주세요.");
-        navi("/");
+        alert('DB통신에러. 잠시 후 다시 시도해주세요.');
+        navi('/');
       });
   };
 
   const regCartDB = () => {
     alert(JSON.stringify(added));
     axios
-      .post("http://localhost:8090/order/reg.cart", added, {
+      .post('http://localhost:8090/order/reg.cart', added, {
         headers: {
-          "Content-Type": "application/json",
-          token: sessionStorage.getItem("loginToken"),
+          'Content-Type': 'application/json',
+          token: sessionStorage.getItem('loginToken'),
         },
       })
       .then((res) => {
@@ -245,7 +245,7 @@ const Saldetail = () => {
         dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
       })
       .catch(() => {
-        navi("/");
+        navi('/');
       });
   };
 
@@ -274,10 +274,10 @@ const Saldetail = () => {
       }
     };
     if (isOpenSmt) {
-      window.addEventListener("click", onClick);
+      window.addEventListener('click', onClick);
     }
     return () => {
-      window.removeEventListener("click", onClick);
+      window.removeEventListener('click', onClick);
     };
   }, [isOpenSmt]);
 
@@ -288,10 +288,10 @@ const Saldetail = () => {
       }
     };
     if (isOpenSst) {
-      window.addEventListener("click", onClick);
+      window.addEventListener('click', onClick);
     }
     return () => {
-      window.removeEventListener("click", onClick);
+      window.removeEventListener('click', onClick);
     };
   }, [isOpenSst]);
 
@@ -302,18 +302,18 @@ const Saldetail = () => {
       }
     };
     if (isOpenSsm) {
-      window.addEventListener("click", onClick);
+      window.addEventListener('click', onClick);
     }
     return () => {
-      window.removeEventListener("click", onClick);
+      window.removeEventListener('click', onClick);
     };
   }, [isOpenSsm]);
 
   ///////////////////
   const productTabs = {
-    0: Movescroll("상품 상세"),
-    1: Movescroll("리뷰"),
-    2: Movescroll("상품 문의"),
+    0: Movescroll('상품 상세'),
+    1: Movescroll('리뷰'),
+    2: Movescroll('상품 문의'),
     length: 3,
   };
   return (
@@ -328,125 +328,136 @@ const Saldetail = () => {
         </div>
         <div className="product-view">
           <div className="product-data">
-            <p>상 품 : {salData.productName}</p>
-            <p>가 격 : {salData.productPrice}</p>
-            <div className="sdrOption">
-              <select
-                className="selectsize"
-                value={sdrValue}
-                onChange={(e) => {
-                  handleSdrChange(e);
-                }}
-              >
-                <option value="" hidden>
-                  샐러드 드레싱을 선택하세요
-                </option>
-                {sdrData.map(({ productCode, productName, productPrice }) => (
-                  <option
-                    key={`sdr-${productCode}`}
-                    value={productCode}
-                    data-price={productPrice}
+            <div className="product-data-view">
+              <div className="product-data-header">
+                <div className="product-data-Name">
+                  <p>상 품 : {salData.productName}</p>
+                  <p>가 격 : {salData.productPrice}</p>
+                </div>
+                <div className="sdrOption">
+                  <select
+                    className="selectsize"
+                    value={sdrValue}
+                    onChange={(e) => {
+                      handleSdrChange(e);
+                    }}
                   >
-                    {productName}
-                  </option>
-                ))}
-              </select>
-              <div className="dropdown" ref={ref}>
-                <div
-                  id="smtPopup"
-                  className="dropdown-header"
-                  // onClick={DropdownSmt}
-                  onClick={handlePopup}
-                >
-                  메인토핑 (복수선택)
-                </div>
-                {/* {isOpenSmt && ( */}
-                {popUp.smtPopup && (
-                  <ul className="checkbox-list">
-                    {smtData.map(
+                    <option value="" hidden>
+                      샐러드 드레싱을 선택하세요
+                    </option>
+                    {sdrData.map(
                       ({ productCode, productName, productPrice }) => (
-                        <li key={`smt-${productCode}`}>
-                          <label>
-                            <input
-                              name={productName}
-                              checked={check[productCode] || false}
-                              type="checkbox"
-                              value={productCode}
-                              data-price={productPrice}
-                              onChange={handleSmtChange}
-                            />
-                            {productName} + {` (+${productPrice})`}
-                          </label>
-                        </li>
+                        <option
+                          key={`sdr-${productCode}`}
+                          value={productCode}
+                          data-price={productPrice}
+                        >
+                          {productName}
+                        </option>
                       )
                     )}
-                  </ul>
-                )}
-                <div
-                  id="sstPopup"
-                  className="dropdown-header"
-                  // onClick={DropdownSst}
-                  onClick={handlePopup}
-                >
-                  서브토핑 (복수선택)
-                </div>
-                {/* {isOpenSst && ( */}
-                {popUp.sstPopup && (
-                  <ul className="checkbox-list">
-                    {sstData.map(
-                      ({ productCode, productName, productPrice }) => (
-                        <li key={`sst-${productCode}`}>
-                          <label>
-                            <input
-                              type="checkbox"
-                              name={productName}
-                              checked={check[productCode] || false}
-                              value={productCode}
-                              data-price={productPrice}
-                              onChange={handleSstChange}
-                            />
-                            {productName} + {` (+${productPrice})`}
-                          </label>
-                        </li>
-                      )
+                  </select>
+                  <div className="dropdown" ref={ref}>
+                    <div
+                      id="smtPopup"
+                      className="dropdown-header"
+                      // onClick={DropdownSmt}
+                      onClick={handlePopup}
+                    >
+                      메인토핑 (복수선택)
+                    </div>
+                    {/* {isOpenSmt && ( */}
+                    {popUp.smtPopup && (
+                      <ul className="checkbox-list">
+                        {smtData.map(
+                          ({ productCode, productName, productPrice }) => (
+                            <li key={`smt-${productCode}`}>
+                              <label>
+                                <input
+                                  name={productName}
+                                  checked={check[productCode] || false}
+                                  type="checkbox"
+                                  value={productCode}
+                                  data-price={productPrice}
+                                  onChange={handleSmtChange}
+                                />
+                                {productName} + {` (+${productPrice})`}
+                              </label>
+                            </li>
+                          )
+                        )}
+                      </ul>
                     )}
-                  </ul>
-                )}
-                <div
-                  id="ssmPopup"
-                  className="dropdown-header"
-                  // onClick={DropdownSsm}
-                  onClick={handlePopup}
-                >
-                  보조 메뉴
-                </div>
-                {/* {isOpenSsm && ( */}
-                {popUp.ssmPopup && (
-                  <ul className="checkbox-list">
-                    {ssmData.map(
-                      ({ productCode, productName, productPrice }) => (
-                        <li key={`ssm-${productCode}`}>
-                          <label>
-                            <input
-                              type="checkbox"
-                              name={productName}
-                              checked={check[productCode] || false}
-                              value={productCode}
-                              data-price={productPrice}
-                              onChange={handleSsmChange}
-                            />
-                            {productName} + {` (+${productPrice})`}
-                          </label>
-                        </li>
-                      )
+                    <div
+                      id="sstPopup"
+                      className="dropdown-header"
+                      // onClick={DropdownSst}
+                      onClick={handlePopup}
+                    >
+                      서브토핑 (복수선택)
+                    </div>
+                    {/* {isOpenSst && ( */}
+                    {popUp.sstPopup && (
+                      <ul className="checkbox-list">
+                        {sstData.map(
+                          ({ productCode, productName, productPrice }) => (
+                            <li key={`sst-${productCode}`}>
+                              <label>
+                                <input
+                                  type="checkbox"
+                                  name={productName}
+                                  checked={check[productCode] || false}
+                                  value={productCode}
+                                  data-price={productPrice}
+                                  onChange={handleSstChange}
+                                />
+                                {productName} + {` (+${productPrice})`}
+                              </label>
+                            </li>
+                          )
+                        )}
+                      </ul>
                     )}
-                  </ul>
-                )}
-                <div className="purchase-count-button">
-                  <Count count={count} setCount={handleCountChange} />
+                    <div
+                      id="ssmPopup"
+                      className="dropdown-header"
+                      // onClick={DropdownSsm}
+                      onClick={handlePopup}
+                    >
+                      보조 메뉴
+                    </div>
+                    {/* {isOpenSsm && ( */}
+                    {popUp.ssmPopup && (
+                      <ul className="checkbox-list">
+                        {ssmData.map(
+                          ({ productCode, productName, productPrice }) => (
+                            <li key={`ssm-${productCode}`}>
+                              <label>
+                                <input
+                                  type="checkbox"
+                                  name={productName}
+                                  checked={check[productCode] || false}
+                                  value={productCode}
+                                  data-price={productPrice}
+                                  onChange={handleSsmChange}
+                                />
+                                {productName} + {` (+${productPrice})`}
+                              </label>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    )}
+                    <div className="purchase-count-button">
+                      <Count count={count} setCount={handleCountChange} />
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+              <div
+                className="item-box"
+                style={{ maxHeight: '200px', overflowY: 'auto' }}
+              >
                 {sdrValue && (
                   <div className="menu-item">
                     {salData.productName}
@@ -459,22 +470,22 @@ const Saldetail = () => {
                     {smtValue.length !== 0 && (
                       <>
                         <br />
-                        메인토핑 :{" "}
-                        {smtValue.map((code) => cTn[code]).join(", ")}
+                        메인토핑 :{' '}
+                        {smtValue.map((code) => cTn[code]).join(', ')}
                       </>
                     )}
                     {sstValue.length !== 0 && (
                       <>
                         <br />
-                        서브토핑 :{" "}
-                        {sstValue.map((code) => cTn[code]).join(", ")}
+                        서브토핑 :{' '}
+                        {sstValue.map((code) => cTn[code]).join(', ')}
                       </>
                     )}
                     {ssmValue.length !== 0 && (
                       <>
                         <br />
-                        보조메뉴 :{" "}
-                        {ssmValue.map((code) => cTn[code]).join(", ")}
+                        보조메뉴 :{' '}
+                        {ssmValue.map((code) => cTn[code]).join(', ')}
                       </>
                     )}
                     <br />
@@ -482,52 +493,70 @@ const Saldetail = () => {
                     <br />총 가격 : {totalPrice * count}
                   </div>
                 )}
-                <div
-                  style={{
-                    display: "block",
-                    textAlign: "left",
-                  }}
-                  className="addedMenus"
-                >
-                  {added.map((v, i) => (
-                    <div className="menu-item" key={i}>
-                      {/* {JSON.stringify(v)} */}
-                      {cTn[v.productCode]}
-                      <br />
-                      {`드레싱 :${cTn[v.sdrValue]}`}
-                      <br />
-                      {`메인토핑 :${v.smtValue
-                        .map((code) => cTn[code])
-                        .join(", ")}`}
-                      <br />
-                      {`서브토핑 :${v.sstValue
-                        .map((code) => cTn[code])
-                        .join(", ")}`}
-                      <br />
-                      {`보조메뉴 :${v.ssmValue
-                        .map((code) => cTn[code])
-                        .join(", ")}`}
-                      <br />
-                      {`수량 :${v.count}`}
-                      <br />
-                      {`총가격 :${v.price}`}
-                      <br />
-                      <div>
-                        <button
-                          onClick={() => handleRemoveItem(i)}
-                          style={{ width: "20px", height: "20px" }}
-                        >
-                          x
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </div>
-              <div>
-                <button onClick={addMenu}>메뉴 담기</button>
-                <button onClick={goOrder}>구매예약</button>
-                <button onClick={goCart}>장바구니에 담기</button>
+              <div
+                style={{
+                  display: 'block',
+                  textAlign: 'left',
+                }}
+                className="addedMenus"
+              >
+                {added.map((v, i) => (
+                  <div className="menu-item" key={i}>
+                    {/* {JSON.stringify(v)} */}
+                    {cTn[v.productCode]}
+                    <br />
+                    {`드레싱 :${cTn[v.sdrValue]}`}
+                    <br />
+                    {`메인토핑 :${v.smtValue
+                      .map((code) => cTn[code])
+                      .join(', ')}`}
+                    <br />
+                    {`서브토핑 :${v.sstValue
+                      .map((code) => cTn[code])
+                      .join(', ')}`}
+                    <br />
+                    {`보조메뉴 :${v.ssmValue
+                      .map((code) => cTn[code])
+                      .join(', ')}`}
+                    <br />
+                    {`수량 :${v.count}`}
+                    <br />
+                    {`총가격 :${v.price}`}
+                    <br />
+                    <div>
+                      <button
+                        onClick={() => handleRemoveItem(i)}
+                        style={{ width: '20px', height: '20px' }}
+                      >
+                        x
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="purchase-btn">
+                <div className="added-btn">
+                  <button
+                    className="reverse-button"
+                    onClick={addMenu}
+                    style={{ width: '97%', height: '50px' }}
+                  >
+                    메뉴 담기
+                  </button>
+                </div>
+                <div className="go-to-purchase">
+                  <div>
+                    <button className="default-button" onClick={goOrder}>
+                      구매예약
+                    </button>
+                  </div>
+                  <div>
+                    <button className="default-button" onClick={goCart}>
+                      장바구니에 담기
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -537,7 +566,7 @@ const Saldetail = () => {
         {Array.from(Array(productTabs.length).keys()).map((index) => (
           <div
             className="scrollMove"
-            style={{ display: "grid" }}
+            style={{ display: 'grid' }}
             key={index}
             onClick={productTabs[index].moveToElement}
           >
@@ -548,12 +577,12 @@ const Saldetail = () => {
       </div>
       <div>
         <div ref={productTabs[0].element}>
-          <h1 style={{ display: "none" }}>상품상세</h1>
-          <img src={sampleImage} style={{ width: "100%" }} alt="상품이미지" />
+          <h1 style={{ display: 'none' }}>상품상세</h1>
+          <img src={sampleImage} style={{ width: '100%' }} alt="상품이미지" />
         </div>
 
         <div ref={productTabs[1].element}>
-          <h1 style={{ display: "none" }}>리뷰</h1>
+          <h1 style={{ display: 'none' }}>리뷰</h1>
         </div>
         <div>
           <Review />
