@@ -35,6 +35,19 @@ const PurchaseCheck = () => {
     setOrderStatus(e.target.value);
   };
 
+  const handleApply = () => {
+    axios
+      .get(
+        `http://localhost:8090/order/set.orderstatus?orderCode=${order.orderCode}&orderStatus=${orderStatus}`
+      )
+      .then(() => {
+        navi("/admin/order");
+      })
+      .catch(() => {
+        alert("DB통신에러. 잠시 후 다시 시도해주세요");
+      });
+  };
+
   return (
     order && (
       <div>
@@ -225,7 +238,9 @@ const PurchaseCheck = () => {
               <option value={4}>배송중</option>
               <option value={5}>배송완료</option>
             </select>
-            <button id="statusChange">변경</button>
+            <button onClick={handleApply} id="statusChange">
+              변경
+            </button>
           </div>
         ) : (
           <div className="purchase-main">

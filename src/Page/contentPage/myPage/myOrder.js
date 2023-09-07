@@ -23,6 +23,7 @@ const MyOrder = () => {
   });
 
   const [selectedOrder, setSelectedOrder] = useState([]);
+  const [allOrder, setAllOrder] = useState([]);
 
   const getOrderListFromDB = () => {
     axios
@@ -39,6 +40,17 @@ const MyOrder = () => {
         setDataLoaded(true);
       });
   };
+
+  const getAllOrderListFromDB = () => {
+    axios.get("http://localhost:8090/order/get.all.order.admin").then((res) => {
+      // alert(JSON.stringify(res.data));
+      setAllOrder(res.data);
+    });
+  };
+
+  useEffect(() => {
+    getAllOrderListFromDB();
+  }, []);
 
   const getOrder = (orderCode) => {
     const fd = new FormData();
@@ -136,7 +148,7 @@ const MyOrder = () => {
       4: 0, // 배송중
       5: 0, // 배송완료
     };
-    selectedOrder.forEach((order) => {
+    allOrder.forEach((order) => {
       counts[order.orderStatus] += 1;
     });
     setOrderStatusCounts(counts);
@@ -145,7 +157,7 @@ const MyOrder = () => {
   useEffect(() => {
     // 주문 데이터가 변경될 때마다 주문 상태 개수 계산
     calculateOrderStatusCounts();
-  }, [selectedOrder]);
+  }, [allOrder]);
 
   return (
     dataLoaded && (
@@ -153,31 +165,57 @@ const MyOrder = () => {
         <div className="myorder-wrapper">
           <div className="myorder-text">
             <div className="test1">
-              <h2>주문/예약 내역</h2>
+              <h2
+                onClick={() => {
+                  setParams({ ...params, orderStatus: 0 });
+                }}
+              >
+                주문/예약 내역
+              </h2>
             </div>
             <div className="test2">
               <h3>주문처리 현황</h3>
             </div>
           </div>
           <div className="order">
-            <div>
-              <b>예약대기</b>
-              {orderStatusCounts[1]}
+            <div
+              onClick={() => {
+                setParams({ ...params, orderStatus: 1 });
+              }}
+            >
+              <strong>예약대기</strong>
+              <span>{orderStatusCounts[1]}</span>
             </div>
-            <div>
+            <div
+              onClick={() => {
+                setParams({ ...params, orderStatus: 2 });
+              }}
+            >
               <strong>예약확인</strong>
               <span>{orderStatusCounts[2]}</span>
             </div>
-            <div>
-              <strong>배송준비중 </strong>
+            <div
+              onClick={() => {
+                setParams({ ...params, orderStatus: 3 });
+              }}
+            >
+              <strong>배송준비중</strong>
               <span>{orderStatusCounts[3]}</span>
             </div>
-            <div>
-              <strong>배송중 </strong>
+            <div
+              onClick={() => {
+                setParams({ ...params, orderStatus: 4 });
+              }}
+            >
+              <strong>배송중</strong>
               <span>{orderStatusCounts[4]}</span>
             </div>
-            <div>
-              <strong>배송완료 </strong>
+            <div
+              onClick={() => {
+                setParams({ ...params, orderStatus: 5 });
+              }}
+            >
+              <strong>배송완료</strong>
               <span>{orderStatusCounts[5]}</span>
             </div>
           </div>
