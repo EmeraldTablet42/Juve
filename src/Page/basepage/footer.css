@@ -1,0 +1,14 @@
+.footer-wrapper {
+  width: 1200px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.company-logo {
+  width: 30%;
+  text-align: right;
+}
+.company-info {
+  width: 70%;
+  text-align: center;
+}

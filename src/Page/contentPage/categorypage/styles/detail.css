@@ -122,3 +122,7 @@
 .delete-btn {
   width: 10%;
 }
+.scroll-buttons .scrollMove:hover {
+  background-color: #faa928;
+  color: white;
+}

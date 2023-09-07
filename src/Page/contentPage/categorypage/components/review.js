@@ -1,11 +1,11 @@
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import Editor from "ckeditor5-custom-build";
-import React, { useState } from "react";
-import "../../bbs/ckeditor5.css";
-import sampleimage from "../static/sal1.jpg";
-import Parser from "html-react-parser";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import Editor from 'ckeditor5-custom-build';
+import React, { useState } from 'react';
+import '../../bbs/ckeditor5.css';
+import sampleimage from '../static/sal1.jpg';
+import Parser from 'html-react-parser';
 const Review = () => {
-  const [editorData, setEditorData] = useState("");
+  const [editorData, setEditorData] = useState('');
   const [review, setReview] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -13,7 +13,7 @@ const Review = () => {
     const data = editor.getData();
     setEditorData(data);
 
-    setIsButtonDisabled(data.trim() === "");
+    setIsButtonDisabled(data.trim() === '');
   };
   const handleReviewCheck = () => {
     const newReview = {
@@ -23,7 +23,7 @@ const Review = () => {
     };
 
     setReview([...review, newReview]);
-    setEditorData("");
+    setEditorData('');
     setIsButtonDisabled(true);
   };
   return (
@@ -32,7 +32,7 @@ const Review = () => {
         <h2>리뷰 등록</h2>
         <CKEditor
           config={{
-            toolbar: [""],
+            toolbar: [''],
           }}
           editor={Editor}
           data={editorData}
@@ -49,7 +49,7 @@ const Review = () => {
             <img
               src={sampleimage}
               alt="상품이미지"
-              style={{ width: "100px", height: "100px" }}
+              style={{ width: '100px', height: '100px' }}
             />
             <p>{Parser(review.content)}</p>
           </div>
