@@ -453,7 +453,7 @@ const Salpopup = (props) => {
                 </div>
               </div>
             </div>
-            <div className="popupcart-addedMenus">
+            <div className="item-box">
               {sdrValue && (
                 <div className="menu-item-view">
                   {salData.productName}
@@ -486,6 +486,8 @@ const Salpopup = (props) => {
                   <br />총 가격 : {totalPrice * count}
                 </div>
               )}
+            </div>
+            <div className="popupcart-addedMenus">
               {added.map((v, i) => (
                 <div className="menu-item" key={i}>
                   <div className="menu-product">

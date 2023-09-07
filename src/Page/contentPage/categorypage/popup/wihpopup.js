@@ -250,8 +250,8 @@ const Wihpopup = (props) => {
         >
           x
         </button>
-        <div className="popup-header">
-          <div className="popup-image">
+        <div className="popupcart-header">
+          <div className="popupcart-image">
             <img
               src={`http://localhost:8090/product/photo/${wihData.productPhoto}`}
               alt="상품 이미지"
@@ -259,72 +259,74 @@ const Wihpopup = (props) => {
             />
           </div>
           <div className="popupcart-option-wrapper">
-            <div className="option-header">
-              <div>
+            <div className="popupcart-list">
+              <div className="popupcart-text">
                 <h2 className="popupcart-productname">{wihData.productName}</h2>
                 <h2 className="popupcart-productname">
                   {wihData.productPrice}
                 </h2>
               </div>
-              <div className="sdrOption">
-                <div className="dropdown" ref={ref}>
-                  <div
-                    id="wmtPopup"
-                    className="dropdown-header"
-                    onClick={handlePopup}
-                  >
-                    메인토핑 (복수선택)
+              <div className="popupcart-info-wrapper">
+                <div className="sdrOption">
+                  <div className="dropdown" ref={ref}>
+                    <div
+                      id="wmtPopup"
+                      className="dropdown-header"
+                      onClick={handlePopup}
+                    >
+                      메인토핑 (복수선택)
+                    </div>
+                    {popUp.wmtPopup && (
+                      <ul className="checkbox-list">
+                        {wmtData.map(
+                          ({ productCode, productName, productPrice }) => (
+                            <li key={`wmt-${productCode}`}>
+                              <label>
+                                <input
+                                  name={productName}
+                                  checked={check[productCode] || false}
+                                  type="checkbox"
+                                  value={productCode}
+                                  data-price={productPrice}
+                                  onChange={handleWmtChange}
+                                />
+                                {productName} + {` (+${productPrice})`}
+                              </label>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    )}
+                    <div
+                      id="wstPopup"
+                      className="dropdown-header"
+                      onClick={handlePopup}
+                    >
+                      서브토핑 (복수선택)
+                    </div>
+                    {popUp.wstPopup && (
+                      <ul className="checkbox-list">
+                        {wstData.map(
+                          ({ productCode, productName, productPrice }) => (
+                            <li key={`wst-${productCode}`}>
+                              <label>
+                                <input
+                                  type="checkbox"
+                                  name={productName}
+                                  checked={check[productCode] || false}
+                                  value={productCode}
+                                  data-price={productPrice}
+                                  onChange={handleWstChange}
+                                />
+                                {productName} + {` (+${productPrice})`}
+                              </label>
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    )}
+                    <Count count={count} setCount={handleCountChange} />
                   </div>
-                  {popUp.wmtPopup && (
-                    <ul className="checkbox-list">
-                      {wmtData.map(
-                        ({ productCode, productName, productPrice }) => (
-                          <li key={`wmt-${productCode}`}>
-                            <label>
-                              <input
-                                name={productName}
-                                checked={check[productCode] || false}
-                                type="checkbox"
-                                value={productCode}
-                                data-price={productPrice}
-                                onChange={handleWmtChange}
-                              />
-                              {productName} + {` (+${productPrice})`}
-                            </label>
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  )}
-                  <div
-                    id="wstPopup"
-                    className="dropdown-header"
-                    onClick={handlePopup}
-                  >
-                    서브토핑 (복수선택)
-                  </div>
-                  {popUp.wstPopup && (
-                    <ul className="checkbox-list">
-                      {wstData.map(
-                        ({ productCode, productName, productPrice }) => (
-                          <li key={`wst-${productCode}`}>
-                            <label>
-                              <input
-                                type="checkbox"
-                                name={productName}
-                                checked={check[productCode] || false}
-                                value={productCode}
-                                data-price={productPrice}
-                                onChange={handleWstChange}
-                              />
-                              {productName} + {` (+${productPrice})`}
-                            </label>
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  )}
-                  <Count count={count} setCount={handleCountChange} />
                 </div>
               </div>
             </div>
@@ -350,39 +352,39 @@ const Wihpopup = (props) => {
                 </div>
               }
             </div>
-          </div>
-        </div>
-        <div className="addedMenus">
-          <div>
-            {added.map((v, i) => (
-              <div className="menu-item" key={i}>
-                <div className="added-list">
-                  {/* {JSON.stringify(v)} */}
-                  {cTn[v.productCode]}
-                  <br />
-                  {`메인토핑 :${v.wmtValue
-                    .map((code) => cTn[code])
-                    .join(', ')}`}
-                  <br />
-                  {`서브토핑 :${v.wstValue
-                    .map((code) => cTn[code])
-                    .join(', ')}`}
-                  <br />
-                  {`수량 :${v.count}`}
-                  <br />
-                  {`총가격 :${v.price}`}
-                  <br />
-                </div>
-                <div>
-                  <button
-                    onClick={() => handleRemoveItem(i)}
-                    style={{ width: '20px', height: '20px' }}
-                  >
-                    x
-                  </button>
-                </div>
+            <div className="popupcart-addedMenus">
+              <div>
+                {added.map((v, i) => (
+                  <div className="menu-item" key={i}>
+                    <div className="added-list">
+                      {/* {JSON.stringify(v)} */}
+                      {cTn[v.productCode]}
+                      <br />
+                      {`메인토핑 :${v.wmtValue
+                        .map((code) => cTn[code])
+                        .join(', ')}`}
+                      <br />
+                      {`서브토핑 :${v.wstValue
+                        .map((code) => cTn[code])
+                        .join(', ')}`}
+                      <br />
+                      {`수량 :${v.count}`}
+                      <br />
+                      {`총가격 :${v.price}`}
+                      <br />
+                    </div>
+                    <div>
+                      <button
+                        onClick={() => handleRemoveItem(i)}
+                        style={{ width: '20px', height: '20px' }}
+                      >
+                        x
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
         <div className="purchase-btn">
@@ -390,7 +392,7 @@ const Wihpopup = (props) => {
             <button
               className="reverse-button"
               onClick={addMenu}
-              style={{ width: '97%', height: '50px' }}
+              style={{ width: '90%', height: '50px' }}
             >
               메뉴 담기
             </button>
