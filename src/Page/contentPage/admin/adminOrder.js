@@ -166,6 +166,35 @@ const AdminOrder = () => {
     setParams({ ...params, startDate: settedDate, endDate: new Date() });
   };
 
+  // 주문 상태 개수 상태
+  const [orderStatusCounts, setOrderStatusCounts] = useState({
+    1: 0, // 예약대기
+    2: 0, // 예약확인
+    3: 0, // 배송준비중
+    4: 0, // 배송중
+    5: 0, // 배송완료
+  });
+
+  // 주문 상태 개수 계산 함수
+  const calculateOrderStatusCounts = () => {
+    const counts = {
+      1: 0, // 예약대기
+      2: 0, // 예약확인
+      3: 0, // 배송준비중
+      4: 0, // 배송중
+      5: 0, // 배송완료
+    };
+    selectedOrder.forEach((order) => {
+      counts[order.orderStatus] += 1;
+    });
+    setOrderStatusCounts(counts);
+  };
+
+  useEffect(() => {
+    // 주문 데이터가 변경될 때마다 주문 상태 개수 계산
+    calculateOrderStatusCounts();
+  }, [selectedOrder]);
+
   return (
     dataLoaded && (
       <>
@@ -181,30 +210,24 @@ const AdminOrder = () => {
           <div className="order">
             <div>
               <strong>예약대기</strong>
-              &nbsp;
-              <a href="orderList">
-                <span>0</span>
-              </a>
+              <br />
+              <span>{orderStatusCounts[1]}</span>
             </div>
             <div>
               <strong>예약확인</strong>
-              &nbsp;
-              <a href="orderList">0</a>
+              <span>{orderStatusCounts[2]}</span>
             </div>
             <div>
               <strong>배송준비중</strong>
-              &nbsp;
-              <a href="orderList">0</a>
+              <span>{orderStatusCounts[3]}</span>
             </div>
             <div>
               <strong>배송중</strong>
-              &nbsp;
-              <a href="orderList">0</a>
+              <span>{orderStatusCounts[4]}</span>
             </div>
             <div>
               <strong>배송완료</strong>
-              &nbsp;
-              <a href="orderList">0</a>
+              <span>{orderStatusCounts[5]}</span>
             </div>
           </div>
           <div className="get-list">

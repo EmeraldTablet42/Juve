@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import sampleimage from "../../../imagefile/carticon.png";
 const initialState = [];
 
 const favoriteSlice = createSlice({
