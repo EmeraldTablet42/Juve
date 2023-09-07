@@ -1,12 +1,12 @@
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { setCart } from "../components/cartSlice";
-import Count from "../components/count";
-import "../styles/popupcart.css";
-import popUpSlice, { setPopUpSlice } from "../../../system/popUpSlice";
-import Background from "../../../system/background";
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setCart } from '../components/cartSlice';
+import Count from '../components/count';
+import '../styles/popupcart.css';
+import popUpSlice, { setPopUpSlice } from '../../../system/popUpSlice';
+import Background from '../../../system/background';
 const Wihpopup = (props) => {
   const { productId, setPopupState, wihData = {} } = props;
   const [count, setCount] = useState(1);
@@ -16,11 +16,11 @@ const Wihpopup = (props) => {
   /// 팝업 열릴때 스크롤 금지
   useEffect(() => {
     // 팝업이 열릴 때 스크롤 금지
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
 
     // 컴포넌트가 언마운트될 때 스크롤 허용
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     };
   }, []);
 
@@ -70,7 +70,7 @@ const Wihpopup = (props) => {
           wstValue: wstValue,
           count: count,
           price: totalPrice * count,
-          date: new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" }),
+          date: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
         },
       ]);
     }
@@ -89,14 +89,14 @@ const Wihpopup = (props) => {
   const [wmtData, setWmtData] = useState([]);
   const [wstData, setWstData] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8090/product.get").then((res) => {
+    axios.get('http://localhost:8090/product.get').then((res) => {
       const allProduct = res.data.products;
       const wmtFilterData = allProduct.filter(
-        (product) => product.category === "WMT"
+        (product) => product.category === 'WMT'
       );
       setWmtData(wmtFilterData);
       const wstFilterData = allProduct.filter(
-        (product) => product.category === "WST"
+        (product) => product.category === 'WST'
       );
       setWstData(wstFilterData);
     });
@@ -142,7 +142,7 @@ const Wihpopup = (props) => {
   const auth = useSelector((state) => state.authindex);
   const goCart = (e) => {
     if (added.length === 0) {
-      alert("메뉴를 추가해주세요.");
+      alert('메뉴를 추가해주세요.');
       return null;
     }
     regCartDB();
@@ -150,14 +150,14 @@ const Wihpopup = (props) => {
 
   const goOrder = () => {
     if (added.length === 0) {
-      alert("메뉴를 추가해주세요.");
+      alert('메뉴를 추가해주세요.');
       return null;
     }
     axios
-      .post("http://localhost:8090/order/reg.cart", added, {
+      .post('http://localhost:8090/order/reg.cart', added, {
         headers: {
-          "Content-Type": "application/json",
-          token: sessionStorage.getItem("loginToken"),
+          'Content-Type': 'application/json',
+          token: sessionStorage.getItem('loginToken'),
         },
       })
       .then((res) => {
@@ -165,21 +165,21 @@ const Wihpopup = (props) => {
         if (!auth.isLogined) {
           dispatch(setCart(added));
         }
-        navi("/purchase");
+        navi('/purchase');
       })
       .catch(() => {
-        alert("DB통신에러. 잠시 후 다시 시도해주세요.");
-        navi("/");
+        alert('DB통신에러. 잠시 후 다시 시도해주세요.');
+        navi('/');
       });
   };
 
   const regCartDB = () => {
     // alert(JSON.stringify(added));
     axios
-      .post("http://localhost:8090/order/reg.cart", added, {
+      .post('http://localhost:8090/order/reg.cart', added, {
         headers: {
-          "Content-Type": "application/json",
-          token: sessionStorage.getItem("loginToken"),
+          'Content-Type': 'application/json',
+          token: sessionStorage.getItem('loginToken'),
         },
       })
       .then((res) => {
@@ -191,7 +191,7 @@ const Wihpopup = (props) => {
         dispatch(setPopUpSlice({ ...popUpSlice, cartComplete: true }));
       })
       .catch(() => {
-        navi("/");
+        navi('/');
       });
   };
 
@@ -218,10 +218,10 @@ const Wihpopup = (props) => {
       }
     };
     if (isOpenWmt) {
-      window.addEventListener("click", onClick);
+      window.addEventListener('click', onClick);
     }
     return () => {
-      window.removeEventListener("click", onClick);
+      window.removeEventListener('click', onClick);
     };
   }, [isOpenWmt]);
 
@@ -232,10 +232,10 @@ const Wihpopup = (props) => {
       }
     };
     if (isOpenWst) {
-      window.addEventListener("click", onClick);
+      window.addEventListener('click', onClick);
     }
     return () => {
-      window.removeEventListener("click", onClick);
+      window.removeEventListener('click', onClick);
     };
   }, [isOpenWst]);
   ///////////////////
@@ -250,127 +250,163 @@ const Wihpopup = (props) => {
         >
           x
         </button>
-        <div className="popup-image">
-          <img
-            src={`http://localhost:8090/product/photo/${wihData.productPhoto}`}
-            alt="상품 이미지"
-            style={{ width: "300px" }}
-          />
-        </div>
-        <div className="popupcart-option-wrapper">
-          <h2 className="popupcart-productname">{wihData.productName}</h2>
-          <h2 className="popupcart-productname">{wihData.productPrice}</h2>
-          <div className="sdrOption">
-            <div className="dropdown" ref={ref}>
-              <div
-                id="wmtPopup"
-                className="dropdown-header"
-                onClick={handlePopup}
-              >
-                메인토핑 (복수선택)
+        <div className="popup-header">
+          <div className="popup-image">
+            <img
+              src={`http://localhost:8090/product/photo/${wihData.productPhoto}`}
+              alt="상품 이미지"
+              style={{ width: '300px' }}
+            />
+          </div>
+          <div className="popupcart-option-wrapper">
+            <div className="option-header">
+              <div>
+                <h2 className="popupcart-productname">{wihData.productName}</h2>
+                <h2 className="popupcart-productname">
+                  {wihData.productPrice}
+                </h2>
               </div>
-              {popUp.wmtPopup && (
-                <ul className="checkbox-list">
-                  {wmtData.map(({ productCode, productName, productPrice }) => (
-                    <li key={`wmt-${productCode}`}>
-                      <label>
-                        <input
-                          name={productName}
-                          checked={check[productCode] || false}
-                          type="checkbox"
-                          value={productCode}
-                          data-price={productPrice}
-                          onChange={handleWmtChange}
-                        />
-                        {productName} + {` (+${productPrice})`}
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <div
-                id="wstPopup"
-                className="dropdown-header"
-                onClick={handlePopup}
-              >
-                서브토핑 (복수선택)
+              <div className="sdrOption">
+                <div className="dropdown" ref={ref}>
+                  <div
+                    id="wmtPopup"
+                    className="dropdown-header"
+                    onClick={handlePopup}
+                  >
+                    메인토핑 (복수선택)
+                  </div>
+                  {popUp.wmtPopup && (
+                    <ul className="checkbox-list">
+                      {wmtData.map(
+                        ({ productCode, productName, productPrice }) => (
+                          <li key={`wmt-${productCode}`}>
+                            <label>
+                              <input
+                                name={productName}
+                                checked={check[productCode] || false}
+                                type="checkbox"
+                                value={productCode}
+                                data-price={productPrice}
+                                onChange={handleWmtChange}
+                              />
+                              {productName} + {` (+${productPrice})`}
+                            </label>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  )}
+                  <div
+                    id="wstPopup"
+                    className="dropdown-header"
+                    onClick={handlePopup}
+                  >
+                    서브토핑 (복수선택)
+                  </div>
+                  {popUp.wstPopup && (
+                    <ul className="checkbox-list">
+                      {wstData.map(
+                        ({ productCode, productName, productPrice }) => (
+                          <li key={`wst-${productCode}`}>
+                            <label>
+                              <input
+                                type="checkbox"
+                                name={productName}
+                                checked={check[productCode] || false}
+                                value={productCode}
+                                data-price={productPrice}
+                                onChange={handleWstChange}
+                              />
+                              {productName} + {` (+${productPrice})`}
+                            </label>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  )}
+                  <Count count={count} setCount={handleCountChange} />
+                </div>
               </div>
-              {popUp.wstPopup && (
-                <ul className="checkbox-list">
-                  {wstData.map(({ productCode, productName, productPrice }) => (
-                    <li key={`wst-${productCode}`}>
-                      <label>
-                        <input
-                          type="checkbox"
-                          name={productName}
-                          checked={check[productCode] || false}
-                          value={productCode}
-                          data-price={productPrice}
-                          onChange={handleWstChange}
-                        />
-                        {productName} + {` (+${productPrice})`}
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <Count count={count} setCount={handleCountChange} />
+            </div>
+            <div className="item-box">
+              {
+                <div className="menu-item">
+                  {wihData.productName}
+                  {wmtValue.length !== 0 && (
+                    <>
+                      <br />
+                      메인토핑 : {wmtValue.map((code) => cTn[code]).join(', ')}
+                    </>
+                  )}
+                  {wstValue.length !== 0 && (
+                    <>
+                      <br />
+                      서브토핑 : {wstValue.map((code) => cTn[code]).join(', ')}
+                    </>
+                  )}
+                  <br />
+                  수량 : {count}
+                  <br />총 가격 : {totalPrice * count}
+                </div>
+              }
             </div>
           </div>
-          <div style={{ maxHeight: "200px", overflowY: "auto" }}>
-            {
-              <div className="menu-item">
-                {wihData.productName}
-                {wmtValue.length !== 0 && (
-                  <>
-                    <br />
-                    메인토핑 : {wmtValue.map((code) => cTn[code]).join(", ")}
-                  </>
-                )}
-                {wstValue.length !== 0 && (
-                  <>
-                    <br />
-                    서브토핑 : {wstValue.map((code) => cTn[code]).join(", ")}
-                  </>
-                )}
-                <br />
-                수량 : {count}
-                <br />총 가격 : {totalPrice * count}
-              </div>
-            }
-            <div
-              style={{
-                display: "block",
-                textAlign: "left",
-              }}
-              className="addedMenus"
-            >
-              {added.map((v, i) => (
-                <div className="menu-item" key={i}>
+        </div>
+        <div className="addedMenus">
+          <div>
+            {added.map((v, i) => (
+              <div className="menu-item" key={i}>
+                <div className="added-list">
                   {/* {JSON.stringify(v)} */}
                   {cTn[v.productCode]}
-                  <button onClick={() => handleRemoveItem(i)}>삭제</button>
                   <br />
                   {`메인토핑 :${v.wmtValue
                     .map((code) => cTn[code])
-                    .join(", ")}`}
+                    .join(', ')}`}
                   <br />
                   {`서브토핑 :${v.wstValue
                     .map((code) => cTn[code])
-                    .join(", ")}`}
+                    .join(', ')}`}
                   <br />
                   {`수량 :${v.count}`}
                   <br />
                   {`총가격 :${v.price}`}
                   <br />
                 </div>
-              ))}
+                <div>
+                  <button
+                    onClick={() => handleRemoveItem(i)}
+                    style={{ width: '20px', height: '20px' }}
+                  >
+                    x
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="purchase-btn">
+          <div className="added-btn">
+            <button
+              className="reverse-button"
+              onClick={addMenu}
+              style={{ width: '97%', height: '50px' }}
+            >
+              메뉴 담기
+            </button>
+          </div>
+          <div className="go-to-purchase">
+            <div>
+              <button className="default-button" onClick={goOrder}>
+                구매예약
+              </button>
+            </div>
+            <div>
+              <button className="default-button" onClick={goCart}>
+                장바구니에 담기
+              </button>
             </div>
           </div>
-          <button onClick={addMenu}>메뉴담기</button>
-          <button onClick={initialize}>메뉴 초기화</button>
-          <button onClick={goOrder}>구매예약</button>
-          <button onClick={goCart}>장바구니에 담기</button>
         </div>
       </div>
     </>
