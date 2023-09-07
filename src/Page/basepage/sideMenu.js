@@ -1,10 +1,11 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import "../css/sidemenu.css";
-import Top from "../system/top";
-import { setResentView } from "./resentViewSlice";
-import { Link } from "react-router-dom";
-import sampleimage from "../imagefile/carticon.png";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import '../css/sidemenu.css';
+import Top from '../system/top';
+import { setResentView } from './resentViewSlice';
+import { Link } from 'react-router-dom';
+import sampleimage from '../imagefile/carticon.png';
+import getwhat from '../imagefile/getwhat.png';
 const SideMenu = () => {
   const myDispatch = useDispatch();
   //// 사이드바 최근 본 메뉴에서 아래꺼를 누르면 아래것이 위로가고 위에게 아래로 감
@@ -25,7 +26,13 @@ const SideMenu = () => {
     <div className="sidmenu">
       <div className="sidemenu-object">
         <div>
-          <button>주문조회</button>
+          <Link to="/member/mypage/myorder">
+            <img
+              src={getwhat}
+              alt="주문 내역"
+              style={{ width: '70px', height: '70px' }}
+            />
+          </Link>
         </div>
         <div className="sidmenu-cart">
           <button>
@@ -33,7 +40,7 @@ const SideMenu = () => {
               <img
                 src={sampleimage}
                 alt="장바구니"
-                style={{ width: "70px", height: "70px" }}
+                style={{ width: '70px', height: '70px' }}
               />
             </Link>
           </button>
@@ -47,7 +54,7 @@ const SideMenu = () => {
                   <img
                     src={`http://localhost:8090/product/photo/${resentView.resentViewImgUp}`}
                     alt="최근본상품1"
-                    style={{ width: "70px", height: "70px" }}
+                    style={{ width: '70px', height: '70px' }}
                   ></img>
                 </Link>
               </div>
@@ -59,7 +66,7 @@ const SideMenu = () => {
                     src={`http://localhost:8090/product/photo/${resentView.resentViewImgDown}`}
                     alt="최근본상품2"
                     onClick={changeResentView}
-                    style={{ width: "70px", height: "70px" }}
+                    style={{ width: '70px', height: '70px' }}
                   ></img>
                 </Link>
               </div>

@@ -1,42 +1,39 @@
-.sidemenu{
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+.sidemenu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
-.sidemenu-object{
-    border: 1px solid gray;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    height: 380px;
+.sidemenu-object {
+  border: 2px solid #ffa928;
+  box-shadow: 3px 2px 2px 1px #ffa928;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.sidemenu-object button{
-    width: 80px;
+.sidemenu-object button {
+  width: 80px;
 }
-.recently-product{
-    width: 80px;
-    height: 80px;
+.recently-product {
+  width: 80px;
 }
-.recently-product p{
-    font-weight: bolder;
-    height: 56px;
-    font-size: 12px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.recently-product p {
+  font-weight: bolder;
+  font-size: 12px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.resently-images{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.resently-images {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .sidmenu-cart button {
-    border: none;
-    background-color: transparent;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  border: none;
+  background-color: transparent;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
