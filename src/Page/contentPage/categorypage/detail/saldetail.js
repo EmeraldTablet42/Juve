@@ -562,19 +562,19 @@ const Saldetail = () => {
       </div>
       <div>
         <div ref={productTabs[0].element}>
-          <h1 style={{ display: 'none' }}>상품상세</h1>
+          <button style={{ display: 'none' }}>상품상세</button>
           <img src={sampleImage} style={{ width: '100%' }} alt="상품이미지" />
         </div>
 
         <div ref={productTabs[1].element}>
-          <h1 style={{ display: 'none' }}>리뷰</h1>
+          <button style={{ display: 'none' }}>리뷰</button>
         </div>
         <div>
           <Review />
         </div>
         {false && <Purchase addData={added} />}
         <div ref={productTabs[2].element}>
-          <h1>상품 문의</h1>
+          <button>상품 문의</button>
         </div>
       </div>
     </div>
