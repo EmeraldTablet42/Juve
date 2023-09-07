@@ -64,7 +64,7 @@ const Header = () => {
             {auth.memberId === "adminjuve" ? (
               <div>
                 <button>
-                  <Link to="/admin/main">관리자페이지</Link>
+                  <Link to="/admin/product">관리자페이지</Link>
                 </button>
               </div>
             ) : (
