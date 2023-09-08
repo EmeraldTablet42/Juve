@@ -15,10 +15,14 @@
   align-items: center;
 }
 .company-logo {
-  width: 30%;
+  width: 20%;
   text-align: right;
 }
+.company-logo img {
+  width: 500px;
+  height: 200px;
+}
 .company-info {
-  width: 70%;
+  width: 80%;
   text-align: center;
 }

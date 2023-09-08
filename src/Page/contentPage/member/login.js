@@ -1,9 +1,9 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import "./login.css";
-import { setAuth } from "./authSlice";
+import axios from 'axios';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import './login.css';
+import { setAuth } from './authSlice';
 
 const Login = () => {
   const navi = useNavigate();
@@ -11,34 +11,34 @@ const Login = () => {
   const auth = useSelector((state) => state.authindex);
 
   //아이디 비밀번호 input State
-  const [loginInput, setLoginInput] = useState({ id: "", password: "" });
+  const [loginInput, setLoginInput] = useState({ id: '', password: '' });
   //아이디 비밀번호 입력 핸들러
   const handleLoginInput = (e) => {
     setLoginInput({ ...loginInput, [e.target.name]: e.target.value });
   };
   const fd = new FormData();
-  fd.append("id", loginInput.id);
-  fd.append("password", loginInput.password);
+  fd.append('id', loginInput.id);
+  fd.append('password', loginInput.password);
 
   const getLoginToken = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8090/member.get.loginToken",
+        'http://localhost:8090/member.get.loginToken',
         fd
       );
       if (response.data.token === undefined) {
-        alert("아이디 또는 비밀번호가 일치하지 않습니다.");
-        setLoginInput({ ...loginInput, password: "" });
+        alert('아이디 또는 비밀번호가 일치하지 않습니다.');
+        setLoginInput({ ...loginInput, password: '' });
       } else {
         // alert(response.data.token);
-        sessionStorage.setItem("loginToken", response.data.token);
-        await checkIsLogined(sessionStorage.getItem("loginToken")); // checkIsLogined 함수 호출 추가
+        sessionStorage.setItem('loginToken', response.data.token);
+        await checkIsLogined(sessionStorage.getItem('loginToken')); // checkIsLogined 함수 호출 추가
         navi(-1);
       }
     } catch (error) {
-      alert(error + "(1)");
-      alert("DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요.(1)");
-      window.location.replace("/");
+      alert(error + '(1)');
+      alert('DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요.(1)');
+      window.location.replace('/');
     }
   };
 
@@ -49,14 +49,14 @@ const Login = () => {
       );
       if (checkRes.data.id) {
         myDispatch(setAuth({ isLogined: true, memberId: checkRes.data.id }));
-        sessionStorage.setItem("login", true);
+        sessionStorage.setItem('login', true);
       } else {
         // 처리할 내용이 있는 경우
       }
     } catch (error) {
-      alert(error + "(2)");
-      alert("DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요.(2)");
-      window.location.replace("/");
+      alert(error + '(2)');
+      alert('DB통신에 에러가 발생했습니다. 잠시후 다시 시도해주세요.(2)');
+      window.location.replace('/');
     }
   };
 
@@ -66,7 +66,7 @@ const Login = () => {
         <div className="login-box">
           <h1>로 그 인</h1>
           <div className="login-type">
-            <div style={{backgroundColor:"greenyellow"}}>회원 로그인</div>
+            <div style={{ backgroundColor: '#faa928' }}>회원 로그인</div>
             <div>
               <Link to="/loginUnsigned">비회원 주문조회</Link>
             </div>
@@ -87,7 +87,7 @@ const Login = () => {
                 placeholder="비밀번호"
                 onChange={handleLoginInput}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") {
+                  if (e.key === 'Enter') {
                     getLoginToken();
                   }
                 }}
@@ -131,7 +131,7 @@ const Login = () => {
               </div>*/}
           </div>
           <div className="login-join">
-            <Link to={"/join"}>
+            <Link to={'/join'}>
               <button>회원가입</button>
             </Link>
           </div>

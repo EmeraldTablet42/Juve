@@ -1,5 +1,8 @@
 .menu-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.menu-image {
+  text-align: center;
 }

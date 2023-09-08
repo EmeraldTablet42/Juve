@@ -21,15 +21,10 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div className="left">
-        <div className="left-text">
-          <p>맛있는 샐러드</p>
-        </div>
-        <div>
-          <Link to="/">
-            <img src={juveLogo} alt="juve Logo"></img>
-          </Link>
-        </div>
+      <div>
+        <Link to="/">
+          <img src={juveLogo} alt="juve Logo"></img>
+        </Link>
       </div>
       <div className="middle">
         <div className="middle-search">
@@ -66,13 +61,13 @@ const Header = () => {
             )}
             {auth.memberId === 'adminjuve' ? (
               <div>
-                <button>
+                <button style={{ width: '110px' }}>
                   <Link to="/admin/order">관리자페이지</Link>
                 </button>
               </div>
             ) : (
               <>
-                <div>
+                <div style={{ width: '50px' }}>
                   <button>
                     <Link to="/member/mypage/myorder">
                       <img
@@ -86,7 +81,7 @@ const Header = () => {
                     </Link>
                   </button>
                 </div>
-                <div>
+                <div style={{ width: '50px' }}>
                   <button>
                     <Link to="/cart">
                       <img
