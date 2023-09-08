@@ -6,7 +6,7 @@ const MenuNavi = () => {
   const [isNaviFixed, setIsNaviFixed] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 80) {
+      if (window.scrollY > 140) {
         setIsNaviFixed(true);
       } else {
         setIsNaviFixed(false);

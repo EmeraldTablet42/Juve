@@ -92,7 +92,9 @@ const Login = () => {
         <div className="login-box">
           <h1>로 그 인</h1>
           <div className="login-type">
-            <div style={{ backgroundColor: 'greenyellow' }}>회원 로그인</div>
+            <div style={{ backgroundColor: 'hsl(41, 85%, 54%)' }}>
+              회원 로그인
+            </div>
             <div>
               <Link to="/loginUnsigned">비회원 주문조회</Link>
             </div>
