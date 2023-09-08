@@ -19,6 +19,7 @@ import ScrollToTop from "./Page/index/scrollToTop";
 import popUpSlice from "./Page/system/popUpSlice";
 import purchaseSlice from "./Page/contentPage/order/purchaseSlice";
 import favoriteSlice from "./Page/contentPage/categorypage/favoriteSlice";
+import recomSlice from "./Page/index/recomSlice";
 
 const persistConfig = {
   key: "root",
@@ -56,6 +57,7 @@ const storee = configureStore({
     popUp: popUpSlice,
     order: purchaseSlice,
     favorite: favoriteSlice,
+    recom: recomSlice,
   },
 });
 

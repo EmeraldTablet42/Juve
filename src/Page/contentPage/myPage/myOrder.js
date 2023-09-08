@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "./css/myorder.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setOrder } from "../order/purchaseSlice";
 import { useNavigate } from "react-router-dom";
+import { setOrder } from "../order/purchaseSlice";
+import "./css/myorder.css";
 const MyOrder = () => {
   const dispatch = useDispatch();
   const navi = useNavigate();
@@ -42,10 +42,17 @@ const MyOrder = () => {
   };
 
   const getAllOrderListFromDB = () => {
-    axios.get("http://localhost:8090/order/get.all.order.admin").then((res) => {
-      // alert(JSON.stringify(res.data));
-      setAllOrder(res.data);
-    });
+    axios
+      .get(
+        `http://localhost:8090/order/get.all.order.loginMember?token=${sessionStorage.getItem(
+          "loginToken"
+        )}`
+      )
+      .then((res) => {
+        // alert(JSON.stringify(res.data));
+        setAllOrder(res.data);
+      })
+      .catch(() => {});
   };
 
   useEffect(() => {
