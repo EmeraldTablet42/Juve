@@ -20,6 +20,7 @@ import popUpSlice from "./Page/system/popUpSlice";
 import purchaseSlice from "./Page/contentPage/order/purchaseSlice";
 import favoriteSlice from "./Page/contentPage/categorypage/favoriteSlice";
 import recomSlice from "./Page/index/recomSlice";
+import searchSlice from "./Page/contentPage/homePage/searchSlice";
 
 const persistConfig = {
   key: "root",
@@ -58,6 +59,7 @@ const storee = configureStore({
     order: purchaseSlice,
     favorite: favoriteSlice,
     recom: recomSlice,
+    search: searchSlice,
   },
 });
 

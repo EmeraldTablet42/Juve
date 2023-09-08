@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './styles/menu.css';
-import sampleImage from './static/orange.png';
+import sampleImage from '../../imagefile/introImg.png';
 import Thumbnail from './components/thumbnail';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,7 +32,7 @@ const Menupage = ({ productData }) => {
     <div>
       <body className="menu-page">
         <div className="menu-image">
-          <img src={sampleImage} alt="상품이미지" />
+          <img width={1200} src={sampleImage} alt="상품이미지" />
         </div>
         <div className="menu-grid">
           <Thumbnail productData={productData} />

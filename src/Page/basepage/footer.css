@@ -34,5 +34,7 @@
   text-align: right;
   margin-left: 400px;
   border-left: 3px solid wheat;
+  height: 200px;
+  width: 600px;
   outline: none;
 }
