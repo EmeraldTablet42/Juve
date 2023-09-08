@@ -79,12 +79,12 @@ const Header = () => {
             {!auth.isLogined ? (
               <>
                 <div>
-                  <button>
+                  <button style={{ width: "120px" }}>
                     <Link to="/member/join">회원가입</Link>
                   </button>
                 </div>
                 <div>
-                  <button>
+                  <button style={{marginRight:"15px"}}>
                     <Link to="/member/login">로그인</Link>
                   </button>
                 </div>
