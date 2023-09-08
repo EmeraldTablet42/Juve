@@ -12,11 +12,11 @@ const HomePage = () => {
       <div className="Slider" style={{ margin: '0' }}>
         <Imageslider />
       </div>
-      <div className="home-title">
+      {/* <div className="home-title">
         <h1 style={{ textAlign: 'center' }}>대표메뉴</h1>
-      </div>
-      <hr style={{ margin: '10px 0', border: '1px solid #ccc' }} />
-      <div className="bestMenu">
+      </div> */}
+      {/* <hr style={{ margin: '10px 0', border: '1px solid #ccc' }} /> */}
+      {/* <div className="bestMenu">
         <div>
           <img
             className="image-hover"
@@ -44,8 +44,8 @@ const HomePage = () => {
           />
           <p>하와이안 포켓 샐러드</p>
         </div>
-      </div>
-      <hr style={{ margin: '10px 0', border: '1px solid #ccc' }} />
+      </div> */}
+      <hr style={{ margin: '100px 0', border: '1px solid #FAA92830' }} />
       <div className="home-allmenu">
         <h1>전체 메뉴 보기</h1>
         <h4>(상품가격은 옵션에 따라 변동 될 수 있습니다)</h4>

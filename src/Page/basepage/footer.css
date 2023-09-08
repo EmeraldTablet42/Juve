@@ -23,6 +23,16 @@
   height: 200px;
 }
 .company-info {
-  width: 80%;
   text-align: center;
+}
+
+.footer-company {
+  background: none;
+  border: none;
+  resize: none;
+  font-size: 17px;
+  text-align: right;
+  margin-left: 400px;
+  border-left: 3px solid wheat;
+  outline: none;
 }
