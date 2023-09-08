@@ -1,0 +1,26 @@
+.favorite-table {
+  width: 100%;
+}
+.favorite-table tr {
+  width: 80%;
+  min-height: 40px;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid hsla(41, 100%, 62%, 0.918);
+}
+.favorite-table th {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px;
+}
+.favTr td {
+  display: flex;
+  width: 25%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

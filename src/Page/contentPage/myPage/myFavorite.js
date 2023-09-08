@@ -1,7 +1,7 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './css/favorite.css';
 const MyFavorite = () => {
   const [allData, setAllData] = useState([]);
   const [favList, setFavList] = useState([]);
@@ -9,7 +9,7 @@ const MyFavorite = () => {
   const navi = useNavigate();
 
   const getProductDB = () => {
-    return axios.get("http://localhost:8090/product.get").then((res) => {
+    return axios.get('http://localhost:8090/product.get').then((res) => {
       return res.data.products;
     });
   };
@@ -18,7 +18,7 @@ const MyFavorite = () => {
     return axios
       .get(
         `http://localhost:8090/member.get.favorites?token=${sessionStorage.getItem(
-          "loginToken"
+          'loginToken'
         )}`
       )
       .then((res) => {
@@ -38,7 +38,7 @@ const MyFavorite = () => {
         setDataLoaded(true);
       })
       .catch((error) => {
-        console.error("데이터 로딩 중 오류 발생:", error);
+        console.error('데이터 로딩 중 오류 발생:', error);
         setDataLoaded(true); // 에러가 발생하더라도 데이터 로딩 상태를 true로 설정
       });
   }, []);
@@ -49,18 +49,18 @@ const MyFavorite = () => {
     );
     const imageUrl = productData
       ? `http://localhost:8090/product/photo/${productData.productPhoto}`
-      : "";
+      : '';
     return (
-      <tr key={i}>
+      <tr className="favTr" key={i}>
         <td>
           <img
             src={imageUrl}
             alt="상품이미지"
             style={{
-              width: "150px",
-              height: "150px",
-              justifyContent: "center",
-              alignItems: "center",
+              width: '150px',
+              height: '150px',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           />
         </td>
@@ -68,6 +68,8 @@ const MyFavorite = () => {
         <td>{productData.productPrice}</td>
         <td>
           <button
+            className="default-button"
+            style={{ fontSize: '17pt', width: '60px', height: '40px' }}
             onClick={() => {
               goProduct(productData.category, productData.productCode);
             }}
@@ -82,7 +84,7 @@ const MyFavorite = () => {
   return (
     dataLoaded && (
       <>
-        <table>
+        <table className="favorite-table">
           <tr>
             <th>이미지</th>
             <th>상품정보</th>

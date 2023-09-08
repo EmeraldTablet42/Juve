@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { setResentView } from "../../../basepage/resentViewSlice";
-import Bevdetail from "../detail/bevdetail";
-import Cupdetail from "../detail/cupdetail";
-import Saldetail from "../detail/saldetail";
-import Wihdetail from "../detail/wihdetail";
-import "../styles/thumbnail.css";
-import Salpopup from "../popup/salpopup";
-import Cuppopup from "../popup/cuppopup";
-import Wihpopup from "../popup/wihpopup";
-import Bevpopup from "../popup/bevpopup";
-import { addMenuData, resetMenuData } from "./cartSlice";
-import sampleimage from "../../../imagefile/carticon.png";
-import axios from "axios";
-import { addFavorite, removeFavorite } from "../favoriteSlice";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { setResentView } from '../../../basepage/resentViewSlice';
+import Bevdetail from '../detail/bevdetail';
+import Cupdetail from '../detail/cupdetail';
+import Saldetail from '../detail/saldetail';
+import Wihdetail from '../detail/wihdetail';
+import '../styles/thumbnail.css';
+import Salpopup from '../popup/salpopup';
+import Cuppopup from '../popup/cuppopup';
+import Wihpopup from '../popup/wihpopup';
+import Bevpopup from '../popup/bevpopup';
+import { addMenuData, resetMenuData } from './cartSlice';
+import sampleimage from '../../../imagefile/carticon.png';
+import axios from 'axios';
+import { addFavorite, removeFavorite } from '../favoriteSlice';
 const Thumbnail = ({ productData }) => {
   // redux에 등록한 slice 편집을 위한 DisPatch
   const myDispatch = useDispatch();
@@ -58,7 +58,7 @@ const Thumbnail = ({ productData }) => {
     axios
       .get(
         `http://localhost:8090/member.add.favorites?token=${sessionStorage.getItem(
-          "loginToken"
+          'loginToken'
         )}&productCode=${productCode}`
       )
       .then(() => {
@@ -67,7 +67,7 @@ const Thumbnail = ({ productData }) => {
       })
       .catch((error) => {
         alert(error);
-        alert("DB통신에러. 잠시 후 다시 시도해주세요.");
+        alert('DB통신에러. 잠시 후 다시 시도해주세요.');
       });
   };
 
@@ -77,14 +77,14 @@ const Thumbnail = ({ productData }) => {
     axios
       .get(
         `http://localhost:8090/member.remove.favorite?token=${sessionStorage.getItem(
-          "loginToken"
+          'loginToken'
         )}&productCode=${productCode}`
       )
       .then(() => {
         dispatch(removeFavorite(productCode));
       })
       .catch(() => {
-        alert("DB통신에러. 잠시 후 다시 시도해주세요");
+        alert('DB통신에러. 잠시 후 다시 시도해주세요');
       });
   };
 
@@ -95,17 +95,17 @@ const Thumbnail = ({ productData }) => {
           <div className="product-thumbnail" key={product.productCode}>
             <Link
               to={
-                product.category === "SAL"
+                product.category === 'SAL'
                   ? `/saldetail?id=${product.productCode}`
-                  : product.category === "CUP"
+                  : product.category === 'CUP'
                   ? `/cupdetail?id=${product.productCode}`
-                  : product.category === "WIH"
+                  : product.category === 'WIH'
                   ? `/wihdetail?id=${product.productCode}`
-                  : product.category === "BEV"
+                  : product.category === 'BEV'
                   ? `/bevdetail?id=${product.productCode}`
                   : ``
               }
-              style={{ display: "inline-block" }}
+              style={{ display: 'inline-block' }}
             >
               <img
                 className="image-hover"
@@ -116,7 +116,7 @@ const Thumbnail = ({ productData }) => {
                 }}
               />
             </Link>
-            <h3 style={{ textAlign: "center" }}>{product.productName}</h3>
+            <h3 style={{ textAlign: 'center' }}>{product.productName}</h3>
             <div className="product-thumbnail-detail">
               <p>{product.productPrice}원</p>
               <div className="product-detail-btn">
@@ -124,11 +124,14 @@ const Thumbnail = ({ productData }) => {
                   <>
                     {favorite.includes(product.productCode) ? (
                       <button
+                        style={{
+                          backgroundColor: 'red',
+                        }}
                         onClick={() => {
                           removeFav(product.productCode);
                         }}
                       >
-                        찜해제
+                        ♡
                       </button>
                     ) : (
                       <button
@@ -136,7 +139,7 @@ const Thumbnail = ({ productData }) => {
                           addFav(product.productCode);
                         }}
                       >
-                        찜
+                        ♡
                       </button>
                     )}
                   </>
@@ -145,35 +148,35 @@ const Thumbnail = ({ productData }) => {
                   <img
                     src={sampleimage}
                     alt="장바구니"
-                    style={{ width: "20px", height: "20px" }}
+                    style={{ width: '20px', height: '20px' }}
                   />
                 </button>
               </div>
             </div>
             {popupState && (
               <div className="cart-popup-wrapper">
-                {product.category === "SAL" && (
+                {product.category === 'SAL' && (
                   <Salpopup
                     salData={selectedData}
                     productId={product.productCode}
                     setPopupState={setPopupState}
                   />
                 )}
-                {product.category === "WIH" && (
+                {product.category === 'WIH' && (
                   <Wihpopup
                     wihData={selectedData}
                     productId={product.productCode}
                     setPopupState={setPopupState}
                   />
                 )}
-                {product.category === "CUP" && (
+                {product.category === 'CUP' && (
                   <Cuppopup
                     cupData={selectedData}
                     productId={product.productCode}
                     setPopupState={setPopupState}
                   />
                 )}
-                {product.category === "BEV" && (
+                {product.category === 'BEV' && (
                   <Bevpopup
                     bevData={selectedData}
                     productId={product.productCode}
