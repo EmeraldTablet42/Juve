@@ -21,6 +21,8 @@
   justify-content: center;
   flex-direction: column;
   margin-top: 0;
+  border: 1px solid #EDAE26;
+  box-shadow: 2px 2px 2px #EDAE26 ;
 }
 .login-box h1{
     margin-bottom: 20px;
@@ -56,12 +58,12 @@
   margin-top: 10px;
 }
 .login-type div {
-  border-radius: 5px;
+  /* border-radius: 5px; */
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid hsla(41, 100%, 62%, 0.918);
-  height: 60px;
+  height: 50px;
   width: 50%;
 }
 .login-save {

@@ -92,10 +92,10 @@ const Login = () => {
         <div className="login-box">
           <h1>로 그 인</h1>
           <div className="login-type">
-            <div style={{ backgroundColor: 'hsl(41, 85%, 54%)' }}>
+            <div style={{ backgroundColor: 'hsl(41, 85%, 54%)' ,width:"140px"}}>
               회원 로그인
             </div>
-            <div>
+            <div style={{width:"140px"}}>
               <Link to="/loginUnsigned">비회원 주문조회</Link>
             </div>
           </div>
@@ -123,7 +123,7 @@ const Login = () => {
               />
             </div>
           </div>
-          <div className="login-save">
+          {/* <div className="login-save">
             <div className="login-save-check">
               <input type="checkbox" />
               아이디저장
@@ -134,7 +134,7 @@ const Login = () => {
             <div className="find-pw">
               <span>비밀번호 찾기</span>
             </div>
-          </div>
+          </div> */}
           <div className="login-btn">
             <div>
               <button onClick={getLoginToken}>로그인</button>
@@ -163,7 +163,7 @@ const Login = () => {
               <button>회원가입</button>
             </Link>
           </div>
-          <div className="login-text">
+          {/* <div className="login-text">
             <p>------------간편하게 로그인------------</p>
           </div>
           <div className="naver">
@@ -171,7 +171,7 @@ const Login = () => {
           </div>
           <div className="kakao">
             <button>카카오로 로그인</button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
