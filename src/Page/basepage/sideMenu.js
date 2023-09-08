@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import '../css/sidemenu.css';
 import Top from '../system/top';
@@ -7,6 +7,23 @@ import { Link } from 'react-router-dom';
 import sampleimage from '../imagefile/carticon.png';
 import getwhat from '../imagefile/getwhat.png';
 const SideMenu = () => {
+
+  const [isNaviFixed, setIsNaviFixed] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 140) {
+        setIsNaviFixed(true);
+      } else {
+        setIsNaviFixed(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const myDispatch = useDispatch();
   //// 사이드바 최근 본 메뉴에서 아래꺼를 누르면 아래것이 위로가고 위에게 아래로 감
   const changeResentView = () => {
@@ -23,7 +40,7 @@ const SideMenu = () => {
   const cart = useSelector((state) => state.cart);
   const resentView = useSelector((state) => state.rsntView);
   return (
-    <div className="sidmenu">
+    <div className={!isNaviFixed ? 'sideMenu' : 'sideMenu sideMenu_fixed'} >
       <div className="sidemenu-object">
         <div>
           <Link to="/member/mypage/myorder">

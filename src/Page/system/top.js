@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import sampleimage from "../imagefile/topbutton.png";
-import "./top.css"
+import "./top.css";
 const Top = () => {
   const [showButton, setShowButton] = useState(false);
   const scrollToTop = () => {
@@ -26,14 +26,15 @@ const Top = () => {
   }, []);
   return (
     <div className="scroll">
-        {showButton &&(
-      <button
-        className="top"
-        onClick={scrollToTop}
-        type="button"
-      >
-        <img src={sampleimage} alt="top" style={{ width: "65px" }}></img>
-      </button>
+      {showButton && (
+        <button
+          className="sidemenu-object"
+          style={{ boxShadow: "none", cursor: "pointer" }}
+          onClick={scrollToTop}
+          type="button"
+        >
+          <img src={sampleimage} alt="top" style={{ width: "65px" }}></img>
+        </button>
       )}
     </div>
   );
