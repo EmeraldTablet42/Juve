@@ -112,7 +112,7 @@ const Bevdetail = (detailData) => {
           productCode: bevData.productCode,
           count: count,
           price: totalPrice * count,
-          date: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
+          date: new Date(),
         },
       ]);
     }
