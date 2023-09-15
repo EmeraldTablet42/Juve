@@ -14,7 +14,7 @@ def get_scores():
     if not age or not gender:
         return jsonify({'message': 'Age and Gender are required'}), 400
 
-    con = connect("juve/juve@118.46.72.171:1521/xe")
+    con = connect("id/pass@1.1.1.1:1521/xe")
     sql = """SELECT 
              JPR_PRODUCTCODE,
              SUM(JPR_SCORE) AS TotalScore
